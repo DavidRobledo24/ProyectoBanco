@@ -6,8 +6,8 @@ package utils;
 
 /**
  *
- * @author dara2
+ * @author andre
  */
-public class relleno {
+public class ConexionBD {
     
 }
