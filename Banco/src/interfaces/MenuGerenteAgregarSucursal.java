@@ -19,7 +19,7 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         fieldTelefono = new javax.swing.JTextField();
         botonAgregar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        botonAtras = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 203, 255));
 
@@ -36,8 +36,8 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
         botonAgregar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         botonAgregar.setText("Agregar");
 
-        jButton2.setBackground(new java.awt.Color(228, 228, 228));
-        jButton2.setText("<-      Atrás             ");
+        botonAtras.setBackground(new java.awt.Color(228, 228, 228));
+        botonAtras.setText("<-       Atrás           ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -65,7 +65,7 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(325, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,7 +86,7 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -94,10 +94,10 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonAtras;
     private javax.swing.JTextField fieldDireccion;
     private javax.swing.JTextField fieldNombre;
     private javax.swing.JTextField fieldTelefono;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
