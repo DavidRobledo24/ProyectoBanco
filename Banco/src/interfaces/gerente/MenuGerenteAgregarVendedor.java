@@ -1,19 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package interfaces.gerente;
 
-/**
- *
- * @author andre
- */
+import javax.swing.JFrame;
+
+
 public class MenuGerenteAgregarVendedor extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MenuGerenteAgregarVendedor
-     */
-    public MenuGerenteAgregarVendedor() {
+    JFrame ventanaAnterior;
+    
+    public MenuGerenteAgregarVendedor(JFrame ventanaAnterior) {
+        ventanaAnterior.setEnabled(false);
         initComponents();
     }
 
@@ -38,7 +33,7 @@ public class MenuGerenteAgregarVendedor extends javax.swing.JFrame {
         botonCancelar = new javax.swing.JButton();
         fieldDocumento = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Agregar vendedor");
         setResizable(false);
 
@@ -154,7 +149,8 @@ public class MenuGerenteAgregarVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        // TODO add your handling code here:
+        ventanaAnterior.setEnabled(true);
+        dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
 
 

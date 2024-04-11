@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import utils.ButtonEditor;
 import utils.ButtonRenderer;
 
@@ -18,9 +19,12 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     Image iconoEditar;
     Image iconoEliminar;
     
-    public MenuGerenteDetalleSucursal(String nombreSucursal, String direccionSucursal, String telefonoSucursal, ConexionBD database) {
+    JFrame ventanaActual;
+    
+    public MenuGerenteDetalleSucursal(String nombreSucursal, String direccionSucursal, String telefonoSucursal, ConexionBD database, JFrame ventanaActual) {
         this.database = database;
         modelo = (DefaultTableModel)tablaVendedores.getModel();
+        this.ventanaActual = ventanaActual;
         initComponents();
         initAlternComponents(nombreSucursal, direccionSucursal, telefonoSucursal);
     }
@@ -123,6 +127,11 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         botonAgregarVendedor.setBackground(new java.awt.Color(101, 132, 65));
         botonAgregarVendedor.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         botonAgregarVendedor.setText("Agregar vendedor");
+        botonAgregarVendedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarVendedorActionPerformed(evt);
+            }
+        });
 
         jButton4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jButton4.setText("<-       Atrás           ");
@@ -179,6 +188,10 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonAgregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarVendedorActionPerformed
+        new MenuGerenteAgregarVendedor(ventanaActual);
+    }//GEN-LAST:event_botonAgregarVendedorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

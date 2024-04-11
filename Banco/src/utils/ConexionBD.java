@@ -26,4 +26,6 @@ public class ConexionBD {
 	    System.out.println("Error al conectar con la db: " + e.getMessage());
 	}
     }
+    
+    public boolean 
 }

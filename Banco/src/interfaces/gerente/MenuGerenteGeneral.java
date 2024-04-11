@@ -1,11 +1,13 @@
 package interfaces.gerente;
 
 import static java.awt.Color.white;
+import utils.ConexionBD;
 
 
 public class MenuGerenteGeneral extends javax.swing.JFrame {
 
-
+    ConexionBD database;
+    
     public MenuGerenteGeneral() {
         initComponents();
         initAlternComponets();
