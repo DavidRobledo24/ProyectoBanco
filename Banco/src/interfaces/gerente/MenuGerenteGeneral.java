@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.gerente;
 
 import static java.awt.Color.white;
 

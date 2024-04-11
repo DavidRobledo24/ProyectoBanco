@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package interfaces;
+package interfaces.vendedor;
 
 /**
  *
  * @author INSTRUCTOR
  */
-public class menuVendedorEliminarCliente extends javax.swing.JPanel {
+public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     /**
      * Creates new form menuVendedorEliminarCliente
      */
-    public menuVendedorEliminarCliente() {
+    public MenuVendedorEliminarCliente() {
         initComponents();
     }
 

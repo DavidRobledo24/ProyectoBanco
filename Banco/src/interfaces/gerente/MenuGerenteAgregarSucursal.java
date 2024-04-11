@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.gerente;
 
 
 public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {

@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.gerente;
 
 import java.awt.Image;
 import javax.swing.table.DefaultTableModel;

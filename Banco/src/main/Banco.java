@@ -1,7 +1,7 @@
 package main;
 
 import interfaces.InicioSesion;
-import interfaces.MenuGerenteGeneral;
+import interfaces.gerente.MenuGerenteGeneral;
 import utils.ConexionBD;
 
 public class Banco {
