@@ -42,7 +42,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(102, 204, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("NOMBRE:");
 
@@ -50,7 +50,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
         nombreSucursal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         nombreSucursal.setText("------------------------");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("DIRECCIÓN:");
 
@@ -58,7 +58,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
         direccionSucursal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         direccionSucursal.setText("------------------------");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("TELÉFONO:");
 
@@ -66,7 +66,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
         telefonoSucursal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         telefonoSucursal.setText("------------------------");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("NUMERO VENDEDORES:");
 
@@ -77,6 +77,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCancelar.setText("CANCELAR");
 
+        btnEliminar.setBackground(new java.awt.Color(116, 16, 35));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnEliminar.setText("ELIMINAR");
 

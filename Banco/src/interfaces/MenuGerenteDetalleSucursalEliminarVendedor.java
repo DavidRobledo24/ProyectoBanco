@@ -38,9 +38,9 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(102, 204, 255));
+        jPanel1.setBackground(new java.awt.Color(39, 64, 115));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("DOCUMENTO:");
 
@@ -48,7 +48,7 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
         documentoVendedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         documentoVendedor.setText("------------------------");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("NOMBRE:");
 
@@ -56,7 +56,7 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
         nombreVendedor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         nombreVendedor.setText("------------------------");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("TELÉFONO:");
 
@@ -64,8 +64,11 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
         telefonoVendedor1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         telefonoVendedor1.setText("------------------------");
 
+        btnEliminar.setBackground(new java.awt.Color(116, 16, 35));
+        btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEliminar.setText("ELIMINAR");
 
+        btnCancelar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnCancelar.setText("CANCELAR");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
