@@ -32,6 +32,18 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
         btnBuscar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        etqNombre = new javax.swing.JLabel();
+        etqTelefono = new javax.swing.JLabel();
+        etqEmail = new javax.swing.JLabel();
+        etqCuentaBancaria = new javax.swing.JLabel();
+        etqClave = new javax.swing.JLabel();
+        campoClave = new javax.swing.JTextField();
+        btnEliminar = new javax.swing.JButton();
+        campoNombre = new javax.swing.JLabel();
+        campoEmail = new javax.swing.JLabel();
+        campoTelefono = new javax.swing.JLabel();
+        campoCuentaBancaria = new javax.swing.JLabel();
+        btnAtras = new javax.swing.JButton();
 
         contenedorPrincipal.setBackground(new java.awt.Color(39, 64, 115));
 
@@ -50,6 +62,55 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        etqNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqNombre.setForeground(new java.awt.Color(255, 255, 255));
+        etqNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqNombre.setText("Nombre:");
+
+        etqTelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqTelefono.setForeground(new java.awt.Color(255, 255, 255));
+        etqTelefono.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqTelefono.setText("Telefono:");
+
+        etqEmail.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqEmail.setForeground(new java.awt.Color(255, 255, 255));
+        etqEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqEmail.setText("Email:");
+
+        etqCuentaBancaria.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqCuentaBancaria.setForeground(new java.awt.Color(255, 255, 255));
+        etqCuentaBancaria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqCuentaBancaria.setText("Cuenta Bancaria:");
+
+        etqClave.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqClave.setForeground(new java.awt.Color(255, 255, 255));
+        etqClave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqClave.setText("Clave:");
+
+        btnEliminar.setBackground(new java.awt.Color(116, 16, 35));
+        btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setText("ELIMINAR");
+
+        campoNombre.setForeground(new java.awt.Color(255, 255, 255));
+        campoNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campoNombre.setText("_______________________________________________________");
+
+        campoEmail.setForeground(new java.awt.Color(255, 255, 255));
+        campoEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campoEmail.setText("_______________________________________________________");
+
+        campoTelefono.setForeground(new java.awt.Color(255, 255, 255));
+        campoTelefono.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campoTelefono.setText("_______________________________________________________");
+
+        campoCuentaBancaria.setForeground(new java.awt.Color(255, 255, 255));
+        campoCuentaBancaria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        campoCuentaBancaria.setText("_______________________________________________________");
+
+        btnAtras.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnAtras.setText("ATRAS");
+
         javax.swing.GroupLayout contenedorPrincipalLayout = new javax.swing.GroupLayout(contenedorPrincipal);
         contenedorPrincipal.setLayout(contenedorPrincipalLayout);
         contenedorPrincipalLayout.setHorizontalGroup(
@@ -67,9 +128,47 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
                 .addContainerGap(139, Short.MAX_VALUE))
             .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
+                                .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(64, 64, 64))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
+                                .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
+                                .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(65, 65, 65))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
+                                .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68))))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(etqNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(etqTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(etqEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                                .addGap(17, 17, 17)
+                                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(416, 416, 416))
+                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addComponent(campoClave, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(etqClave, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(42, 42, 42))
         );
         contenedorPrincipalLayout.setVerticalGroup(
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -78,12 +177,40 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
                 .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoDocumento, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(campoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addGap(31, 31, 31)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 463, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(etqNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(etqTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(etqEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(etqClave, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(campoClave, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -94,7 +221,7 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contenedorPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(contenedorPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 580, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -104,10 +231,22 @@ public class menuVendedorEliminarCliente extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JTextField campoClave;
+    private javax.swing.JLabel campoCuentaBancaria;
     private javax.swing.JTextField campoDocumento;
+    private javax.swing.JLabel campoEmail;
+    private javax.swing.JLabel campoNombre;
+    private javax.swing.JLabel campoTelefono;
     private javax.swing.JPanel contenedorPrincipal;
+    private javax.swing.JLabel etqClave;
+    private javax.swing.JLabel etqCuentaBancaria;
     private javax.swing.JLabel etqDocumento;
+    private javax.swing.JLabel etqEmail;
+    private javax.swing.JLabel etqNombre;
+    private javax.swing.JLabel etqTelefono;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
