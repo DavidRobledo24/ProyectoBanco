@@ -1,12 +1,52 @@
 package interfaces;
 
+import javax.swing.table.DefaultTableModel;
+import utils.ConexionBD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
 
-    public MenuGerenteDetalleSucursal() {
+    ConexionBD database;
+    DefaultTableModel modelo;
+    
+    public MenuGerenteDetalleSucursal(String nombreSucursal, String direccionSucursal, String telefonoSucursal, ConexionBD database) {
+        this.database = database;
+        modelo = (DefaultTableModel)tablaVendedores.getModel();
         initComponents();
+        initAlternComponents(nombreSucursal, direccionSucursal, telefonoSucursal);
     }
 
+    private void initAlternComponents(String nombreSucursal, String direccionSucursal, String telefonoSucursal){
+        labelNombreSucursal.setText(nombreSucursal);
+        labelDireccionSucursal.setText(direccionSucursal);
+        labelTelefonoSucursal.setText(telefonoSucursal);
+        
+        tablaVendedores.getColumnModel().getColumn(0).setPreferredWidth(1);
+        tablaVendedores.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(3).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(4).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(5).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(6).setPreferredWidth(80);
+        tablaVendedores.getColumnModel().getColumn(7).setPreferredWidth(80);
+        
+        
+        //TO-DO
+//        try{
+//            String peticion = "SELECT * FROM vendedor";
+//            ResultSet vendedores = database.manipular.executeQuery(peticion);
+//            int contador = 1;
+//            if(usuarios.getRow() == 1){
+//                do{
+//                    modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso")});
+//                }
+//            }
+//        }catch(SQLException e){
+//            System.out.println(e);
+//        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
