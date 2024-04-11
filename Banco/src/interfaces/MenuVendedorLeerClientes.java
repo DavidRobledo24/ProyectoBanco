@@ -1,5 +1,5 @@
 
-package proyecto.banco;
+package interfaces;
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 

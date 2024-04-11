@@ -1,12 +1,20 @@
 
-package proyecto.banco;
+package interfaces;
 
 public class CRUD extends javax.swing.JFrame {
 
     
     public CRUD() {
+        System.out.println("dsa");
         initComponents();
         initAlternComponents();
+    }
+    
+    private void initAlternComponents(){
+        System.out.println("asd");
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setTitle("Menu CRUD");      
     }
 
     @SuppressWarnings("unchecked")
@@ -139,13 +147,7 @@ public class CRUD extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void initAlternComponents(){
     
-        setVisible(true);
-        setLocationRelativeTo(null);
-        setTitle("Menu CRUD");
-        
-}
     
     
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
