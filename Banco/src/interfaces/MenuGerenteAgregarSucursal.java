@@ -21,22 +21,25 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
         botonAgregar = new javax.swing.JButton();
         botonAtras = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(102, 203, 255));
+        setBackground(new java.awt.Color(39, 64, 115));
 
         jLabel1.setFont(new java.awt.Font("Arial", 0, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Nombre");
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 30)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Dirección");
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 30)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Teléfono");
 
-        botonAgregar.setBackground(new java.awt.Color(102, 255, 102));
+        botonAgregar.setBackground(new java.awt.Color(101, 132, 65));
         botonAgregar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         botonAgregar.setText("Agregar");
 
-        botonAtras.setBackground(new java.awt.Color(228, 228, 228));
+        botonAtras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonAtras.setText("<-       Atrás           ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
