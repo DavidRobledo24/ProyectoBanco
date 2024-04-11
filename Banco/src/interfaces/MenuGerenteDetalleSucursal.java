@@ -51,7 +51,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         actualizarTabla();
     }
     
-    private void actualizarTabla(){
+    public void actualizarTabla(){
         modelo.setRowCount(0);
         try{
             String peticion = "SELECT * FROM vendedor";
@@ -101,6 +101,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         botonEditar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonEditar.setText("EDITAR");
 
+        tablaVendedores.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tablaVendedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

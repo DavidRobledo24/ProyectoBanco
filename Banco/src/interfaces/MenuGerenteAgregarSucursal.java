@@ -36,8 +36,13 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
         jLabel3.setText("Teléfono");
 
         botonAgregar.setBackground(new java.awt.Color(101, 132, 65));
-        botonAgregar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        botonAgregar.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarActionPerformed(evt);
+            }
+        });
 
         botonAtras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonAtras.setText("<-       Atrás           ");
@@ -93,6 +98,10 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonAgregarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
