@@ -66,6 +66,7 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
 
         btnEliminar.setBackground(new java.awt.Color(116, 16, 35));
         btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("ELIMINAR");
 
         btnCancelar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
