@@ -1,5 +1,7 @@
 package interfaces;
 
+import interfaces.gerente.MenuGerenteGeneral;
+import interfaces.vendedor.MenuVendedorGeneral;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -130,29 +132,13 @@ public class InicioSesion extends javax.swing.JFrame {
         boolean matchCodigoDeAcceso = matcherCodigoDeAcceso.find();
         
         if(matchDocumento && matchCodigoDeAcceso){
-            try{
-                String peticion = "SELECT * FROM gerente";
-                ResultSet gerentes = database.manipular.executeQuery(peticion);
-                gerentes.next();
-                boolean encontrado = false;
-                if(gerentes.getRow() == 1){
-                    do{
-                        if(gerentes.getString("documento").equals(documentoTemp)){
-                            encontrado = true;
-                            if(gerentes.getString("codigoAcceso").equals(codigoDeAccesoTemp)) System.out.println("Exito");
-                            else JOptionPane.showMessageDialog(null, "Codigo de acceso incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                            break;
-                        }
-                    }while(gerentes.next());
-                    if(!encontrado) JOptionPane.showMessageDialog(null, "No se ha encontrado el documento", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "No hay gerentes registrados", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            if(database.encontrarLogin("gerente", documentoTemp, codigoDeAccesoTemp)){
+                new MenuGerenteGeneral();
             }
-            catch(SQLException e){
-                System.out.println(e);
+            else if(database.encontrarLogin("vendedor", documentoTemp, codigoDeAccesoTemp)){
+                new MenuVendedorGeneral();
             }
+            //ARREGLAR
         }
         else{
             JOptionPane.showMessageDialog(null, (matchDocumento ? "" : "* Documento debe contener almenos 5 numeros") + (matchCodigoDeAcceso ? "" : "\n* Codigo de acceso debe contener almenos 5 numeros"), "Error", JOptionPane.ERROR_MESSAGE);
