@@ -143,11 +143,12 @@ public class InicioSesion extends javax.swing.JFrame {
                     do{
                         if(gerentes.getString("documento").equals(documentoTemp)){
                             encontrado = true;
-                            if(gerentes.getString("codigoAcceso").equals(codigoDeAccesoTemp)) {
+                            if (gerentes.getString("codigoAcceso").equals(codigoDeAccesoTemp)) {
                                 botonIngresar.addActionListener(new ActionListener() {
                                     @Override
                                     public void actionPerformed(ActionEvent e) {
                                         MenuGerenteGeneral ventana = new MenuGerenteGeneral(database);
+                                        ventana.setVisible(true); // Mostrar la ventana
                                     }
                                 });
                             }
