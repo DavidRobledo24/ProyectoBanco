@@ -4,11 +4,10 @@ import static java.awt.Color.white;
 import utils.ConexionBD;
 
 
-
 public class MenuGerenteGeneral extends javax.swing.JFrame {
     
     ConexionBD database;
-
+    
     public MenuGerenteGeneral(ConexionBD database) {
         this.database = database;
         initComponents();
