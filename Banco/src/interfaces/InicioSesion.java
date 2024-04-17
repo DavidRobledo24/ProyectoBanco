@@ -2,6 +2,7 @@ package interfaces;
 
 import interfaces.gerente.MenuGerenteGeneral;
 import interfaces.vendedor.MenuVendedorGeneral;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
@@ -31,6 +32,8 @@ public class InicioSesion extends javax.swing.JFrame {
     private void activarCampos(){
         fieldDocumento.setEnabled(true);
         fieldCodigoDeAcceso.setEnabled(true);
+        fieldDocumento.setBackground(new Color(242, 242, 242));
+        fieldCodigoDeAcceso.setBackground(new Color(242, 242, 242));
     }
 
     @SuppressWarnings("unchecked")
@@ -62,8 +65,10 @@ public class InicioSesion extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Documento:");
 
+        fieldDocumento.setBackground(new java.awt.Color(153, 153, 153));
         fieldDocumento.setEnabled(false);
 
+        fieldCodigoDeAcceso.setBackground(new java.awt.Color(153, 153, 153));
         fieldCodigoDeAcceso.setEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
@@ -197,7 +202,8 @@ public class InicioSesion extends javax.swing.JFrame {
             }
         }
         else{
-            JOptionPane.showMessageDialog(null, (matchDocumento ? "" : "* Documento debe contener almenos 5 numeros") + (matchCodigoDeAcceso ? "" : "\n* Codigo de acceso debe contener almenos 5 numeros"), "Error", JOptionPane.ERROR_MESSAGE);
+            if(!fieldDocumento.isEnabled()) JOptionPane.showMessageDialog(null, "Seleccione una opción", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(null, (matchDocumento ? "" : "* Documento debe contener almenos 5 numeros") + (matchCodigoDeAcceso ? "" : "\n* Codigo de acceso debe contener almenos 5 numeros"), "Error", JOptionPane.ERROR_MESSAGE);
         }
 //        JOptionPane.showMessageDialog(null, "Error", "Error!", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_botonIngresarActionPerformed
