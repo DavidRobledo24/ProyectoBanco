@@ -1,10 +1,16 @@
 
 package interfaces.vendedor;
 
+import interfaces.InicioSesion;
+import static java.awt.Color.white;
+import utils.ConexionBD;
+
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
+    ConexionBD database;
     
-    public MenuVendedorGeneral() {
+    public MenuVendedorGeneral(ConexionBD database) {
+        this.database = database;
         initComponents();
         initAlternComponents();
     }
@@ -140,7 +146,12 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initAlternComponents(){
-    
+        btnCerrarSesion.setBackground(white);   
+        btnClientes.setBackground(white);
+        btnHistorial.setBackground(white);
+        btnManejoDinero.setBackground(white);
+        btnSolicitudCreditos.setBackground(white);
+        
         setVisible(true);
         setLocationRelativeTo(null);
         setTitle("Menu CRUD");
@@ -293,6 +304,8 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         dispose();
+        
+        new InicioSesion(database);
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
