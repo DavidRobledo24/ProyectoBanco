@@ -146,7 +146,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initAlternComponents(){
-        btnCerrarSesion.setBackground(white);
+        btnCerrarSesion.setBackground(white);   
         btnClientes.setBackground(white);
         btnHistorial.setBackground(white);
         btnManejoDinero.setBackground(white);
