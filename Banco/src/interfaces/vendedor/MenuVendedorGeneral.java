@@ -2,6 +2,7 @@
 package interfaces.vendedor;
 
 import interfaces.InicioSesion;
+import static java.awt.Color.white;
 import utils.ConexionBD;
 
 public class MenuVendedorGeneral extends javax.swing.JFrame {
@@ -145,7 +146,12 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void initAlternComponents(){
-    
+        btnCerrarSesion.setBackground(white);
+        btnClientes.setBackground(white);
+        btnHistorial.setBackground(white);
+        btnManejoDinero.setBackground(white);
+        btnSolicitudCreditos.setBackground(white);
+        
         setVisible(true);
         setLocationRelativeTo(null);
         setTitle("Menu CRUD");
