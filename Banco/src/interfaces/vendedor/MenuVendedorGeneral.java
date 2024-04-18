@@ -157,13 +157,12 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         
 }
     
-    
-    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+    public void cambiarPanelClientes(){
         //Eliminar contenido actual
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorClientes nuevo = new MenuVendedorClientes();
+        MenuVendedorClientes nuevo = new MenuVendedorClientes(this);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -176,8 +175,92 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         
         revalidate();
         repaint();
+    }
+            
+    private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
+        cambiarPanelClientes();
     }//GEN-LAST:event_btnClientesActionPerformed
 
+    public void cambiarSolicitudCreditosActionPerformed() {                                                     
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorCrearCliente nuevo = new MenuVendedorCrearCliente(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
+    public void cambiarLeerClientesActionPerformed() {                                                     
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
+    public void cambiarEditarClientesActionPerformed() {                                                     
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorEditarCliente nuevo = new MenuVendedorEditarCliente(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
+    public void cambiarEliminarClientesActionPerformed() {                                                     
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorEliminarCliente nuevo = new MenuVendedorEliminarCliente(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
     private void btnSolicitudCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudCreditosActionPerformed
         //Eliminar contenido actual
         contentPrincipal.removeAll();

@@ -2,8 +2,9 @@ package interfaces.vendedor;
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
-   
-    public MenuVendedorLeerClientes() {
+   MenuVendedorGeneral ventana;
+    public MenuVendedorLeerClientes(MenuVendedorGeneral ventana) {
+        this.ventana = ventana;
         initComponents();
     }
 
@@ -69,7 +70,7 @@ public class MenuVendedorLeerClientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        
+    this.ventana.cambiarPanelClientes();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
 
