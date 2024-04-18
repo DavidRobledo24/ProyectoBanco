@@ -1,5 +1,6 @@
 package interfaces.gerente;
 
+import interfaces.InicioSesion;
 import static java.awt.Color.white;
 import utils.ConexionBD;
 
@@ -159,6 +160,8 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         dispose();
+        
+        new InicioSesion(database);
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnRevisarCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarCreditosActionPerformed
