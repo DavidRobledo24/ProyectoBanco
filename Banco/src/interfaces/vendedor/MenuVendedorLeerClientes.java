@@ -1,5 +1,4 @@
-
-package interfaces;
+package interfaces.vendedor;
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 

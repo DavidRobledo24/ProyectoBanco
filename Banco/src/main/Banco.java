@@ -1,13 +1,16 @@
 package main;
 
-import interfaces.MenuVendedorGeneral;
+import interfaces.InicioSesion;
+import interfaces.gerente.MenuGerenteGeneral;
 import utils.ConexionBD;
 
 public class Banco {
     
     public static void main(String[] args) {
         ConexionBD basedatos = new ConexionBD();
-        MenuVendedorGeneral ventana = new MenuVendedorGeneral();
+        new InicioSesion(basedatos);
+//      MenuGerenteGeneral ventana = new MenuGerenteGeneral();
+
     }
     
 }

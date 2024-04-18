@@ -1,11 +1,9 @@
-
-package interfaces;
+package interfaces.vendedor;
 
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     
     public MenuVendedorGeneral() {
-        System.out.println("dsa");
         initComponents();
         initAlternComponents();
     }
