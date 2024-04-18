@@ -8,9 +8,11 @@ import utils.ConexionBD;
 public class MenuGerenteGeneral extends javax.swing.JFrame {
     
     ConexionBD database;
+    String documentoGerente;
     
-    public MenuGerenteGeneral(ConexionBD database) {
+    public MenuGerenteGeneral(ConexionBD database, String documentoGerente) {
         this.database = database;
+        this.documentoGerente = documentoGerente;
         initComponents();
         initAlternComponets();
     }
@@ -140,8 +142,8 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
 
     private void btnSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSucursalesActionPerformed
        jPanel2.removeAll();
-        BotonMenuGerenteSucursal nuevo = new BotonMenuGerenteSucursal(database);
-        nuevo.setSize(840, 180);
+        MenuGerenteSucursales nuevo = new MenuGerenteSucursales(database);
+        nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);
         repaint();

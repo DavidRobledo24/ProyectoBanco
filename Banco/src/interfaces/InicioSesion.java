@@ -192,7 +192,7 @@ public class InicioSesion extends javax.swing.JFrame {
             String seleccionRadio = grupoBotones.getSelection().getActionCommand();
             if(database.encontrarLogin(seleccionRadio, documentoTemp, codigoDeAccesoTemp)){
                 if(seleccionRadio.equals("gerente")){
-                    new MenuGerenteGeneral(database);
+                    new MenuGerenteGeneral(database, documentoTemp);
                     dispose();
                 }
                 else{
