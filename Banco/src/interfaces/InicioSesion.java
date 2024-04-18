@@ -196,7 +196,7 @@ public class InicioSesion extends javax.swing.JFrame {
                     dispose();
                 }
                 else{
-                    new MenuVendedorGeneral();
+                    new MenuVendedorGeneral(database);
                     dispose();
                 }
             }
