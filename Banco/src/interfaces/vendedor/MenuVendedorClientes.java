@@ -1,10 +1,11 @@
 package interfaces.vendedor;
 
-
 public class MenuVendedorClientes extends javax.swing.JPanel {
 
+    MenuVendedorGeneral ventana;
     
-    public MenuVendedorClientes() {
+    public MenuVendedorClientes(MenuVendedorGeneral ventana) {
+        this.ventana = ventana;
         initComponents();
         initAlternComponents();
     }
@@ -43,9 +44,19 @@ public class MenuVendedorClientes extends javax.swing.JPanel {
 
         btnEditarCliente.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEditarCliente.setText("EDITAR CLIENTE");
+        btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarClienteActionPerformed(evt);
+            }
+        });
 
         btnEliminarClientes.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEliminarClientes.setText("ELIMINAR CLIENTE");
+        btnEliminarClientes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarClientesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout contenedorPrincipalLayout = new javax.swing.GroupLayout(contenedorPrincipal);
         contenedorPrincipal.setLayout(contenedorPrincipalLayout);
@@ -88,13 +99,21 @@ public class MenuVendedorClientes extends javax.swing.JPanel {
 
     private void btnLeerClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLeerClientesActionPerformed
 
-        MenuVendedorLeerClientes ventanaLeer = new MenuVendedorLeerClientes();
-        
+       this.ventana.cambiarLeerClientesActionPerformed();
     }//GEN-LAST:event_btnLeerClientesActionPerformed
 
     private void btnCrearClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearClienteActionPerformed
-       
+       this.ventana.cambiarSolicitudCreditosActionPerformed();
+        //MenuVendedorCrearCliente nuevo = new MenuVendedorCrearCliente();
     }//GEN-LAST:event_btnCrearClienteActionPerformed
+
+    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
+        this.ventana.cambiarEditarClientesActionPerformed();
+    }//GEN-LAST:event_btnEditarClienteActionPerformed
+
+    private void btnEliminarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClientesActionPerformed
+        this.ventana.cambiarEliminarClientesActionPerformed();
+    }//GEN-LAST:event_btnEliminarClientesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
