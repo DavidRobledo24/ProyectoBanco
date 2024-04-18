@@ -2,7 +2,7 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -102,6 +102,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Revisar Creditos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRevisarCreditosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEstadisticas">
           <Properties>
@@ -110,6 +113,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Estadisticas"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEstadisticasActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCerrarSesion">
           <Properties>
@@ -118,6 +124,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Cerrar Sesion"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCerrarSesionActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>

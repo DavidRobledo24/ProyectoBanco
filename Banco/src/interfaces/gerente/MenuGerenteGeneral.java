@@ -1,12 +1,15 @@
 package interfaces.gerente;
 
 import static java.awt.Color.white;
+import utils.ConexionBD;
 
 
 public class MenuGerenteGeneral extends javax.swing.JFrame {
-
-
-    public MenuGerenteGeneral() {
+    
+    ConexionBD database;
+    
+    public MenuGerenteGeneral(ConexionBD database) {
+        this.database = database;
         initComponents();
         initAlternComponets();
     }
@@ -35,7 +38,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         btnCerrarSesion = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(39, 64, 115));
 
@@ -49,12 +52,27 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
 
         btnRevisarCreditos.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnRevisarCreditos.setText("Revisar Creditos");
+        btnRevisarCreditos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRevisarCreditosActionPerformed(evt);
+            }
+        });
 
         btnEstadisticas.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEstadisticas.setText("Estadisticas");
+        btnEstadisticas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadisticasActionPerformed(evt);
+            }
+        });
 
         btnCerrarSesion.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(39, 64, 115));
 
@@ -120,17 +138,42 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSucursalesActionPerformed
-        
+       jPanel2.removeAll();
+        BotonMenuGerenteSucursal nuevo = new BotonMenuGerenteSucursal(database);
+        nuevo.setSize(840, 180);
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
     }//GEN-LAST:event_btnSucursalesActionPerformed
 
+    private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
+        jPanel2.removeAll();
+        MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database);
+        nuevo.setSize(jPanel2.getSize());
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
+    }//GEN-LAST:event_btnEstadisticasActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnRevisarCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarCreditosActionPerformed
+        jPanel2.removeAll();
+        MenuGerenteRevisarCreditos nuevo = new MenuGerenteRevisarCreditos(database);
+        nuevo.setSize(840, 226);
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
+    }//GEN-LAST:event_btnRevisarCreditosActionPerformed
 
     public static void main(String args[]) {
   
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuGerenteGeneral().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
