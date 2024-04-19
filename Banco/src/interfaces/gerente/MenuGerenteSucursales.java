@@ -1,34 +1,57 @@
 package interfaces.gerente;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JButton;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import utils.ConexionBD;
 
 
 public class MenuGerenteSucursales extends javax.swing.JPanel {
 
     ConexionBD database;
+    String documentoGerente;
     
-    public MenuGerenteSucursales(ConexionBD database) {
+    public MenuGerenteSucursales(ConexionBD database, String documentoGerente) {
         this.database = database;
-        
+        this.documentoGerente = documentoGerente;
         initComponents();
         initAlternComponents();
     }
     
     private void initAlternComponents(){
-//        JPanel panelCosas = new JPanel();
-        panelCosas.setLayout(new GridLayout());
-//        panelCosas.setSize(new Dimension(840, 580));
-        panelCosas.setPreferredSize(new Dimension(740, 480));
-//        JScrollPane scroll = new JScrollPane(panelCosas);
-//        panelCosas.setAutoscrolls(true);
-//        scroll.setPreferredSize(new Dimension(840, 580));
-        for(int i = 0; i < 1000; i++){
-            panelCosas.add(new JButton(i+""));
-        }
+        scroll.getVerticalScrollBar().setUnitIncrement(16);
+        int cantSucursales = database.contarSucursales(documentoGerente);
+        int altoVentana = cantSucursales < 2 ? 550 : ((cantSucursales - 1) * 180) + 550;
         
+        panelSucursales.setLayout(new GridBagLayout());
+        GridBagConstraints r = new GridBagConstraints();
+        r.fill = GridBagConstraints.HORIZONTAL;
+        r.gridwidth = 1;
+        r.gridheight = 1;
+        r.gridy = 0;
+        r.gridx = 0;
+        r.weightx = 1;
+        r.weighty = 1;
+        r.anchor = GridBagConstraints.NORTH;
+//        r.insets = new Insets(0, 5, 0, 5);
+        
+        panelSucursales.setPreferredSize(new Dimension(810, altoVentana));
+        if(cantSucursales > 0){
+            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente);
+            for(int i = 0; i < cantSucursales; i++){
+                vectorSucursales[i].setSize(810, 180);
+                vectorSucursales[i].setPreferredSize(new Dimension(810, 180));
+                panelSucursales.add(vectorSucursales[i], r);
+                r.gridy++;
+            }
+        }
+        BotonMenuGerenteSucursalAgregar botonAgregar = new BotonMenuGerenteSucursalAgregar();
+        botonAgregar.setSize(810, 180);
+        botonAgregar.setPreferredSize(new Dimension(810, 180));
+        r.insets = new Insets(3, 10, 3, 10);
+        r.fill = GridBagConstraints.BOTH;
+        panelSucursales.add(botonAgregar, r);
     }
 
 
@@ -36,41 +59,41 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        panelCosas = new javax.swing.JPanel();
+        scroll = new javax.swing.JScrollPane();
+        panelSucursales = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(39, 64, 115));
 
-        panelCosas.setBackground(new java.awt.Color(39, 64, 115));
+        panelSucursales.setBackground(new java.awt.Color(39, 64, 115));
 
-        javax.swing.GroupLayout panelCosasLayout = new javax.swing.GroupLayout(panelCosas);
-        panelCosas.setLayout(panelCosasLayout);
-        panelCosasLayout.setHorizontalGroup(
-            panelCosasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout panelSucursalesLayout = new javax.swing.GroupLayout(panelSucursales);
+        panelSucursales.setLayout(panelSucursalesLayout);
+        panelSucursalesLayout.setHorizontalGroup(
+            panelSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 838, Short.MAX_VALUE)
         );
-        panelCosasLayout.setVerticalGroup(
-            panelCosasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelSucursalesLayout.setVerticalGroup(
+            panelSucursalesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 578, Short.MAX_VALUE)
         );
 
-        jScrollPane1.setViewportView(panelCosas);
+        scroll.setViewportView(panelSucursales);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(scroll)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(scroll)
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel panelCosas;
+    private javax.swing.JPanel panelSucursales;
+    private javax.swing.JScrollPane scroll;
     // End of variables declaration//GEN-END:variables
 }

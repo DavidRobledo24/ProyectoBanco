@@ -142,7 +142,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
 
     private void btnSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSucursalesActionPerformed
        jPanel2.removeAll();
-        MenuGerenteSucursales nuevo = new MenuGerenteSucursales(database);
+        MenuGerenteSucursales nuevo = new MenuGerenteSucursales(database, documentoGerente);
         nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);
