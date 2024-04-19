@@ -1,5 +1,6 @@
 package utils;
 
+import interfaces.gerente.BotonMenuGerenteSucursal;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -30,7 +31,6 @@ public class ConexionBD {
     }
     
     public boolean encontrarLogin(String usuario, String documento, String codigoDeAcceso){
-        //ARREGLAR
         try{
             String peticion = "SELECT * FROM "+usuario;
             ResultSet usuarios = manipular.executeQuery(peticion);
@@ -57,5 +57,45 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return false;
+    }
+    
+    public int contarSucursales(String documentoGerente){
+        try{
+            String peticion = "SELECT * FROM sucursal";
+            int contador = 0;
+            ResultSet sucursales = manipular.executeQuery(peticion);
+            sucursales.next();
+            if(sucursales.getRow() == 1){
+                do{
+                    if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
+                }while(sucursales.next());
+                return contador;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
+    }
+    
+    public BotonMenuGerenteSucursal[] darSucursales(int cantidad, String documentoGerente){
+        BotonMenuGerenteSucursal[] vectorSucursales = new BotonMenuGerenteSucursal[cantidad];
+        try{
+            int contador = 0;
+            String peticion = "SELECT * FROM sucursal";
+            ResultSet sucursales = manipular.executeQuery(peticion);
+            sucursales.next();
+            if(sucursales.getRow() == 1){
+                do{
+                    if(sucursales.getString("gerenteDocumento").equals(documentoGerente)){
+                        vectorSucursales[contador] = new BotonMenuGerenteSucursal(sucursales.getString("nombre"), sucursales.getString("direccion"), sucursales.getString("telefono"));
+                        contador++;
+                    }
+                }while(sucursales.next());
+                return vectorSucursales;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return vectorSucursales;
     }
 }

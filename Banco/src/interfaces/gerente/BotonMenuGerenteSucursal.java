@@ -1,19 +1,29 @@
 package interfaces.gerente;
 
+import javax.swing.BorderFactory;
 import utils.ConexionBD;
 
 
 public class BotonMenuGerenteSucursal extends javax.swing.JPanel {
     
-    ConexionBD database;
+    String nombre;
+    String direccion;
+    String telefono;
 
-    public BotonMenuGerenteSucursal(ConexionBD database) {
-        
-        this.database = database;
+    public BotonMenuGerenteSucursal(String nombre, String direccion, String telefono) {
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.telefono = telefono;
         initComponents();
+        initAlternComponents();
     }
-
-  
+    
+    private void initAlternComponents(){
+        nombreSucursal.setText(nombre);
+        etqDireccion.setText(direccion);
+        etqTelefono.setText(telefono);
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -28,7 +38,6 @@ public class BotonMenuGerenteSucursal extends javax.swing.JPanel {
 
         nombreSucursal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         nombreSucursal.setForeground(new java.awt.Color(255, 255, 255));
-        nombreSucursal.setText("NOMBRE SUCURSAL");
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
