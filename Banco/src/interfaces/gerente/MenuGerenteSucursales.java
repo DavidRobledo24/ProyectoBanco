@@ -11,10 +11,12 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
 
     ConexionBD database;
     String documentoGerente;
+    MenuGerenteGeneral ventanaActual;
     
-    public MenuGerenteSucursales(ConexionBD database, String documentoGerente) {
+    public MenuGerenteSucursales(ConexionBD database, String documentoGerente, MenuGerenteGeneral ventanaActual) {
         this.database = database;
         this.documentoGerente = documentoGerente;
+        this.ventanaActual = ventanaActual;
         initComponents();
         initAlternComponents();
     }
@@ -38,7 +40,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         
         panelSucursales.setPreferredSize(new Dimension(810, altoVentana));
         if(cantSucursales > 0){
-            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente);
+            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente, ventanaActual);
             for(int i = 0; i < cantSucursales; i++){
                 vectorSucursales[i].setSize(810, 180);
                 vectorSucursales[i].setPreferredSize(new Dimension(810, 180));

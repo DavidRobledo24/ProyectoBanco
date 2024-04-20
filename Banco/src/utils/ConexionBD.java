@@ -1,6 +1,7 @@
 package utils;
 
 import interfaces.gerente.BotonMenuGerenteSucursal;
+import interfaces.gerente.MenuGerenteGeneral;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
@@ -77,7 +78,7 @@ public class ConexionBD {
         return 0;
     }
     
-    public BotonMenuGerenteSucursal[] darSucursales(int cantidad, String documentoGerente){
+    public BotonMenuGerenteSucursal[] darSucursales(int cantidad, String documentoGerente, MenuGerenteGeneral ventanaActual){
         BotonMenuGerenteSucursal[] vectorSucursales = new BotonMenuGerenteSucursal[cantidad];
         try{
             int contador = 0;
@@ -87,7 +88,7 @@ public class ConexionBD {
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)){
-                        vectorSucursales[contador] = new BotonMenuGerenteSucursal(sucursales.getString("nombre"), sucursales.getString("direccion"), sucursales.getString("telefono"));
+                        vectorSucursales[contador] = new BotonMenuGerenteSucursal(sucursales.getString("nombre"), sucursales.getString("direccion"), sucursales.getString("telefono"), sucursales.getString("idSucursal"), ventanaActual);
                         contador++;
                     }
                 }while(sucursales.next());
@@ -97,5 +98,24 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return vectorSucursales;
+    }
+    
+    public String darDatoSucursal(String id, String dato){
+        try{
+            String peticion = "SELECT * FROM sucursal";
+            ResultSet sucursales = manipular.executeQuery(peticion);
+            sucursales.next();
+            if(sucursales.getRow() == 1){
+                do{
+                    if(sucursales.getString("idSucursal").equals(id)){
+                        return sucursales.getString(dato);
+                    }
+                }while(sucursales.next());
+                System.out.println("No se ha encontrado la sucursal");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return "";
     }
 }

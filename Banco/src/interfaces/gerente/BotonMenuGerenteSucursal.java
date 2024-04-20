@@ -9,16 +9,20 @@ public class BotonMenuGerenteSucursal extends javax.swing.JPanel {
     String nombre;
     String direccion;
     String telefono;
+    String id;
+    MenuGerenteGeneral ventanaActual;
 
-    public BotonMenuGerenteSucursal(String nombre, String direccion, String telefono) {
+    public BotonMenuGerenteSucursal(String nombre, String direccion, String telefono, String id, MenuGerenteGeneral ventanaActual) {
         this.nombre = nombre;
         this.direccion = direccion;
         this.telefono = telefono;
+        this.id = id;
+        this.ventanaActual = ventanaActual;
         initComponents();
         addMouseListener(new MouseAdapter(){
             @Override
             public void mouseReleased(MouseEvent e){
-                System.out.println(nombre);
+                ventanaActual.cambiarPanelDetalleSucursal(id);
             }
             @Override
             public void mouseEntered(MouseEvent e){
@@ -95,9 +99,9 @@ public class BotonMenuGerenteSucursal extends javax.swing.JPanel {
                     .addComponent(etqDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etqTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(etqTelefono, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -42,7 +42,7 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButton4" min="-2" pref="137" max="-2" attributes="0"/>
+              <Component id="botonAtras" min="-2" pref="137" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="labelBalanceSucursal" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
@@ -72,7 +72,7 @@
               <Component id="botonAgregarVendedor" min="-2" pref="38" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton4" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
+                  <Component id="botonAtras" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="labelBalanceSucursal" alignment="3" min="-2" pref="48" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -84,13 +84,23 @@
     <Component class="javax.swing.JLabel" name="labelNombreSucursal">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="18" style="0"/>
+          <Font name="Arial" size="18" style="1"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelDireccionSucursal">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="labelTelefonoSucursal">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Arial" size="12" style="1"/>
+        </Property>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="botonEliminar">
       <Properties>
@@ -158,13 +168,16 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAgregarVendedorActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="botonAtras">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;-       Atr&#xe1;s           "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAtrasActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelBalanceSucursal">
     </Component>
