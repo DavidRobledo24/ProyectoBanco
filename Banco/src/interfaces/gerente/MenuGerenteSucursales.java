@@ -11,10 +11,12 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
 
     ConexionBD database;
     String documentoGerente;
+    MenuGerenteGeneral ventanaActual;
     
-    public MenuGerenteSucursales(ConexionBD database, String documentoGerente) {
+    public MenuGerenteSucursales(ConexionBD database, String documentoGerente, MenuGerenteGeneral ventanaActual) {
         this.database = database;
         this.documentoGerente = documentoGerente;
+        this.ventanaActual = ventanaActual;
         initComponents();
         initAlternComponents();
     }
@@ -22,7 +24,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
     private void initAlternComponents(){
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         int cantSucursales = database.contarSucursales(documentoGerente);
-        int altoVentana = cantSucursales < 2 ? 550 : ((cantSucursales - 1) * 180) + 550;
+        int altoVentana = cantSucursales < 2 ? 550 : ((cantSucursales - 2) * 180) + 550;
         
         panelSucursales.setLayout(new GridBagLayout());
         GridBagConstraints r = new GridBagConstraints();
@@ -38,7 +40,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         
         panelSucursales.setPreferredSize(new Dimension(810, altoVentana));
         if(cantSucursales > 0){
-            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente);
+            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente, ventanaActual);
             for(int i = 0; i < cantSucursales; i++){
                 vectorSucursales[i].setSize(810, 180);
                 vectorSucursales[i].setPreferredSize(new Dimension(810, 180));
@@ -49,7 +51,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         BotonMenuGerenteSucursalAgregar botonAgregar = new BotonMenuGerenteSucursalAgregar();
         botonAgregar.setSize(810, 180);
         botonAgregar.setPreferredSize(new Dimension(810, 180));
-        r.insets = new Insets(3, 10, 3, 10);
+//        r.insets = new Insets(3, 1, 3, 1);
         r.fill = GridBagConstraints.BOTH;
         panelSucursales.add(botonAgregar, r);
     }

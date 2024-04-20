@@ -42,6 +42,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(39, 64, 115));
 
@@ -141,15 +142,29 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSucursalesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSucursalesActionPerformed
+        cambiarPanelSucursal();
+    }//GEN-LAST:event_btnSucursalesActionPerformed
+
+    public void cambiarPanelSucursal(){
        jPanel2.removeAll();
-        MenuGerenteSucursales nuevo = new MenuGerenteSucursales(database, documentoGerente);
+       MenuGerenteSucursales nuevo = new MenuGerenteSucursales(database, documentoGerente, this);
+       nuevo.setSize(jPanel2.getSize());
+       nuevo.setPreferredSize(jPanel2.getPreferredSize());
+       jPanel2.add(nuevo);
+       repaint();
+       revalidate(); 
+    }
+    
+    public void cambiarPanelDetalleSucursal(String id){
+        jPanel2.removeAll();
+        MenuGerenteDetalleSucursal nuevo = new MenuGerenteDetalleSucursal(database, this, id);
         nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);
         repaint();
         revalidate();
-    }//GEN-LAST:event_btnSucursalesActionPerformed
-
+    }
+    
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
         jPanel2.removeAll();
         MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database);
@@ -176,10 +191,6 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         revalidate();
     }//GEN-LAST:event_btnRevisarCreditosActionPerformed
 
-    public static void main(String args[]) {
-  
-        
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrarSesion;

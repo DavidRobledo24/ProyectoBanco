@@ -1,13 +1,28 @@
 package interfaces.gerente;
 
-import utils.ConexionBD;
-
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BotonMenuGerenteSucursalAgregar extends javax.swing.JPanel {
     
     
     public BotonMenuGerenteSucursalAgregar() {
         initComponents();
+        addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseReleased(MouseEvent e){
+                System.out.println("AGREGAR");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                setBackground(new Color(39, 109, 222));
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                setBackground(new Color(39, 64, 152));
+            }
+        });
     }
 
     
