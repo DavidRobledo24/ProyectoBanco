@@ -180,7 +180,7 @@ public class InicioSesion extends javax.swing.JFrame {
         String codigoDeAccesoTemp = fieldCodigoDeAcceso.getText();
         
 
-        Pattern regex = Pattern.compile("\\d\\d\\d\\d\\d+");
+        Pattern regex = Pattern.compile("\\d+");
         
         Matcher matcherDocumento = regex.matcher(documentoTemp);
         Matcher matcherCodigoDeAcceso = regex.matcher(codigoDeAccesoTemp);
@@ -203,7 +203,12 @@ public class InicioSesion extends javax.swing.JFrame {
         }
         else{
             if(!fieldDocumento.isEnabled()) JOptionPane.showMessageDialog(null, "Seleccione una opción", "Error", JOptionPane.ERROR_MESSAGE);
-            else JOptionPane.showMessageDialog(null, (matchDocumento ? "" : "* Documento debe contener almenos 5 numeros") + (matchCodigoDeAcceso ? "" : "\n* Codigo de acceso debe contener almenos 5 numeros"), "Error", JOptionPane.ERROR_MESSAGE);
+            else {
+                String errores = "";
+                errores+=(matchDocumento ? "" : "*Solo ingrese numeros en el documento");
+                errores+=(errores.equals("") && matchCodigoDeAcceso ? "" : "\n") + (matchCodigoDeAcceso ? "" : "*Solo ingrese numeros en el codigo de acceso");
+                JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
 //        JOptionPane.showMessageDialog(null, "Error", "Error!", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_botonIngresarActionPerformed
