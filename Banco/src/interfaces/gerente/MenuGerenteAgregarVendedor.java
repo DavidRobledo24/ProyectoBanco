@@ -1,14 +1,24 @@
 package interfaces.gerente;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import utils.ConexionBD;
 
 
 public class MenuGerenteAgregarVendedor extends javax.swing.JFrame {
 
+    MenuGerenteDetalleSucursal ventanaActual;
     JFrame ventanaAnterior;
+    ConexionBD database;
+    String id;
     
-    public MenuGerenteAgregarVendedor(JFrame ventanaAnterior) {
+    public MenuGerenteAgregarVendedor(ConexionBD database, MenuGerenteDetalleSucursal ventanaActual, JFrame ventanaAnterior, String id) {
+        this.database = database;
+        this.ventanaActual = ventanaActual;
         this.ventanaAnterior = ventanaAnterior;
+        this.id = id;
         initComponents();
         initAlternComponents();
     }
@@ -151,6 +161,35 @@ public class MenuGerenteAgregarVendedor extends javax.swing.JFrame {
         String nombre = fieldNombre.getText();
         String telefono = fieldTelefono.getText();
         String codigoAcceso = fieldCodigoAcceso.getText();
+        
+        Pattern numRegex = Pattern.compile("\\d+");
+        Pattern charRegex = Pattern.compile("[A-z]+");
+        
+        Matcher matcherDocumento = numRegex.matcher(documento);
+        Matcher matcherNombre = charRegex.matcher(nombre);
+        Matcher matcherTelefono = numRegex.matcher(telefono);
+        Matcher matcherCodigoAcceso = numRegex.matcher(codigoAcceso);
+        
+        boolean matchDocumento = matcherDocumento.find();
+        boolean matchNombre = matcherNombre.find();
+        boolean matchTelefono = matcherTelefono.find();
+        boolean matchCodigoAcceso = matcherCodigoAcceso.find();
+        
+        if(matchDocumento && matchNombre && matchTelefono && matchCodigoAcceso){
+            if(database.agregarVendedor(documento, nombre, telefono, codigoAcceso, id)){
+                ventanaAnterior.setEnabled(true);
+                ventanaActual.actualizarTabla();
+                dispose();
+            }
+        }
+        else{
+            String errores = "";
+            errores+=matchDocumento ? "" : "*Solo ingrese numeros en el documento";
+            errores+=(!errores.equals("") && !matchNombre ? "\n" : "") + (matchNombre ? "" : "*Solo ingrese caracteres en el nombre");
+            errores+=(!errores.equals("") && !matchTelefono ? "\n" : "") + (matchTelefono ? "" : "*Solo ingrese numeros en el telefono");
+            errores+=(!errores.equals("") && !matchCodigoAcceso ? "\n" : "") + (matchCodigoAcceso ? "" : "*Solo ingrese numeros en el codigo de acceso");
+            JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
