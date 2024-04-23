@@ -1,15 +1,28 @@
 package interfaces.gerente;
 
-import utils.ConexionBD;
-
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class BotonMenuGerenteSucursalAgregar extends javax.swing.JPanel {
     
-    ConexionBD database;
     
-    public BotonMenuGerenteSucursalAgregar(ConexionBD database) {
-        this.database = database;
+    public BotonMenuGerenteSucursalAgregar() {
         initComponents();
+        addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseReleased(MouseEvent e){
+                System.out.println("AGREGAR");
+            }
+            @Override
+            public void mouseEntered(MouseEvent e){
+                setBackground(new Color(39, 109, 222));
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                setBackground(new Color(39, 64, 152));
+            }
+        });
     }
 
     
@@ -30,17 +43,11 @@ public class BotonMenuGerenteSucursalAgregar extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(257, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(219, 219, 219))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 840, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
