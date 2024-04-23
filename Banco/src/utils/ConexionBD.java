@@ -206,11 +206,12 @@ public class ConexionBD {
         return respuesta;
     }
     public boolean editarVendedor(String documento, String nombre, String telefono, String codigoAcceso){
-        try{
-            
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
-        }
+//        try{
+//            
+//        }catch(SQLException e){
+//            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+//        }
+        return false;
     }
     public void eliminarVendedor(){
         
