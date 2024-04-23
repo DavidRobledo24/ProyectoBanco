@@ -1,13 +1,23 @@
 package utils;
 
 import interfaces.gerente.BotonMenuGerenteSucursal;
+import interfaces.gerente.MenuGerenteDetalleSucursal;
+import interfaces.gerente.MenuGerenteEditarVendedor;
 import interfaces.gerente.MenuGerenteGeneral;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class ConexionBD {
     Connection conexion;
@@ -117,5 +127,99 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return "";
+    }
+    
+    public String darDatoVendedor(String documento, String dato){
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    if(vendedores.getString("documento").equals(documento)){
+                        return vendedores.getString(dato);
+                    }
+                }while(vendedores.next());
+                System.out.println("No se ha encontrado el vendedor");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return "";
+    }
+    
+    public void actualizarTablaVendedores(DefaultTableModel modelo, String id, Image iconoEditar, Image iconoEliminar, JFrame ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual){
+        modelo.setRowCount(0);
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            int contador = 1;
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    System.out.println(vendedores.getString("idSucursal"));
+                    System.out.println(id);
+                    if(vendedores.getString("idSucursal").equals(id)){
+                        JButton botonEditar = new JButton();
+                        JButton botonEliminar = new JButton();
+                        
+                        botonEditar.setBackground(Color.white);
+                        botonEliminar.setBackground(Color.white);
+                        
+                        botonEditar.setIcon(new ImageIcon(iconoEditar));
+                        botonEliminar.setIcon(new ImageIcon(iconoEliminar));
+                        
+                        String documentoActual = vendedores.getString("documento");
+                        ConexionBD baseTemp = this;
+                        
+                        botonEditar.addActionListener(new ActionListener(){
+                            @Override
+                            public void actionPerformed(ActionEvent e){
+                                ventanaAnterior.setEnabled(false);
+                                new MenuGerenteEditarVendedor(ventanaAnterior, documentoActual, baseTemp, ventanaActual);
+                            }
+                        });
+                        
+                        modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso"), botonEditar, botonEliminar});
+                    }
+                }while(vendedores.next());
+            }
+            else{
+                System.out.println("Tabla vacia");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    public boolean agregarVendedor(String documento, String nombre, String telefono, String codigoAcceso, String idSucursal){
+        boolean respuesta = false;
+        try{
+            String peticion = "INSERT INTO vendedor VALUES('"+documento+"', '"+nombre+"', '"+telefono+"', '"+codigoAcceso+"', '"+idSucursal+"')";
+            int actu = manipular.executeUpdate(peticion);
+            respuesta = actu == 1;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        if(respuesta) JOptionPane.showMessageDialog(null, "Vendedor agregado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        else JOptionPane.showMessageDialog(null, "Error de sistema", "Error", JOptionPane.ERROR_MESSAGE);        
+        return respuesta;
+    }
+    public boolean editarVendedor(String documento, String nombre, String telefono, String codigoAcceso){
+//        try{
+//            
+//        }catch(SQLException e){
+//            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+//        }
+        return false;
+    }
+    public void eliminarVendedor(){
+        
+    }
+    public void editarSucursal(){
+        
+    }
+    public void eliminarSucursal(){
+        
     }
 }

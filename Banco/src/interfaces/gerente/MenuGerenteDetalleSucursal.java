@@ -21,11 +21,11 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     Image iconoEditar;
     Image iconoEliminar;
     
-    MenuGerenteGeneral ventanaActual;
+    MenuGerenteGeneral ventanaAnterior;
     
-    public MenuGerenteDetalleSucursal(ConexionBD database, MenuGerenteGeneral ventanaActual, String id) {
+    public MenuGerenteDetalleSucursal(ConexionBD database, MenuGerenteGeneral ventanaAnterior, String id) {
         this.database = database;
-        this.ventanaActual = ventanaActual;
+        this.ventanaAnterior = ventanaAnterior;
         this.id = id;
         initComponents();
         modelo = (DefaultTableModel)tablaVendedores.getModel();
@@ -60,40 +60,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     }
     
     public void actualizarTabla(){
-        modelo.setRowCount(0);
-        try{
-            String peticion = "SELECT * FROM vendedor";
-            ResultSet vendedores = database.manipular.executeQuery(peticion);
-            int contador = 1;
-            vendedores.next();
-            if(vendedores.getRow() == 1){
-                do{
-                    System.out.println(vendedores.getString("idSucursal"));
-                    System.out.println(id);
-                    if(vendedores.getString("idSucursal").equals(id)){
-                        JButton botonEditar = new JButton();
-                        JButton botonEliminar = new JButton();
-                        
-                        botonEditar.setBackground(Color.white);
-                        botonEliminar.setBackground(Color.white);
-                        
-                        botonEditar.setIcon(new ImageIcon(iconoEditar));
-                        botonEliminar.setIcon(new ImageIcon(iconoEliminar));
-                        
-                        System.out.println("asd");
-                        
-                        
-                        //TO-DO
-                        modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso"), botonEditar, botonEliminar});
-                    }
-                }while(vendedores.next());
-            }
-            else{
-                System.out.println("Tabla vacia");
-            }
-        }catch(SQLException e){
-            System.out.println(e);
-        }
+        database.actualizarTablaVendedores(modelo, id, iconoEditar, iconoEliminar, ventanaAnterior, this);
     }
     
     @SuppressWarnings("unchecked")
@@ -218,11 +185,11 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarVendedorActionPerformed
-        new MenuGerenteAgregarVendedor(ventanaActual);
+        new MenuGerenteAgregarVendedor(database, this, ventanaAnterior, id);
     }//GEN-LAST:event_botonAgregarVendedorActionPerformed
 
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
-        ventanaActual.cambiarPanelSucursal();
+        ventanaAnterior.cambiarPanelSucursal();
     }//GEN-LAST:event_botonAtrasActionPerformed
 
 
