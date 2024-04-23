@@ -1,14 +1,16 @@
-
 package interfaces.vendedor;
+
+import utils.ConexionBD;
 
 
 public class MenuVendedorCrearCliente extends javax.swing.JPanel {
 
     
-    
+    ConexionBD database;
     MenuVendedorGeneral ventana;
     
-    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana) {
+    public MenuVendedorCrearCliente(ConexionBD database, MenuVendedorGeneral ventana) {
+        this.database = database;
         this.ventana = ventana;
         initComponents();
     }
@@ -166,7 +168,18 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-
+        String documento = campoDocumento.getText(); 
+        String nombre = campoNombre.getText();  
+        String Telefono = campoTelefono.getText();  
+        String email = campoEmail.getText();
+        String clave = campoClave.getText();
+        database.crearCliente(documento, nombre,  Telefono, email, clave);
+        
+        campoDocumento.setText("");
+        campoNombre.setText("");
+        campoTelefono.setText("");
+        campoEmail.setText("");
+        campoClave.setText("");
     }//GEN-LAST:event_btnCrearActionPerformed
 
 
