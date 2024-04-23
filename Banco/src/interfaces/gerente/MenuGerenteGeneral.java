@@ -167,7 +167,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
     
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
         jPanel2.removeAll();
-        MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database);
+        MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database, this);
         nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);
