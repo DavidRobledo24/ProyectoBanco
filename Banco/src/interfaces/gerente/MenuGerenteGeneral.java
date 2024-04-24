@@ -17,7 +17,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         initAlternComponets();
     }
     
-    public void initAlternComponets(){
+    private void initAlternComponets(){
         
         btnCerrarSesion.setBackground(white);
         btnEstadisticas.setBackground(white);

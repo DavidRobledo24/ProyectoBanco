@@ -168,7 +168,7 @@ public class ConexionBD {
         return "";
     }
     
-    public void actualizarTablaVendedores(DefaultTableModel modelo, String id, Image iconoEditar, Image iconoEliminar, JFrame ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual){
+    public void actualizarTablaVendedores(DefaultTableModel modelo, String id, Image iconoEditar, Image iconoEliminar, MenuGerenteGeneral ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual){
         modelo.setRowCount(0);
         try{
             String peticion = "SELECT * FROM vendedor";
@@ -204,7 +204,7 @@ public class ConexionBD {
                             @Override
                             public void actionPerformed(ActionEvent e){
                                 ventanaAnterior.setEnabled(false);
-                                new MenuGerenteDetalleSucursalEliminarVendedor(baseTemp, documentoActual, ventanaAnterior, ventanaActual);
+                                new MenuGerenteDetalleSucursalEliminarVendedor(baseTemp, documentoActual, ventanaAnterior, ventanaActual, id);
                             }
                         });
                         

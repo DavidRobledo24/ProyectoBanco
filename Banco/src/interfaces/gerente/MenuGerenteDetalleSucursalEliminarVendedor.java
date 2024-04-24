@@ -7,15 +7,17 @@ import utils.ConexionBD;
 public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFrame {
 
     ConexionBD database;
-    JFrame ventanaAnterior;
+    MenuGerenteGeneral ventanaAnterior;
     MenuGerenteDetalleSucursal ventanaActual;
     String documento;
+    String id;
     
-    public MenuGerenteDetalleSucursalEliminarVendedor(ConexionBD database, String documento, JFrame ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual) {
+    public MenuGerenteDetalleSucursalEliminarVendedor(ConexionBD database, String documento, MenuGerenteGeneral ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual, String id) {
         this.database = database;
         this.ventanaAnterior = ventanaAnterior;
         this.ventanaActual = ventanaActual;
         this.documento = documento;
+        this.id = id;
         initComponents();
         initAlternComponents();
     }
@@ -163,7 +165,7 @@ public class MenuGerenteDetalleSucursalEliminarVendedor extends javax.swing.JFra
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         database.eliminarVendedor(documento);
         ventanaAnterior.setEnabled(true);
-        ventanaActual.actualizarTabla();
+        ventanaAnterior.cambiarPanelDetalleSucursal(id);
         dispose();
     }//GEN-LAST:event_btnEliminarActionPerformed
 
