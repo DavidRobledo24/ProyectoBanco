@@ -8,8 +8,10 @@ import utils.ConexionBD;
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
+    MenuVendedorGeneral ventanaActual;
     
-    public MenuVendedorGeneral(ConexionBD database) {
+    public MenuVendedorGeneral(ConexionBD database, MenuVendedorGeneral ventanaActual) {
+        this.ventanaActual = ventanaActual;
         this.database = database;
         initComponents();
         initAlternComponents();
