@@ -1,11 +1,19 @@
 
+<<<<<<< HEAD:Banco/src/interfaces/CRUD.java
 package interfaces;
+=======
+package interfaces.vendedor;
+>>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorGeneral.java
 
-public class CRUD extends javax.swing.JFrame {
+public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     
+<<<<<<< HEAD:Banco/src/interfaces/CRUD.java
     public CRUD() {
         System.out.println("dsa");
+=======
+    public MenuVendedorGeneral() {
+>>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorGeneral.java
         initComponents();
         initAlternComponents();
     }
@@ -248,14 +256,15 @@ public class CRUD extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CRUD.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         

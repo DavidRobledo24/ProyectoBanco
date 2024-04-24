@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD:Banco/src/interfaces/MenuVendedorLeerClientes.java
 package interfaces;
+=======
+package interfaces.vendedor;
+>>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorLeerClientes.java
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
