@@ -2,6 +2,7 @@ package utils;
 
 import interfaces.gerente.BotonMenuGerenteSucursal;
 import interfaces.gerente.MenuGerenteDetalleSucursal;
+import interfaces.gerente.MenuGerenteDetalleSucursalEliminarVendedor;
 import interfaces.gerente.MenuGerenteEditarVendedor;
 import interfaces.gerente.MenuGerenteGeneral;
 import java.awt.Color;
@@ -81,6 +82,24 @@ public class ConexionBD {
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
                 }while(sucursales.next());
+                return contador;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return 0;
+    }
+    
+    public int contarVendedores(String id){
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            int contador = 0;
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    if(vendedores.getString("idSucursal").equals(id)) contador++;
+                }while(vendedores.next());
                 return contador;
             }
         }catch(SQLException e){
@@ -181,7 +200,16 @@ public class ConexionBD {
                             }
                         });
                         
+                        botonEliminar.addActionListener(new ActionListener(){
+                            @Override
+                            public void actionPerformed(ActionEvent e){
+                                ventanaAnterior.setEnabled(false);
+                                new MenuGerenteDetalleSucursalEliminarVendedor(baseTemp, documentoActual, ventanaAnterior, ventanaActual);
+                            }
+                        });
+                        
                         modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso"), botonEditar, botonEliminar});
+                        contador++;
                     }
                 }while(vendedores.next());
             }
@@ -196,6 +224,10 @@ public class ConexionBD {
     public boolean agregarVendedor(String documento, String nombre, String telefono, String codigoAcceso, String idSucursal){
         boolean respuesta = false;
         try{
+            if(buscarVendedorExistente(documento)){
+                JOptionPane.showMessageDialog(null, "No se aceptan documentos repetidos", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
             String peticion = "INSERT INTO vendedor VALUES('"+documento+"', '"+nombre+"', '"+telefono+"', '"+codigoAcceso+"', '"+idSucursal+"')";
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
@@ -206,24 +238,121 @@ public class ConexionBD {
         else JOptionPane.showMessageDialog(null, "Error de sistema", "Error", JOptionPane.ERROR_MESSAGE);        
         return respuesta;
     }
+    
+    public boolean buscarVendedorExistente(String documento){
+        boolean encontrado = false;
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    if(vendedores.getString("documento").equals(documento)){
+                        encontrado = true;
+                        break;
+                    }
+                }while(vendedores.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return encontrado;
+    }
+    
     public boolean editarVendedor(String documento, String nombre, String telefono, String codigoAcceso){
-//        try{
-//            
-//        }catch(SQLException e){
-//            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
-//        }
-        return false;
-    }
-    public void eliminarVendedor(){
-        
-    }
-    
-    public void editarSucursal(){
-        
+        boolean respuesta = false;
+        try{
+            String peticion = "UPDATE vendedor SET nombre='"+nombre+"', telefono='"+telefono+"', codigoAcceso='"+codigoAcceso+"' WHERE documento='"+documento+"'";
+            int actu = manipular.executeUpdate(peticion);
+            respuesta = actu == 1;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
     }
     
-    public void eliminarSucursal(){
+    public void eliminarVendedor(String documento){
+        try{
+            String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";
+            int respuesta = manipular.executeUpdate(peticion);
+            if(respuesta == 1) JOptionPane.showMessageDialog(null, "Vendedor eliminado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public boolean editarSucursal(String id, String nombre, String direccion, String telefono){
+        boolean respuesta = false;
+        try{
+            String peticion = "UPDATE sucursal SET nombre='"+nombre+"', direccion='"+direccion+"', telefono='"+telefono+"' WHERE idSucursal='"+id+"'";
+            int actu = manipular.executeUpdate(peticion);
+            respuesta = actu == 1;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
+    }
+    
+    public void eliminarSucursal(String id){
+        try{
+            String peticion = "DELETE FROM sucursal WHERE idSucursal='"+id+"'";
+            int respuesta = manipular.executeUpdate(peticion);
+            if(respuesta == 1) JOptionPane.showMessageDialog(null, "Sucursal eliminada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public boolean eliminarVendedoresEnMasa(String id){
+        boolean respuesta = false;
         
+        int contador = 0;
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    if(vendedores.getString("idSucursal").equals(id)) contador++;
+                }while(vendedores.next());
+                respuesta = true;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        
+        String[] ids = new String[contador];
+        contador = 0;
+        try{
+            String peticion = "SELECT * FROM vendedor";
+            ResultSet vendedores = manipular.executeQuery(peticion);
+            vendedores.next();
+            if(vendedores.getRow() == 1){
+                do{
+                    if(vendedores.getString("idSucursal").equals(id)){
+                        ids[contador] = vendedores.getString("documento");
+                        contador++;
+                    }
+                }while(vendedores.next());
+                respuesta = true;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        for(String x : ids){
+            System.out.println(x);
+        }
+        try{
+            for(int i = 0; i < ids.length; i++){
+                manipular.executeUpdate("DELETE FROM vendedor WHERE documento='"+ids[i]+"'");
+            }
+            respuesta = true;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
     }
     
     public void llenarEstadisticas(Map sucursales){

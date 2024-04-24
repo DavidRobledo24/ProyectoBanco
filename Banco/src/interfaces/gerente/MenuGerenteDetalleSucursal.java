@@ -29,13 +29,11 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         this.id = id;
         initComponents();
         modelo = (DefaultTableModel)tablaVendedores.getModel();
-        initAlternComponents(database.darDatoSucursal(id, "nombre"), database.darDatoSucursal(id, "direccion"), database.darDatoSucursal(id, "telefono"));
+        initAlternComponents();
     }
 
-    private void initAlternComponents(String nombreSucursal, String direccionSucursal, String telefonoSucursal){
-        labelNombreSucursal.setText(nombreSucursal);
-        labelDireccionSucursal.setText(direccionSucursal);
-        labelTelefonoSucursal.setText(telefonoSucursal);
+    private void initAlternComponents(){
+        actualizarDatos();
         
         tablaVendedores.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
         tablaVendedores.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
@@ -57,10 +55,17 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         
         
         actualizarTabla();
+        labelBalanceSucursal.setText("Balance:"+database.darDatoSucursal(id, "balance"));
     }
     
     public void actualizarTabla(){
         database.actualizarTablaVendedores(modelo, id, iconoEditar, iconoEliminar, ventanaAnterior, this);
+    }
+    
+    public void actualizarDatos(){
+        labelNombreSucursal.setText(database.darDatoSucursal(id, "nombre"));
+        labelDireccionSucursal.setText(database.darDatoSucursal(id, "direccion"));
+        labelTelefonoSucursal.setText(database.darDatoSucursal(id, "telefono"));
     }
     
     @SuppressWarnings("unchecked")
@@ -90,10 +95,20 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         botonEliminar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         botonEliminar.setText("ELIMINAR");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonEditar.setBackground(new java.awt.Color(51, 102, 255));
         botonEditar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonEditar.setText("EDITAR");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
+            }
+        });
 
         tablaVendedores.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tablaVendedores.setModel(new javax.swing.table.DefaultTableModel(
@@ -191,6 +206,14 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
         ventanaAnterior.cambiarPanelSucursal();
     }//GEN-LAST:event_botonAtrasActionPerformed
+
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        new MenuGerenteEditarSucursal(database, ventanaAnterior, this, id);
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        new MenuGerenteDetalleSucursalEliminar(database, ventanaAnterior, id);
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

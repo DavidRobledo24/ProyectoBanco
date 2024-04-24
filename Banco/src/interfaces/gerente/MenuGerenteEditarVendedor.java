@@ -48,7 +48,7 @@ public class MenuGerenteEditarVendedor extends javax.swing.JFrame {
         botonCancelar = new javax.swing.JButton();
         labelDocumentoVendedor = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(39, 64, 115));
 
