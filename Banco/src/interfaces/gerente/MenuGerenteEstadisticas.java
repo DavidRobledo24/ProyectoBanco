@@ -26,17 +26,7 @@ public class MenuGerenteEstadisticas extends javax.swing.JPanel {
     
     public void Estadisticas() {
         Map<String, Double> sucursales = new HashMap<>();
-        try {
-            String peticion = "SELECT nombre, balance FROM sucursal";
-            ResultSet rs = database.manipular.executeQuery(peticion);
-            while (rs.next()) {
-                String nombre = rs.getString("nombre");
-                double balance = rs.getDouble("balance");
-                sucursales.put(nombre, balance);
-            }
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
+        database.llenarEstadisticas(sucursales);
         
         sucursalConMasDinero(sucursales);
         sucursalConMenosDinero(sucursales);

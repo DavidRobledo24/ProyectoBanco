@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -216,10 +217,60 @@ public class ConexionBD {
     public void eliminarVendedor(){
         
     }
+    
     public void editarSucursal(){
         
     }
+    
     public void eliminarSucursal(){
         
+    }
+    
+    public void llenarEstadisticas(Map sucursales){
+        try {
+            String peticion = "SELECT nombre, balance FROM sucursal";
+            ResultSet rs = manipular.executeQuery(peticion);
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                double balance = rs.getDouble("balance");
+                sucursales.put(nombre, balance);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public boolean agregarSucursal(String nombre, String direccion, String telefono, String documentoGerente){
+        boolean respuesta = false;
+        try{
+            int idSucursal = conseguirIdSucursal();
+            String peticion = "INSERT INTO sucursal VALUES ('"+idSucursal+"', '"+nombre+"', '"+direccion+"', '"+telefono+"', '', '1000000', '"+documentoGerente+"')";
+            int actu = manipular.executeUpdate(peticion);
+            respuesta = actu == 1;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
+    }
+    
+    
+    
+    private int conseguirIdSucursal(){
+        int contador = 1;
+        try{
+            String peticion = "SELECT * FROM sucursal";
+            ResultSet sucursales = manipular.executeQuery(peticion);
+            sucursales.next();
+            if(sucursales.getRow() == 1){
+                do{
+                    if(!sucursales.getString("idSucursal").equals(contador+"")) return contador;
+                    contador++;
+                }while(sucursales.next());
+            }
+        }
+        catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return contador;
     }
 }

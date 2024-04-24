@@ -165,6 +165,16 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         revalidate();
     }
     
+    public void cambiarPanelAgregarSucursal(){
+        jPanel2.removeAll();
+        MenuGerenteAgregarSucursal nuevo = new MenuGerenteAgregarSucursal(database, this, documentoGerente);
+        nuevo.setSize(jPanel2.getSize());
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
+    }
+    
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
         jPanel2.removeAll();
         MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database, this);

@@ -197,7 +197,7 @@ public class MenuGerenteEditarVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_botonEditarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
-        ventanaAnterior.setEnabled(false);
+        ventanaAnterior.setEnabled(true);
         dispose();
     }//GEN-LAST:event_botonCancelarActionPerformed
 

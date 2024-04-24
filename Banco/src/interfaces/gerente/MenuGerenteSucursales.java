@@ -3,7 +3,6 @@ package interfaces.gerente;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import utils.ConexionBD;
 
 
@@ -11,12 +10,12 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
 
     ConexionBD database;
     String documentoGerente;
-    MenuGerenteGeneral ventanaActual;
+    MenuGerenteGeneral ventanaAnterior;
     
-    public MenuGerenteSucursales(ConexionBD database, String documentoGerente, MenuGerenteGeneral ventanaActual) {
+    public MenuGerenteSucursales(ConexionBD database, String documentoGerente, MenuGerenteGeneral ventanaAnterior) {
         this.database = database;
         this.documentoGerente = documentoGerente;
-        this.ventanaActual = ventanaActual;
+        this.ventanaAnterior = ventanaAnterior;
         initComponents();
         initAlternComponents();
     }
@@ -40,7 +39,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         
         panelSucursales.setPreferredSize(new Dimension(810, altoVentana));
         if(cantSucursales > 0){
-            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente, ventanaActual);
+            BotonMenuGerenteSucursal[] vectorSucursales = database.darSucursales(cantSucursales, documentoGerente, ventanaAnterior);
             for(int i = 0; i < cantSucursales; i++){
                 vectorSucursales[i].setSize(810, 180);
                 vectorSucursales[i].setPreferredSize(new Dimension(810, 180));
@@ -48,7 +47,7 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
                 r.gridy++;
             }
         }
-        BotonMenuGerenteSucursalAgregar botonAgregar = new BotonMenuGerenteSucursalAgregar();
+        BotonMenuGerenteSucursalAgregar botonAgregar = new BotonMenuGerenteSucursalAgregar(ventanaAnterior);
         botonAgregar.setSize(810, 180);
         botonAgregar.setPreferredSize(new Dimension(810, 180));
 //        r.insets = new Insets(3, 1, 3, 1);

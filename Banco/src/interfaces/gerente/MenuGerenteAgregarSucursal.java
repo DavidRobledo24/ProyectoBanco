@@ -1,11 +1,24 @@
 package interfaces.gerente;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import utils.ConexionBD;
+
 
 public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
-
-    public MenuGerenteAgregarSucursal() {
+    
+    ConexionBD database;
+    MenuGerenteGeneral ventanaAnterior;
+    String documentoGerente;
+    
+    public MenuGerenteAgregarSucursal(ConexionBD database, MenuGerenteGeneral ventanaAnterior, String documentoGerente) {
+        this.database = database;
+        this.ventanaAnterior = ventanaAnterior;
+        this.documentoGerente = documentoGerente;
         initComponents();
     }
+
 
 
     @SuppressWarnings("unchecked")
@@ -46,6 +59,11 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
 
         botonAtras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonAtras.setText("<-       Atrás           ");
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,8 +118,35 @@ public class MenuGerenteAgregarSucursal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        // TODO add your handling code here:
+        String nombre = fieldNombre.getText();
+        String direccion = fieldDireccion.getText();
+        String telefono = fieldTelefono.getText();
+        
+        Pattern numRegex = Pattern.compile("\\d+");
+        
+        Matcher matcherTelefono = numRegex.matcher(telefono);
+        
+        boolean matchTelefono = matcherTelefono.find();
+        
+        if(!nombre.equals("") && !direccion.equals("") && matchTelefono){
+            if(database.agregarSucursal(nombre, direccion, telefono, documentoGerente)){
+                JOptionPane.showMessageDialog(null, "Sucursal creada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                ventanaAnterior.cambiarPanelSucursal();
+            }
+            else JOptionPane.showMessageDialog(null, "Error grave", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            String errores = "";
+            errores+=!nombre.equals("") ? "" : "*Nombre vacio";
+            errores+=(!errores.equals("") && direccion.equals("") ? "\n" : "") + (!direccion.equals("") ? "" : "*Direccion vacia");
+            errores+=(!errores.equals("") && !matchTelefono ? "\n" : "") + (matchTelefono ? "" : "*Solo ingrese numeros en el telefono");
+            JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        ventanaAnterior.cambiarPanelSucursal();
+    }//GEN-LAST:event_botonAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
