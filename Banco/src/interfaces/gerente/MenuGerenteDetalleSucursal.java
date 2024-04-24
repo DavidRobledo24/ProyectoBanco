@@ -1,13 +1,14 @@
 package interfaces.gerente;
 
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.table.DefaultTableModel;
 import utils.ConexionBD;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import utils.ButtonEditor;
 import utils.ButtonRenderer;
 
@@ -15,18 +16,20 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
 
     ConexionBD database;
     DefaultTableModel modelo;
+    String id;
     
     Image iconoEditar;
     Image iconoEliminar;
     
-    JFrame ventanaActual;
+    MenuGerenteGeneral ventanaAnterior;
     
-    public MenuGerenteDetalleSucursal(String nombreSucursal, String direccionSucursal, String telefonoSucursal, ConexionBD database, JFrame ventanaActual) {
+    public MenuGerenteDetalleSucursal(ConexionBD database, MenuGerenteGeneral ventanaAnterior, String id) {
         this.database = database;
-        modelo = (DefaultTableModel)tablaVendedores.getModel();
-        this.ventanaActual = ventanaActual;
+        this.ventanaAnterior = ventanaAnterior;
+        this.id = id;
         initComponents();
-        initAlternComponents(nombreSucursal, direccionSucursal, telefonoSucursal);
+        modelo = (DefaultTableModel)tablaVendedores.getModel();
+        initAlternComponents(database.darDatoSucursal(id, "nombre"), database.darDatoSucursal(id, "direccion"), database.darDatoSucursal(id, "telefono"));
     }
 
     private void initAlternComponents(String nombreSucursal, String direccionSucursal, String telefonoSucursal){
@@ -43,6 +46,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         iconoEditar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/botonEditar.png")).getScaledInstance(25, 25, Image.SCALE_SMOOTH);
         iconoEliminar = getToolkit().createImage(ClassLoader.getSystemResource("imagenes/botonEliminar.png")).getScaledInstance(25, 25, Image.SCALE_SMOOTH);
         
+        tablaVendedores.setRowHeight(30);
         tablaVendedores.getColumnModel().getColumn(0).setPreferredWidth(1);
         tablaVendedores.getColumnModel().getColumn(1).setPreferredWidth(80);
         tablaVendedores.getColumnModel().getColumn(2).setPreferredWidth(80);
@@ -56,25 +60,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     }
     
     public void actualizarTabla(){
-        modelo.setRowCount(0);
-        try{
-            String peticion = "SELECT * FROM vendedor";
-            ResultSet vendedores = database.manipular.executeQuery(peticion);
-            int contador = 1;
-            if(vendedores.getRow() == 1){
-                do{
-                    JButton botonEditar = new JButton();
-                    JButton botonEliminar = new JButton();
-                    //TO-DO
-                    modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso")});
-                }while(vendedores.next());
-            }
-            else{
-                System.out.println("Tabla vacia");
-            }
-        }catch(SQLException e){
-            System.out.println(e);
-        }
+        database.actualizarTablaVendedores(modelo, id, iconoEditar, iconoEliminar, ventanaAnterior, this);
     }
     
     @SuppressWarnings("unchecked")
@@ -89,12 +75,16 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaVendedores = new javax.swing.JTable();
         botonAgregarVendedor = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        botonAtras = new javax.swing.JButton();
         labelBalanceSucursal = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(39, 64, 115));
 
-        labelNombreSucursal.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        labelNombreSucursal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+
+        labelDireccionSucursal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+
+        labelTelefonoSucursal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
 
         botonEliminar.setBackground(new java.awt.Color(116, 16, 35));
         botonEliminar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -133,8 +123,13 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton4.setText("<-       Atrás           ");
+        botonAtras.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        botonAtras.setText("<-       Atrás           ");
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -158,7 +153,7 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
                 .addContainerGap(342, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelBalanceSucursal)
                 .addGap(58, 58, 58))
@@ -183,22 +178,26 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
                 .addComponent(botonAgregarVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelBalanceSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarVendedorActionPerformed
-        new MenuGerenteAgregarVendedor(ventanaActual);
+        new MenuGerenteAgregarVendedor(database, this, ventanaAnterior, id);
     }//GEN-LAST:event_botonAgregarVendedorActionPerformed
+
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        ventanaAnterior.cambiarPanelSucursal();
+    }//GEN-LAST:event_botonAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarVendedor;
+    private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonEditar;
     private javax.swing.JButton botonEliminar;
-    private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelBalanceSucursal;
     private javax.swing.JLabel labelDireccionSucursal;

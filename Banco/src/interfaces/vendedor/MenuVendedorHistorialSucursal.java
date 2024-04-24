@@ -2,12 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-<<<<<<< HEAD:Banco/src/interfaces/MenuVendedorHistorialSucursal.java
-package interfaces;
-=======
 package interfaces.vendedor;
->>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorHistorialSucursal.java
-
 /**
  *
  * @author JUAN

@@ -1,14 +1,17 @@
-
-<<<<<<< HEAD:Banco/src/interfaces/MenuVendedorLeerClientes.java
-package interfaces;
-=======
 package interfaces.vendedor;
->>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorLeerClientes.java
+
+import utils.ConexionBD;
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
-   
-    public MenuVendedorLeerClientes() {
+    ConexionBD database;
+   MenuVendedorGeneral ventana;
+    public MenuVendedorLeerClientes(ConexionBD database,MenuVendedorGeneral ventana) {
+        this.database = database;
+        this.ventana = ventana;
+        
+        database.imprimirUsuarios(TablaClientes);
+         
         initComponents();
     }
 
@@ -74,7 +77,7 @@ public class MenuVendedorLeerClientes extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
-        
+    this.ventana.cambiarPanelClientes();
     }//GEN-LAST:event_btnAtrasActionPerformed
 
 

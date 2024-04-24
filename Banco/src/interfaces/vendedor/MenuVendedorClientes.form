@@ -72,6 +72,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="LEER CLIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLeerClientesActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnCrearCliente">
           <Properties>
@@ -80,6 +83,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="CREAR CLIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearClienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEditarCliente">
           <Properties>
@@ -88,6 +94,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="EDITAR CLIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarClienteActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnEliminarClientes">
           <Properties>
@@ -96,6 +105,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="ELIMINAR CLIENTE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarClientesActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

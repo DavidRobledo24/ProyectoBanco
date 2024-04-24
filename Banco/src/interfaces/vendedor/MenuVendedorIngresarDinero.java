@@ -1,23 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-<<<<<<< HEAD:Banco/src/interfaces/MenuVendedorIngresarDinero.java
-package interfaces;
-=======
 package interfaces.vendedor;
->>>>>>> d4acab4085a59701679417322ce8c19b8242d5d8:Banco/src/interfaces/vendedor/MenuVendedorIngresarDinero.java
+import utils.ConexionBD;
 
-/**
- *
- * @author JUAN
- */
 public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
+    
+    ConexionBD database;
 
-    /**
-     * Creates new form MenuVendedorIngresarDinero
-     */
-    public MenuVendedorIngresarDinero() {
+    public MenuVendedorIngresarDinero(ConexionBD database) {
+        this.database = database;
         initComponents();
     }
 

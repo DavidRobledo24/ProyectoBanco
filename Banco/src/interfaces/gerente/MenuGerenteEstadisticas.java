@@ -1,16 +1,98 @@
 package interfaces.gerente;
 
 import utils.ConexionBD;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MenuGerenteEstadisticas extends javax.swing.JPanel {
     
     ConexionBD database;
-
-    public MenuGerenteEstadisticas(ConexionBD database) {
+    MenuGerenteGeneral ventanaActual;
+    
+    public MenuGerenteEstadisticas(ConexionBD database, MenuGerenteGeneral ventanaActual) {
         this.database = database;
+        this.ventanaActual = ventanaActual;
         initComponents();
+        initAlternComponents();
     }
+    
+    private void initAlternComponents(){
+        Estadisticas();
+        
+    }
+    
+    public void Estadisticas() {
+        Map<String, Double> sucursales = new HashMap<>();
+        try {
+            String peticion = "SELECT nombre, balance FROM sucursal";
+            ResultSet rs = database.manipular.executeQuery(peticion);
+            while (rs.next()) {
+                String nombre = rs.getString("nombre");
+                double balance = rs.getDouble("balance");
+                sucursales.put(nombre, balance);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        
+        sucursalConMasDinero(sucursales);
+        sucursalConMenosDinero(sucursales);
+        mostrarSumaBalances(sucursales);
+    }
+    
+    public void sucursalConMasDinero(Map<String, Double> sucursales) {
+        double mayorBalance = Double.MIN_VALUE;
+        String nomSucursal = null;
+
+        for (Map.Entry<String, Double> entry : sucursales.entrySet()) {
+            String sucursal = entry.getKey();
+            double balance = entry.getValue();
+            if (balance > mayorBalance) {
+                mayorBalance = balance;
+                nomSucursal = sucursal;
+            }
+        }
+
+        if (nomSucursal != null) {
+            etqMasDinero.setText(nomSucursal +" Saldo: $" + mayorBalance);
+            System.out.println("La sucursal con el mayor balance es: " + nomSucursal);
+        } else {
+            System.out.println("No hay sucursales en el mapa.");
+        }
+    }
+    
+    public void sucursalConMenosDinero(Map<String, Double> sucursales) {
+    double menorbalance = Double.MAX_VALUE;
+    String nomSucursal1 = null;
+    
+    for (Map.Entry<String, Double> entry : sucursales.entrySet()) {
+        String sucursal = entry.getKey();
+        double balance = entry.getValue();
+        if (balance < menorbalance) {
+            menorbalance = balance;
+            nomSucursal1 = sucursal;
+        }
+    }
+    
+    if (nomSucursal1 != null) {
+        etqMenosDinero1.setText(nomSucursal1 +" Saldo: $" + menorbalance);
+        System.out.println("La sucursal con el menor balance es: " + nomSucursal1);
+    } else {
+        System.out.println("No hay sucursales en el mapa.");
+    }
+}
+    
+    public void mostrarSumaBalances(Map<String, Double> sucursales) {
+    double sumaBalances = 0.0;
+    for (double balance : sucursales.values()) {
+        sumaBalances += balance;
+    }
+
+    etqMenosDinero2.setText("$"+sumaBalances);
+}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
