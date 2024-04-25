@@ -17,7 +17,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         initAlternComponets();
     }
     
-    public void initAlternComponets(){
+    private void initAlternComponets(){
         
         btnCerrarSesion.setBackground(white);
         btnEstadisticas.setBackground(white);
@@ -158,6 +158,16 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
     public void cambiarPanelDetalleSucursal(String id){
         jPanel2.removeAll();
         MenuGerenteDetalleSucursal nuevo = new MenuGerenteDetalleSucursal(database, this, id);
+        nuevo.setSize(jPanel2.getSize());
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
+    }
+    
+    public void cambiarPanelAgregarSucursal(){
+        jPanel2.removeAll();
+        MenuGerenteAgregarSucursal nuevo = new MenuGerenteAgregarSucursal(database, this, documentoGerente);
         nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);

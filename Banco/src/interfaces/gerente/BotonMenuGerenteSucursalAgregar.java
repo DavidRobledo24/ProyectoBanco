@@ -3,16 +3,19 @@ package interfaces.gerente;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import utils.ConexionBD;
 
 public class BotonMenuGerenteSucursalAgregar extends javax.swing.JPanel {
     
+    MenuGerenteGeneral ventanaAnterior;
     
-    public BotonMenuGerenteSucursalAgregar() {
+    public BotonMenuGerenteSucursalAgregar(MenuGerenteGeneral ventanaAnterior) {
+        this.ventanaAnterior = ventanaAnterior;
         initComponents();
         addMouseListener(new MouseAdapter(){
             @Override
             public void mouseReleased(MouseEvent e){
-                System.out.println("AGREGAR");
+                ventanaAnterior.cambiarPanelAgregarSucursal();
             }
             @Override
             public void mouseEntered(MouseEvent e){
