@@ -141,6 +141,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="&lt;-       Atr&#xe1;s           "/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAtrasActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

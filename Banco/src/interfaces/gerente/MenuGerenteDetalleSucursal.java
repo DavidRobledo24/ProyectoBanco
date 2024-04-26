@@ -21,21 +21,19 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     Image iconoEditar;
     Image iconoEliminar;
     
-    MenuGerenteGeneral ventanaActual;
+    MenuGerenteGeneral ventanaAnterior;
     
-    public MenuGerenteDetalleSucursal(ConexionBD database, MenuGerenteGeneral ventanaActual, String id) {
+    public MenuGerenteDetalleSucursal(ConexionBD database, MenuGerenteGeneral ventanaAnterior, String id) {
         this.database = database;
-        this.ventanaActual = ventanaActual;
+        this.ventanaAnterior = ventanaAnterior;
         this.id = id;
         initComponents();
         modelo = (DefaultTableModel)tablaVendedores.getModel();
-        initAlternComponents(database.darDatoSucursal(id, "nombre"), database.darDatoSucursal(id, "direccion"), database.darDatoSucursal(id, "telefono"));
+        initAlternComponents();
     }
 
-    private void initAlternComponents(String nombreSucursal, String direccionSucursal, String telefonoSucursal){
-        labelNombreSucursal.setText(nombreSucursal);
-        labelDireccionSucursal.setText(direccionSucursal);
-        labelTelefonoSucursal.setText(telefonoSucursal);
+    private void initAlternComponents(){
+        actualizarDatos();
         
         tablaVendedores.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
         tablaVendedores.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
@@ -57,43 +55,17 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         
         
         actualizarTabla();
+        labelBalanceSucursal.setText("Balance:"+database.darDatoSucursal(id, "balance"));
     }
     
     public void actualizarTabla(){
-        modelo.setRowCount(0);
-        try{
-            String peticion = "SELECT * FROM vendedor";
-            ResultSet vendedores = database.manipular.executeQuery(peticion);
-            int contador = 1;
-            vendedores.next();
-            if(vendedores.getRow() == 1){
-                do{
-                    System.out.println(vendedores.getString("idSucursal"));
-                    System.out.println(id);
-                    if(vendedores.getString("idSucursal").equals(id)){
-                        JButton botonEditar = new JButton();
-                        JButton botonEliminar = new JButton();
-                        
-                        botonEditar.setBackground(Color.white);
-                        botonEliminar.setBackground(Color.white);
-                        
-                        botonEditar.setIcon(new ImageIcon(iconoEditar));
-                        botonEliminar.setIcon(new ImageIcon(iconoEliminar));
-                        
-                        System.out.println("asd");
-                        
-                        
-                        //TO-DO
-                        modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso"), botonEditar, botonEliminar});
-                    }
-                }while(vendedores.next());
-            }
-            else{
-                System.out.println("Tabla vacia");
-            }
-        }catch(SQLException e){
-            System.out.println(e);
-        }
+        database.actualizarTablaVendedores(modelo, id, iconoEditar, iconoEliminar, ventanaAnterior, this);
+    }
+    
+    public void actualizarDatos(){
+        labelNombreSucursal.setText(database.darDatoSucursal(id, "nombre"));
+        labelDireccionSucursal.setText(database.darDatoSucursal(id, "direccion"));
+        labelTelefonoSucursal.setText(database.darDatoSucursal(id, "telefono"));
     }
     
     @SuppressWarnings("unchecked")
@@ -123,10 +95,20 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         botonEliminar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonEliminar.setForeground(new java.awt.Color(255, 255, 255));
         botonEliminar.setText("ELIMINAR");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         botonEditar.setBackground(new java.awt.Color(51, 102, 255));
         botonEditar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         botonEditar.setText("EDITAR");
+        botonEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarActionPerformed(evt);
+            }
+        });
 
         tablaVendedores.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tablaVendedores.setModel(new javax.swing.table.DefaultTableModel(
@@ -218,12 +200,20 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarVendedorActionPerformed
-        new MenuGerenteAgregarVendedor(ventanaActual);
+        new MenuGerenteAgregarVendedor(database, this, ventanaAnterior, id);
     }//GEN-LAST:event_botonAgregarVendedorActionPerformed
 
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
-        ventanaActual.cambiarPanelSucursal();
+        ventanaAnterior.cambiarPanelSucursal();
     }//GEN-LAST:event_botonAtrasActionPerformed
+
+    private void botonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarActionPerformed
+        new MenuGerenteEditarSucursal(database, ventanaAnterior, this, id);
+    }//GEN-LAST:event_botonEditarActionPerformed
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        new MenuGerenteDetalleSucursalEliminar(database, ventanaAnterior, id);
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
