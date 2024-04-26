@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -51,8 +52,10 @@ public class ConexionBD {
             if(usuarios.getRow() == 1){
                 do{
                     if(usuarios.getString("documento").equals(documento)){
-                        if(usuarios.getString("codigoAcceso").equals(codigoDeAcceso)) return true;
-                        else {
+                        byte[] bytesCodigo = Base64.getDecoder().decode(usuarios.getString("codigoAcceso"));
+                        String codigoDesencriptado = new String(bytesCodigo);
+                        if(codigoDesencriptado.equals(codigoDeAcceso)) return true;
+                        else{
                             JOptionPane.showMessageDialog(null, "Codigo de acceso incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
                             return false;
                         }
@@ -157,7 +160,12 @@ public class ConexionBD {
             if(vendedores.getRow() == 1){
                 do{
                     if(vendedores.getString("documento").equals(documento)){
-                        return vendedores.getString(dato);
+                        if(dato.equals("codigoAcceso")){
+                            byte[] bytesCodigo = Base64.getDecoder().decode(vendedores.getString("codigoAcceso"));
+                            String codigoDesencriptado = new String(bytesCodigo);
+                            return codigoDesencriptado;
+                        }
+                        else return vendedores.getString(dato);
                     }
                 }while(vendedores.next());
                 System.out.println("No se ha encontrado el vendedor");
@@ -208,7 +216,10 @@ public class ConexionBD {
                             }
                         });
                         
-                        modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), vendedores.getString("codigoAcceso"), botonEditar, botonEliminar});
+                        byte[] bytesCodigo = Base64.getDecoder().decode(vendedores.getString("codigoAcceso"));
+                        String codigoDesencriptado = new String(bytesCodigo);
+                        
+                        modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), codigoDesencriptado, botonEditar, botonEliminar});
                         contador++;
                     }
                 }while(vendedores.next());
@@ -228,7 +239,8 @@ public class ConexionBD {
                 JOptionPane.showMessageDialog(null, "No se aceptan documentos repetidos", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            String peticion = "INSERT INTO vendedor VALUES('"+documento+"', '"+nombre+"', '"+telefono+"', '"+codigoAcceso+"', '"+idSucursal+"')";
+            String codigoEncriptado = Base64.getEncoder().encodeToString(codigoAcceso.getBytes());
+            String peticion = "INSERT INTO vendedor VALUES('"+documento+"', '"+nombre+"', '"+telefono+"', '"+codigoEncriptado+"', '"+idSucursal+"')";
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
@@ -262,7 +274,8 @@ public class ConexionBD {
     public boolean editarVendedor(String documento, String nombre, String telefono, String codigoAcceso){
         boolean respuesta = false;
         try{
-            String peticion = "UPDATE vendedor SET nombre='"+nombre+"', telefono='"+telefono+"', codigoAcceso='"+codigoAcceso+"' WHERE documento='"+documento+"'";
+            String codigoEncriptado = Base64.getEncoder().encodeToString(codigoAcceso.getBytes());
+            String peticion = "UPDATE vendedor SET nombre='"+nombre+"', telefono='"+telefono+"', codigoAcceso='"+codigoEncriptado+"' WHERE documento='"+documento+"'";
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
