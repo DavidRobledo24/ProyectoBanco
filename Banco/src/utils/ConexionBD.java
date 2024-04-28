@@ -18,13 +18,13 @@ import java.util.Base64;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ConexionBD {
     Connection conexion;
     public Statement manipular;
+    public boolean conexionExitosa;
     
     public ConexionBD(){
         String hostname = "localhost";
@@ -39,9 +39,15 @@ public class ConexionBD {
 	    conexion = DriverManager.getConnection(url, user, password);
 	    manipular = conexion.createStatement();
 	    System.out.println("Conexion exitosa a: "+databasename);
+            conexionExitosa = true;
 	} catch (SQLException e) {
-	    JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(null, "No se puede iniciar el programa sin la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            conexionExitosa = false;
 	}
+    }
+    
+    public boolean getConexionExitosa(){
+        return conexionExitosa;
     }
     
     public boolean encontrarLogin(String usuario, String documento, String codigoDeAcceso){
@@ -76,21 +82,71 @@ public class ConexionBD {
     }
     
     public int contarSucursales(String documentoGerente){
+        int contador = 0;
         try{
             String peticion = "SELECT * FROM sucursal";
-            int contador = 0;
             ResultSet sucursales = manipular.executeQuery(peticion);
             sucursales.next();
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
                 }while(sucursales.next());
-                return contador;
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return 0;
+        return contador;
+    }
+    
+    public int contarCreditos(String documentoGerente){
+        int contador = 0;
+        try{
+            String peticion = "SELECT * FROM credito";
+            ResultSet creditos = manipular.executeQuery(peticion);
+            creditos.next();
+            if(creditos.getRow() == 1){
+                do{
+                    if(coincideGerente(documentoGerente, creditos.getString("idCuentaBancaria"))) contador++;
+                }while(creditos.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return contador;
+    }
+    
+    private boolean coincideGerente(String documentoGerente, String idCuentaBancaria){
+        boolean respuesta = false;
+        try{
+            String peticion = "SELECT * FROM cliente WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                if(sucursalEsDeGerente(documentoGerente, resultadoCliente.getString("idSucursal"))){
+                    respuesta = true;
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return respuesta;
+    }
+    
+    private boolean sucursalEsDeGerente(String documentoGerente, String id){
+        boolean respuesta = false;
+        try{
+            String peticion = "SELECT * FROM sucursal WHERE idSucursal="+id;
+            ResultSet resultadoVendedor = manipular.executeQuery(peticion);
+            resultadoVendedor.next();
+            if(resultadoVendedor.getRow() == 1){
+                if(resultadoVendedor.getString("gerenteDocumento").equals(documentoGerente)){
+                    respuesta = true;
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return respuesta;
     }
     
     public int contarVendedores(String id){
