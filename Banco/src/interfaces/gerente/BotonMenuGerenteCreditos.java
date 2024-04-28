@@ -6,12 +6,23 @@ import utils.ConexionBD;
 public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
     
     ConexionBD database;
+    String idCredito;
  
-    public BotonMenuGerenteCreditos(ConexionBD database) {
+    public BotonMenuGerenteCreditos(ConexionBD database, String idCredito) {
         this.database = database;
+        this.idCredito = idCredito;
         initComponents();
+        initAlternComponents();
     }
 
+    private void initAlternComponents(){
+        String documentoCliente = database.darDatoCuentaBancaria(database.darDatoCredito(idCredito, "idCuentaBancaria"), "documento");
+        etqNombreTitular.setText(database.darDatoCliente(documentoCliente, "nombre"));
+        etqEmailTitular.setText(database.darDatoCliente(documentoCliente, "email"));
+        etqTelefonoTitular.setText(database.darDatoCliente(documentoCliente, "telefono"));
+        etqBalance.setText(database.darDatoCuentaBancaria(database.darDatoCredito(idCredito, "idCuentaBancaria"), "balance"));
+        etqPrestamoSolicitado.setText(database.darDatoCredito(idCredito, "idCredito"));
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -20,13 +31,13 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         etqNombreTitular = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        etqDireccionTitular = new javax.swing.JLabel();
+        etqEmailTitular = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         etqTelefonoTitular = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        etqPrestamoSolicitado = new javax.swing.JLabel();
+        etqBalance = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        etqCupoPrestamo = new javax.swing.JLabel();
+        etqPrestamoSolicitado = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
@@ -41,10 +52,10 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Direccion:");
+        jLabel2.setText("Email:");
 
-        etqDireccionTitular.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        etqDireccionTitular.setForeground(new java.awt.Color(255, 255, 255));
+        etqEmailTitular.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        etqEmailTitular.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -55,17 +66,17 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Prestamo Solicitado:");
+        jLabel4.setText("Balance");
 
-        etqPrestamoSolicitado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        etqPrestamoSolicitado.setForeground(new java.awt.Color(255, 255, 255));
+        etqBalance.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        etqBalance.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("cupo del prestamo");
+        jLabel5.setText("Prestamo solicitado:");
 
-        etqCupoPrestamo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        etqCupoPrestamo.setForeground(new java.awt.Color(255, 255, 255));
+        etqPrestamoSolicitado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        etqPrestamoSolicitado.setForeground(new java.awt.Color(255, 255, 255));
 
         jButton1.setBackground(new java.awt.Color(116, 16, 35));
         jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -87,7 +98,7 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(etqDireccionTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(etqEmailTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -95,7 +106,7 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(etqCupoPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(etqPrestamoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -103,8 +114,8 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(etqPrestamoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addComponent(etqBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -122,7 +133,7 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                         .addGap(15, 15, 15)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etqDireccionTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(etqEmailTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -135,11 +146,11 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etqPrestamoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(etqBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(etqCupoPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(etqPrestamoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
@@ -147,8 +158,8 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel etqCupoPrestamo;
-    private javax.swing.JLabel etqDireccionTitular;
+    private javax.swing.JLabel etqBalance;
+    private javax.swing.JLabel etqEmailTitular;
     private javax.swing.JLabel etqNombreTitular;
     private javax.swing.JLabel etqPrestamoSolicitado;
     private javax.swing.JLabel etqTelefonoTitular;

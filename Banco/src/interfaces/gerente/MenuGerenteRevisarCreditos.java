@@ -1,5 +1,8 @@
 package interfaces.gerente;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import utils.ConexionBD;
 
 
@@ -21,7 +24,29 @@ public class MenuGerenteRevisarCreditos extends javax.swing.JPanel {
         scroll.getVerticalScrollBar().setUnitIncrement(16);
         
         int cantCreditos = database.contarCreditos(documentoGerente);
+        int altoVentana = cantCreditos < 2 ? 550 : ((cantCreditos - 2) * 226) + 550;
         
+        panelCreditos.setLayout(new GridBagLayout());
+        GridBagConstraints r = new GridBagConstraints();
+        r.fill = GridBagConstraints.HORIZONTAL;
+        r.gridwidth = 1;
+        r.gridheight = 1;
+        r.gridy = 0;
+        r.gridx = 0;
+        r.weightx = 1;
+        r.weighty = 1;
+        r.anchor = GridBagConstraints.NORTH;
+        
+        panelCreditos.setPreferredSize(new Dimension(810, altoVentana));
+        if(cantCreditos > 0){
+            BotonMenuGerenteCreditos[] vectorSucursales = database.darCreditos(cantCreditos, documentoGerente);
+            for(int i = 0; i < cantCreditos; i++){
+                vectorSucursales[i].setSize(810, 226);
+                vectorSucursales[i].setPreferredSize(new Dimension(810, 226));
+                panelCreditos.add(vectorSucursales[i], r);
+                r.gridy++;
+            }
+        }
     }
     
     @SuppressWarnings("unchecked")
