@@ -16,12 +16,13 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
     }
 
     private void initAlternComponents(){
-        String documentoCliente = database.darDatoCuentaBancaria(database.darDatoCredito(idCredito, "idCuentaBancaria"), "documento");
+        String idCuentaBancaria = database.darDatoCredito(idCredito, "idCuentaBancaria");
+        String documentoCliente = database.encontrarDocumentoCliente(idCuentaBancaria);
         etqNombreTitular.setText(database.darDatoCliente(documentoCliente, "nombre"));
         etqEmailTitular.setText(database.darDatoCliente(documentoCliente, "email"));
         etqTelefonoTitular.setText(database.darDatoCliente(documentoCliente, "telefono"));
-        etqBalance.setText(database.darDatoCuentaBancaria(database.darDatoCredito(idCredito, "idCuentaBancaria"), "balance"));
-        etqPrestamoSolicitado.setText(database.darDatoCredito(idCredito, "idCredito"));
+        etqBalance.setText(database.darDatoCuentaBancaria(idCuentaBancaria, "balance"));
+        etqPrestamoSolicitado.setText(database.darDatoCredito(idCredito, "valorPrestamo"));
     }
     
     @SuppressWarnings("unchecked")
@@ -78,12 +79,12 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
         etqPrestamoSolicitado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etqPrestamoSolicitado.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(116, 16, 35));
+        jButton1.setBackground(new java.awt.Color(101, 132, 65));
         jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Aceptar");
 
-        jButton3.setBackground(new java.awt.Color(101, 132, 65));
+        jButton3.setBackground(new java.awt.Color(116, 16, 35));
         jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton3.setForeground(new java.awt.Color(255, 255, 255));
         jButton3.setText("Denegar");

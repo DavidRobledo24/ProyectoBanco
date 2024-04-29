@@ -88,6 +88,7 @@ public class ConexionBD {
             String peticion = "SELECT * FROM sucursal";
             ResultSet sucursales = manipular.executeQuery(peticion);
             sucursales.next();
+            System.out.println(sucursales.getString("idSucursal"));
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
@@ -99,21 +100,60 @@ public class ConexionBD {
         return contador;
     }
     
-    public int contarCreditos(String documentoGerente){
-        int contador = 0;
+    public String[] contarCreditos(String documentoGerente){
+        String[] vectorCreditos;
         try{
-            String peticion = "SELECT * FROM credito";
-            ResultSet creditos = manipular.executeQuery(peticion);
-            creditos.next();
-            if(creditos.getRow() == 1){
+            String peticion = "SELECT * FROM sucursal WHERE gerenteDocumento="+documentoGerente;
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            String id = resultados.getString("idSucursal");
+            resultados.close();
+            
+            peticion = "SELECT * FROM cliente WHERE idSucursales="+id;
+            resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            int contador = 0;
+            if(resultados.getRow() == 1){
                 do{
-                    if(coincideGerente(documentoGerente, creditos.getString("idCuentaBancaria"))) contador++;
-                }while(creditos.next());
+                    contador++;
+                }while(resultados.next());
             }
+            resultados.close();
+            
+            String[] cuentasBancariasTemp = new String[contador];
+            resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            contador = 0;
+            if(resultados.getRow() == 1){
+                do{
+                    cuentasBancariasTemp[contador] = resultados.getString("idCuentaBancaria");
+                    contador++;
+                }while(resultados.next());
+            }
+            resultados.close();
+            
+            contador = 0;
+            for(int i = 0; i < cuentasBancariasTemp.length; i++){
+                peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1) contador++;
+                resultados.close();
+            }
+            
+            vectorCreditos = new String[contador];
+            for(int i = 0; i < vectorCreditos.length; i++){
+                peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1) vectorCreditos[i] = resultados.getString("idCredito");
+                resultados.close();
+            }
+            return vectorCreditos;
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "3Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return contador;
+        return new String[0];
     }
     
     private boolean coincideGerente(String documentoGerente, String idCuentaBancaria){
@@ -123,7 +163,7 @@ public class ConexionBD {
             ResultSet resultadoCliente = manipular.executeQuery(peticion);
             resultadoCliente.next();
             if(resultadoCliente.getRow() == 1){
-                if(sucursalEsDeGerente(documentoGerente, resultadoCliente.getString("idSucursal"))){
+                if(sucursalEsDeGerente(documentoGerente, resultadoCliente.getString("idSucursales"))){
                     respuesta = true;
                 }
             }
@@ -136,12 +176,12 @@ public class ConexionBD {
     private boolean sucursalEsDeGerente(String documentoGerente, String id){
         boolean respuesta = false;
         try{
-            String peticion = "SELECT * FROM sucursal";
-            ResultSet resultadoVendedor = manipular.executeQuery(peticion);
-            resultadoVendedor.next();
-            System.out.println(resultadoVendedor.getString("idSucursal"));
-            if(resultadoVendedor.getRow() == 1){
-                if(resultadoVendedor.getString("gerenteDocumento").equals(documentoGerente)){
+            String peticion = "SELECT * FROM sucursal WHERE idSucursal="+id;
+            ResultSet resultadoSucursal = manipular.executeQuery(peticion);
+            resultadoSucursal.next();
+            System.out.println(resultadoSucursal.getString("idSucursal"));
+            if(resultadoSucursal.getRow() == 1){
+                if(resultadoSucursal.getString("gerenteDocumento").equals(documentoGerente)){
                     respuesta = true;
                 }
             }
@@ -191,23 +231,13 @@ public class ConexionBD {
         return vectorSucursales;
     }
     
-    public BotonMenuGerenteCreditos[] darCreditos(int cantidad, String documentoGerente){
-        BotonMenuGerenteCreditos[] vectorCreditos = new BotonMenuGerenteCreditos[cantidad];
-        try{
-            int contador = 0;
-            String peticion = "SELECT * FROM credito";
-            ResultSet creditos = manipular.executeQuery(peticion);
-            creditos.next();
-            if(creditos.getRow() == 1){
-                do{
-                    if(documentoGerente.equals(darDatoSucursal(darDatoCliente(encontrarDocumentoCliente(creditos.getString("idCuentaBancaria")), "idSucursales"), "gerenteDocumento"))){
-                        vectorCreditos[contador] = new BotonMenuGerenteCreditos(this, creditos.getString("idCredito"));
-                    }
-                }while(creditos.next());
-            }
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "8Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+    public BotonMenuGerenteCreditos[] darCreditos(String documentoGerente){
+        String[] vectorIds = contarCreditos(documentoGerente);
+        BotonMenuGerenteCreditos[] vectorCreditos = new BotonMenuGerenteCreditos[vectorIds.length];
+        for(int i = 0; i < vectorIds.length; i++){
+            vectorCreditos[i] = new BotonMenuGerenteCreditos(this, vectorIds[i]);
         }
+        
         return vectorCreditos;
     }
     
