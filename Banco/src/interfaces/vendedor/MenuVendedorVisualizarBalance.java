@@ -1,15 +1,9 @@
 
 package interfaces.vendedor;
 
-/**
- *
- * @author INSTRUCTOR
- */
 public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
 
-    /**
-     * Creates new form MenuVendedorVisualizarBalance
-     */
+   
     public MenuVendedorVisualizarBalance() {
         initComponents();
     }

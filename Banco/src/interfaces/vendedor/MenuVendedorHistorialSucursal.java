@@ -1,17 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package interfaces.vendedor;
-/**
- *
- * @author JUAN
- */
 public class MenuVendedorHistorialSucursal extends javax.swing.JPanel {
 
-    /**
-     * Creates new form MenuVendedorHistorialSucursal
-     */
+    
     public MenuVendedorHistorialSucursal() {
         initComponents();
     }

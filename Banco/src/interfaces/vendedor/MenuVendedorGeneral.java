@@ -3,6 +3,10 @@ import interfaces.InicioSesion;
 import static java.awt.Color.white;
 import utils.ConexionBD;
 
+import static java.awt.Color.white;
+
+import interfaces.InicioSesion;
+
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
@@ -11,6 +15,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         initComponents();
         initAlternComponents();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -140,7 +145,6 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
 
     private void initAlternComponents(){
         btnCerrarSesion.setBackground(white);   

@@ -1,6 +1,6 @@
 package interfaces.vendedor;
-
 import utils.ConexionBD;
+
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
