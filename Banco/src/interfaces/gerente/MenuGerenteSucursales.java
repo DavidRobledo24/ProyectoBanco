@@ -35,7 +35,6 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         r.weightx = 1;
         r.weighty = 1;
         r.anchor = GridBagConstraints.NORTH;
-//        r.insets = new Insets(0, 5, 0, 5);
         
         panelSucursales.setPreferredSize(new Dimension(810, altoVentana));
         if(cantSucursales > 0){
@@ -50,7 +49,6 @@ public class MenuGerenteSucursales extends javax.swing.JPanel {
         BotonMenuGerenteSucursalAgregar botonAgregar = new BotonMenuGerenteSucursalAgregar(ventanaAnterior);
         botonAgregar.setSize(810, 180);
         botonAgregar.setPreferredSize(new Dimension(810, 180));
-//        r.insets = new Insets(3, 1, 3, 1);
         r.fill = GridBagConstraints.BOTH;
         panelSucursales.add(botonAgregar, r);
     }
