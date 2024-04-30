@@ -44,7 +44,7 @@ public class MenuGerenteEditarSucursal extends javax.swing.JFrame {
         botonCancelar = new javax.swing.JButton();
         botonEditar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Editar sucursal");
 
         jPanel1.setBackground(new java.awt.Color(39, 64, 115));
