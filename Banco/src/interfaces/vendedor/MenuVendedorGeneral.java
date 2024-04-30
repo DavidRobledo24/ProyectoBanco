@@ -1,14 +1,15 @@
-
 package interfaces.vendedor;
-
 import interfaces.InicioSesion;
 import static java.awt.Color.white;
 import utils.ConexionBD;
 
+import static java.awt.Color.white;
+
+import interfaces.InicioSesion;
+
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
-    
     public MenuVendedorGeneral(ConexionBD database) {
         this.database = database;
         initComponents();
@@ -207,7 +208,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(this);
+        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(database,this);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -267,7 +268,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero();
+        MenuVendedorSolicitudCreditos nuevo = new MenuVendedorSolicitudCreditos(database);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());

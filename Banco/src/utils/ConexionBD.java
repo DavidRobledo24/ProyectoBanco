@@ -1,5 +1,5 @@
 package utils;
-
+import interfaces.gerente.BotonMenuGerenteCreditos;
 import interfaces.gerente.BotonMenuGerenteSucursal;
 import interfaces.gerente.MenuGerenteDetalleSucursal;
 import interfaces.gerente.MenuGerenteDetalleSucursalEliminarVendedor;
@@ -18,13 +18,14 @@ import java.util.Base64;
 import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class ConexionBD {
     Connection conexion;
     public Statement manipular;
+    public boolean conexionExitosa;
     
     public ConexionBD(){
         String hostname = "localhost";
@@ -39,9 +40,15 @@ public class ConexionBD {
 	    conexion = DriverManager.getConnection(url, user, password);
 	    manipular = conexion.createStatement();
 	    System.out.println("Conexion exitosa a: "+databasename);
+            conexionExitosa = true;
 	} catch (SQLException e) {
-	    JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+	    JOptionPane.showMessageDialog(null, "No se puede iniciar el programa sin la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            conexionExitosa = false;
 	}
+    }
+    
+    public boolean getConexionExitosa(){
+        return conexionExitosa;
     }
     
     public boolean encontrarLogin(String usuario, String documento, String codigoDeAcceso){
@@ -70,27 +77,118 @@ public class ConexionBD {
             }
         }
         catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "1Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
     
     public int contarSucursales(String documentoGerente){
+        int contador = 0;
         try{
             String peticion = "SELECT * FROM sucursal";
-            int contador = 0;
             ResultSet sucursales = manipular.executeQuery(peticion);
             sucursales.next();
+            System.out.println(sucursales.getString("idSucursal"));
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
                 }while(sucursales.next());
-                return contador;
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "2Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return 0;
+        return contador;
+    }
+    
+    public String[] contarCreditos(String documentoGerente){
+        String[] vectorCreditos;
+        try{
+            String peticion = "SELECT * FROM sucursal WHERE gerenteDocumento="+documentoGerente;
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            String id = resultados.getString("idSucursal");
+            resultados.close();
+            
+            peticion = "SELECT * FROM cliente WHERE idSucursales="+id;
+            resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            int contador = 0;
+            if(resultados.getRow() == 1){
+                do{
+                    contador++;
+                }while(resultados.next());
+            }
+            resultados.close();
+            
+            String[] cuentasBancariasTemp = new String[contador];
+            resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            contador = 0;
+            if(resultados.getRow() == 1){
+                do{
+                    cuentasBancariasTemp[contador] = resultados.getString("idCuentaBancaria");
+                    contador++;
+                }while(resultados.next());
+            }
+            resultados.close();
+            
+            contador = 0;
+            for(int i = 0; i < cuentasBancariasTemp.length; i++){
+                peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1) contador++;
+                resultados.close();
+            }
+            
+            vectorCreditos = new String[contador];
+            for(int i = 0; i < vectorCreditos.length; i++){
+                peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1) vectorCreditos[i] = resultados.getString("idCredito");
+                resultados.close();
+            }
+            return vectorCreditos;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "3Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return new String[0];
+    }
+    
+    private boolean coincideGerente(String documentoGerente, String idCuentaBancaria){
+        boolean respuesta = false;
+        try{
+            String peticion = "SELECT * FROM cliente WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                if(sucursalEsDeGerente(documentoGerente, resultadoCliente.getString("idSucursales"))){
+                    respuesta = true;
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "4Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return respuesta;
+    }
+    
+    private boolean sucursalEsDeGerente(String documentoGerente, String id){
+        boolean respuesta = false;
+        try{
+            String peticion = "SELECT * FROM sucursal WHERE idSucursal="+id;
+            ResultSet resultadoSucursal = manipular.executeQuery(peticion);
+            resultadoSucursal.next();
+            System.out.println(resultadoSucursal.getString("idSucursal"));
+            if(resultadoSucursal.getRow() == 1){
+                if(resultadoSucursal.getString("gerenteDocumento").equals(documentoGerente)){
+                    respuesta = true;
+                }
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "5Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return respuesta;
     }
     
     public int contarVendedores(String id){
@@ -106,7 +204,7 @@ public class ConexionBD {
                 return contador;
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "6Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return 0;
     }
@@ -128,9 +226,19 @@ public class ConexionBD {
                 return vectorSucursales;
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "7Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return vectorSucursales;
+    }
+    
+    public BotonMenuGerenteCreditos[] darCreditos(String documentoGerente){
+        String[] vectorIds = contarCreditos(documentoGerente);
+        BotonMenuGerenteCreditos[] vectorCreditos = new BotonMenuGerenteCreditos[vectorIds.length];
+        for(int i = 0; i < vectorIds.length; i++){
+            vectorCreditos[i] = new BotonMenuGerenteCreditos(this, vectorIds[i]);
+        }
+        
+        return vectorCreditos;
     }
     
     public String darDatoSucursal(String id, String dato){
@@ -147,7 +255,7 @@ public class ConexionBD {
                 System.out.println("No se ha encontrado la sucursal");
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "9Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return "";
     }
@@ -171,9 +279,73 @@ public class ConexionBD {
                 System.out.println("No se ha encontrado el vendedor");
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "10Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
         return "";
+    }
+    
+    public String darDatoCredito(String idCredito, String dato){
+        String resultado = "";
+        try{
+            String peticion = "SELECT * FROM credito WHERE idCredito="+idCredito;
+            ResultSet resultadoCredito = manipular.executeQuery(peticion);
+            resultadoCredito.next();
+            if(resultadoCredito.getRow() == 1){
+                resultado = resultadoCredito.getString(dato);
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "11Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return resultado;
+    }
+    
+    public String darDatoCliente(String documentoCliente, String dato){
+        String resultado = "";
+        try{
+            String peticion = "SELECT * FROM cliente WHERE documento="+documentoCliente;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                resultado = resultadoCliente.getString(dato);
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return resultado;
+    }
+    
+    public String darDatoCuentaBancaria(String idCuentaBancaria, String dato){
+        String resultado = "";
+        try{
+            String peticion = "SELECT * FROM cuentabancaria WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet resultadoCuentaBancaria = manipular.executeQuery(peticion);
+            resultadoCuentaBancaria.next();
+            if(resultadoCuentaBancaria.getRow() == 1){
+                resultado = resultadoCuentaBancaria.getString(dato);
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "13Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return resultado;
+    }
+    
+    public String encontrarDocumentoCliente(String idCuentaBancaria){
+        String resultado = "";
+        try{
+            String peticion = "SELECT * FROM cliente WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                resultado = resultadoCliente.getString("documento");
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "14Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return resultado;
     }
     
     public void actualizarTablaVendedores(DefaultTableModel modelo, String id, Image iconoEditar, Image iconoEliminar, MenuGerenteGeneral ventanaAnterior, MenuGerenteDetalleSucursal ventanaActual){
@@ -228,7 +400,7 @@ public class ConexionBD {
                 System.out.println("Tabla vacia");
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "15Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
     
@@ -244,7 +416,7 @@ public class ConexionBD {
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "16Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         if(respuesta) JOptionPane.showMessageDialog(null, "Vendedor agregado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
         else JOptionPane.showMessageDialog(null, "Error de sistema", "Error", JOptionPane.ERROR_MESSAGE);        
@@ -266,7 +438,7 @@ public class ConexionBD {
                 }while(vendedores.next());
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "17Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return encontrado;
     }
@@ -279,11 +451,46 @@ public class ConexionBD {
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "18Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
-    }
-    
+    }     public void imprimirUsuarios(JTable TablaClientes) {
+        
+        DefaultTableModel modelo = new DefaultTableModel(); 
+        modelo.addColumn("N*");
+        modelo.addColumn("Documento");
+        modelo.addColumn("Nombres");
+        modelo.addColumn("Apellidos");
+        modelo.addColumn("Direccion");
+        modelo.addColumn("Teléfono");
+        modelo.addColumn("Correo");
+
+        TablaClientes.setModel(modelo);
+
+        try {
+            String consulta = "SELECT * FROM clientes"; 
+            ResultSet registros = manipular.executeQuery(consulta); 
+
+            int contador = 1;
+            while (registros.next()) {
+                // Crear un arreglo de objetos para cada columna
+                Object[] personas = {
+                    contador,
+                    registros.getString("documento"), // Obtener el valor de una variable
+                    registros.getString("nombre"),
+                    registros.getString("apellidos"),
+                    registros.getString("direccion"),
+                    registros.getString("telefono"),
+                    registros.getString("email")
+                };
+                modelo.addRow(personas);
+
+                contador++;
+            }
+        } catch (SQLException ex) {
+            System.out.println("No es posible llenar la tabla: " + ex.getMessage());
+        }
+    }   
     public void eliminarVendedor(String documento){
         try{
             String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";
@@ -291,7 +498,7 @@ public class ConexionBD {
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Vendedor eliminado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
             else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "19Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
     }
     
@@ -302,7 +509,7 @@ public class ConexionBD {
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
     }
@@ -314,7 +521,7 @@ public class ConexionBD {
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Sucursal eliminada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
             else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "21Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
     }
     
@@ -333,7 +540,7 @@ public class ConexionBD {
                 respuesta = true;
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "22Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         
         String[] ids = new String[contador];
@@ -352,7 +559,7 @@ public class ConexionBD {
                 respuesta = true;
             }
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "23Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         for(String x : ids){
             System.out.println(x);
@@ -363,7 +570,7 @@ public class ConexionBD {
             }
             respuesta = true;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "24Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
     }
@@ -378,7 +585,7 @@ public class ConexionBD {
                 sucursales.put(nombre, balance);
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "25Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
     }
     
@@ -390,7 +597,7 @@ public class ConexionBD {
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
         }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "26Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
     }
@@ -411,7 +618,7 @@ public class ConexionBD {
             }
         }
         catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return contador;
     }
