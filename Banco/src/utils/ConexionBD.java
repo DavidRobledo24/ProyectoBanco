@@ -635,4 +635,78 @@ public class ConexionBD {
         }
         return contador;
     }
+    
+    public void actualizarHistorial(String id, String tabla, String actualizacion){
+        String historialOriginal = "";
+       try{
+           String peticion = "SELECT * FROM "+tabla+" WHERE "+(tabla.equals("sucursal") ? "idSucursal" : "idCuentaBancaria")+"="+id;
+           ResultSet resultados = manipular.executeQuery(peticion);
+           resultados.next();
+           if(resultados.getRow() == 1){
+               historialOriginal = resultados.getString("historial");
+           }
+           else{
+               System.out.println("Error desconocido");
+               return;
+           }
+       }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+       }
+       if(historialOriginal.equals("")){
+           historialOriginal+=actualizacion;
+       }
+       else{
+           String[] historialPartido = historialOriginal.split("\\|");
+           if(historialPartido.length < 5){
+               historialOriginal+="|"+actualizacion;
+           }
+           else{
+               historialPartido[0] = actualizacion;
+               for(int i = 0; i < historialPartido.length; i++){
+                   if(i == 0){
+                       historialOriginal = historialPartido[i];
+                   }
+                   else{
+                       historialOriginal+="|"+historialPartido[i];
+                   }
+               }
+           }
+       }
+       try{
+           String peticion = "UPDATE "+tabla+" SET historial='"+historialOriginal+"' WHERE "+(tabla.equals("sucursal") ? "idSucursal" : "idCuentaBancaria")+"="+id;
+           manipular.executeUpdate(peticion);
+       }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+       }
+    }
+    
+    public void llenarTablaHistorial(DefaultTableModel modelo, String id, String tabla){
+       String historialOriginal = "";
+       try{
+           String peticion = "SELECT * FROM "+tabla+" WHERE "+(tabla.equals("sucursal") ? "idSucursal" : "idCuentaBancaria")+"="+id;
+           ResultSet resultados = manipular.executeQuery(peticion);
+           resultados.next();
+           if(resultados.getRow() == 1){
+               historialOriginal = resultados.getString("historial");
+           }
+           else{
+               System.out.println("Error desconocido");
+               return;
+           }
+       }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+       }
+       if(!(historialOriginal.equals(""))){
+           String[] historialPartido = historialOriginal.split("\\|");
+           System.out.println(historialPartido.length);
+           for(int i = 0; i < historialPartido.length; i++){
+               String[] partePartida = historialPartido[i].split("_");
+               Object[] objetos = new Object[partePartida.length];
+               for(int j = 0; j < partePartida.length; j++){
+                   objetos[j] = partePartida[j];
+               }
+               modelo.addRow(objetos);
+           }
+       }
+   }
 }

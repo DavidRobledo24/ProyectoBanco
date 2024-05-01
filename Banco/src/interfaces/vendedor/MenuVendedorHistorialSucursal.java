@@ -1,14 +1,24 @@
 package interfaces.vendedor;
+
+import javax.swing.table.DefaultTableModel;
+import utils.ConexionBD;
+
 public class MenuVendedorHistorialSucursal extends javax.swing.JPanel {
 
+    DefaultTableModel modelo;
+    ConexionBD database;
+    String id;
     
-    public MenuVendedorHistorialSucursal() {
+    public MenuVendedorHistorialSucursal(ConexionBD database, String id) {
+        this.database = database;
+        this.id = id;
         initComponents();
         initAlternComponents();
     }
     
     private void initAlternComponents(){
-        
+        modelo = (DefaultTableModel)tablaHistorial.getModel();
+        database.llenarTablaHistorial(modelo, id, "sucursal");
     }
     
     @SuppressWarnings("unchecked")
@@ -17,7 +27,7 @@ public class MenuVendedorHistorialSucursal extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaHistorial = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(39, 64, 115));
 
@@ -26,18 +36,15 @@ public class MenuVendedorHistorialSucursal extends javax.swing.JPanel {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Historial:");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaHistorial.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Fecha", "Tipo de transacción", "Dinero", "Detalles"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaHistorial);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -63,6 +70,6 @@ public class MenuVendedorHistorialSucursal extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaHistorial;
     // End of variables declaration//GEN-END:variables
 }
