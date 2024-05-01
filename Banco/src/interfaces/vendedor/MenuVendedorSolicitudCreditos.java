@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
 
     ConexionBD database;
+    String cuentaBuscar;
     
     public MenuVendedorSolicitudCreditos(ConexionBD database) {
         this.database = database;
@@ -193,7 +194,10 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String cuentaBuscar = campoDocumentoCredito.getText();
+        cuentaBuscar = campoDocumentoCredito.getText();
+        String temp1 = database.encontrarDocumentoCliente(cuentaBuscar);
+        String temp2 = database.darDatoCliente(temp1, "nombre");
+        System.out.println(temp2);
     
         if (cuentaBuscar.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la cedula de la persona.", "Error", JOptionPane.ERROR_MESSAGE);
