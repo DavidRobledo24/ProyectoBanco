@@ -10,6 +10,7 @@ import interfaces.InicioSesion;
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
+
     String documentoVendedor;
     String id;
     
