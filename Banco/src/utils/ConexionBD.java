@@ -471,36 +471,35 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "18Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
+        
     }     public void imprimirUsuarios(JTable TablaClientes) {
         
         DefaultTableModel modelo = new DefaultTableModel(); 
         modelo.addColumn("N*");
-        modelo.addColumn("Documento");
-        modelo.addColumn("Nombres");
-        modelo.addColumn("Apellidos");
-        modelo.addColumn("Direccion");
-        modelo.addColumn("Teléfono");
-        modelo.addColumn("Correo");
+        modelo.addColumn("documento");
+        modelo.addColumn("nombre");
+        modelo.addColumn("telefono");
+        modelo.addColumn("email");
+        modelo.addColumn("idCuentaBancaria");
 
         TablaClientes.setModel(modelo);
 
         try {
-            String consulta = "SELECT * FROM clientes"; 
+            String consulta = "SELECT * FROM cliente"; 
             ResultSet registros = manipular.executeQuery(consulta); 
 
             int contador = 1;
             while (registros.next()) {
                 // Crear un arreglo de objetos para cada columna
-                Object[] personas = {
+                Object[] clientes = {
                     contador,
                     registros.getString("documento"), // Obtener el valor de una variable
                     registros.getString("nombre"),
-                    registros.getString("apellidos"),
-                    registros.getString("direccion"),
                     registros.getString("telefono"),
-                    registros.getString("email")
+                    registros.getString("email"),
+                    registros.getString("idCuentaBancaria")
                 };
-                modelo.addRow(personas);
+                modelo.addRow(clientes);
 
                 contador++;
             }
