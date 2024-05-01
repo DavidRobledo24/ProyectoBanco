@@ -1,16 +1,23 @@
-
 package interfaces.vendedor;
-
 import interfaces.InicioSesion;
 import static java.awt.Color.white;
 import utils.ConexionBD;
 
+import static java.awt.Color.white;
+
+import interfaces.InicioSesion;
+
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
+
+    String documentoVendedor;
+    String id;
     
-    public MenuVendedorGeneral(ConexionBD database) {
+    public MenuVendedorGeneral(ConexionBD database, String documentoVendedor) {
         this.database = database;
+        this.documentoVendedor = documentoVendedor;
+        id = database.darDatoVendedor(documentoVendedor, "idSucursal");
         initComponents();
         initAlternComponents();
     }
@@ -207,7 +214,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(this);
+        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(database,this);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -262,12 +269,71 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         repaint();
     }
     
+    public void cambiarPanelVisualizarBalance(){
+        contentPrincipal.removeAll();
+        MenuVendedorVisualizarBalance nuevo = new MenuVendedorVisualizarBalance(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelIngresarDinero(){
+        contentPrincipal.removeAll();
+        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelRetirarDinero(){
+        contentPrincipal.removeAll();
+        MenuVendedorRetirarDinero nuevo = new MenuVendedorRetirarDinero(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    public void cambiarPanelHistorialDeMovimientos(){
+        contentPrincipal.removeAll();
+        MenuVendedorHistorialCliente nuevo = new MenuVendedorHistorialCliente(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelManejoDeDinero(){
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorManejoDeDinero nuevo = new MenuVendedorManejoDeDinero(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
     private void btnSolicitudCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudCreditosActionPerformed
         //Eliminar contenido actual
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero();
+        MenuVendedorSolicitudCreditos nuevo = new MenuVendedorSolicitudCreditos(database);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -283,23 +349,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSolicitudCreditosActionPerformed
 
     private void btnManejoDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManejoDineroActionPerformed
-        //Eliminar contenido actual
-        contentPrincipal.removeAll();
-        
-        //Crear una instancia del nuevo contenedor
-        MenuVendedorVisualizarBalance nuevo = new MenuVendedorVisualizarBalance();
-        
-        //Ajustar el tamaño del nuevo contenedor
-        nuevo.setSize(contentPrincipal.getSize());
-        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
-        
-        //Agregar el nuevo contenedor dentro del contenedor principal
-        
-        contentPrincipal.add(nuevo);
-        //Renderizar la ventana
-        
-        revalidate();
-        repaint();
+        cambiarPanelManejoDeDinero();
     }//GEN-LAST:event_btnManejoDineroActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
@@ -313,7 +363,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorHistorialSucursal nuevo = new MenuVendedorHistorialSucursal();
+        MenuVendedorHistorialSucursal nuevo = new MenuVendedorHistorialSucursal(database, id);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -329,32 +379,6 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     
-    public static void main(String args[]) {
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrarSesion;
