@@ -88,7 +88,6 @@ public class ConexionBD {
             String peticion = "SELECT * FROM sucursal";
             ResultSet sucursales = manipular.executeQuery(peticion);
             sucursales.next();
-            System.out.println(sucursales.getString("idSucursal"));
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
@@ -103,45 +102,66 @@ public class ConexionBD {
     public String[] contarCreditos(String documentoGerente){
         String[] vectorCreditos;
         try{
+            int contadorSucursales = 0;
             String peticion = "SELECT * FROM sucursal WHERE gerenteDocumento="+documentoGerente;
             ResultSet resultados = manipular.executeQuery(peticion);
             resultados.next();
-            String id = resultados.getString("idSucursal");
-            resultados.close();
-            
-            peticion = "SELECT * FROM cliente WHERE idSucursales="+id;
-            resultados = manipular.executeQuery(peticion);
-            resultados.next();
-            int contador = 0;
             if(resultados.getRow() == 1){
                 do{
-                    contador++;
+                    contadorSucursales++;
                 }while(resultados.next());
             }
+            else return new String[0];
             resultados.close();
             
-            String[] cuentasBancariasTemp = new String[contador];
+            String[] idSucursales = new String[contadorSucursales];
+            contadorSucursales = 0;
             resultados = manipular.executeQuery(peticion);
             resultados.next();
-            contador = 0;
-            if(resultados.getRow() == 1){
-                do{
-                    cuentasBancariasTemp[contador] = resultados.getString("idCuentaBancaria");
-                    contador++;
-                }while(resultados.next());
-            }
+            do{
+                idSucursales[contadorSucursales] = resultados.getString("idSucursal");
+                contadorSucursales++;
+            }while(resultados.next());
             resultados.close();
             
-            contador = 0;
+            int contadorClientes = 0;
+            for(int i = 0; i < idSucursales.length; i++){    
+                peticion = "SELECT * FROM cliente WHERE idSucursales="+idSucursales[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1){
+                    do{
+                        contadorClientes++;
+                    }while(resultados.next());
+                }
+                resultados.close();
+            }
+            
+            String[] cuentasBancariasTemp = new String[contadorClientes];
+            contadorClientes = 0;
+            for(int i = 0; i < idSucursales.length; i++){
+                peticion = "SELECT * FROM cliente WHERE idSucursales="+idSucursales[i];
+                resultados = manipular.executeQuery(peticion);
+                resultados.next();
+                if(resultados.getRow() == 1){
+                    do{
+                        cuentasBancariasTemp[contadorClientes] = resultados.getString("idCuentaBancaria");
+                        contadorClientes++;
+                    }while(resultados.next());
+                }
+                resultados.close();
+            }
+            
+            contadorClientes = 0;
             for(int i = 0; i < cuentasBancariasTemp.length; i++){
                 peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
                 resultados = manipular.executeQuery(peticion);
                 resultados.next();
-                if(resultados.getRow() == 1) contador++;
+                if(resultados.getRow() == 1) contadorClientes++;
                 resultados.close();
             }
             
-            vectorCreditos = new String[contador];
+            vectorCreditos = new String[contadorClientes];
             for(int i = 0; i < vectorCreditos.length; i++){
                 peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
                 resultados = manipular.executeQuery(peticion);
@@ -179,7 +199,6 @@ public class ConexionBD {
             String peticion = "SELECT * FROM sucursal WHERE idSucursal="+id;
             ResultSet resultadoSucursal = manipular.executeQuery(peticion);
             resultadoSucursal.next();
-            System.out.println(resultadoSucursal.getString("idSucursal"));
             if(resultadoSucursal.getRow() == 1){
                 if(resultadoSucursal.getString("gerenteDocumento").equals(documentoGerente)){
                     respuesta = true;
@@ -357,8 +376,6 @@ public class ConexionBD {
             vendedores.next();
             if(vendedores.getRow() == 1){
                 do{
-                    System.out.println(vendedores.getString("idSucursal"));
-                    System.out.println(id);
                     if(vendedores.getString("idSucursal").equals(id)){
                         JButton botonEditar = new JButton();
                         JButton botonEliminar = new JButton();
@@ -516,7 +533,7 @@ public class ConexionBD {
     
     public void eliminarSucursal(String id){
         try{
-            String peticion = "DELETE FROM sucursal WHERE idSucursal='"+id+"'";
+            String peticion = "DELETE FROM sucursal WHERE idSucursal="+id;
             int respuesta = manipular.executeUpdate(peticion);
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Sucursal eliminada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
             else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
@@ -525,54 +542,52 @@ public class ConexionBD {
         }
     }
     
-    public boolean eliminarVendedoresEnMasa(String id){
-        boolean respuesta = false;
-        
-        int contador = 0;
+    public void eliminarVendedoresEnMasa(String id){
         try{
-            String peticion = "SELECT * FROM vendedor";
-            ResultSet vendedores = manipular.executeQuery(peticion);
-            vendedores.next();
-            if(vendedores.getRow() == 1){
-                do{
-                    if(vendedores.getString("idSucursal").equals(id)) contador++;
-                }while(vendedores.next());
-                respuesta = true;
-            }
+            String peticion = "DELETE FROM vendedor WHERE idSucursal="+id;
+            manipular.executeUpdate(peticion);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "22Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
-        
-        String[] ids = new String[contador];
-        contador = 0;
+    }
+    
+    public void eliminarClientesEnMasa(String id){
         try{
-            String peticion = "SELECT * FROM vendedor";
-            ResultSet vendedores = manipular.executeQuery(peticion);
-            vendedores.next();
-            if(vendedores.getRow() == 1){
+            int contador = 0;
+            String peticion = "SELECT * FROM cliente WHERE idSucursales="+id;
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            if(resultados.getRow() == 1){
                 do{
-                    if(vendedores.getString("idSucursal").equals(id)){
-                        ids[contador] = vendedores.getString("documento");
-                        contador++;
-                    }
-                }while(vendedores.next());
-                respuesta = true;
+                    contador++;
+                }while(resultados.next());
+            }
+            else return;
+            
+            resultados.close();
+            
+            String[] cuentasBancarias = new String[contador];
+            contador = 0;
+            resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            do{
+                cuentasBancarias[contador] = resultados.getString("idCuentaBancaria");
+                contador++;
+            }while(resultados.next());
+            resultados.close();
+            
+            peticion = "DELETE FROM cliente WHERE idSucursales="+id;
+            manipular.executeUpdate(peticion);
+            
+            for(String x : cuentasBancarias){
+                peticion = "DELETE FROM credito WHERE idCuentaBancaria="+x;
+                manipular.executeUpdate(peticion);
+                peticion = "DELETE FROM cuentabancaria WHERE idCuentaBancaria="+x;
+                manipular.executeUpdate(peticion);
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "23Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
-        for(String x : ids){
-            System.out.println(x);
-        }
-        try{
-            for(int i = 0; i < ids.length; i++){
-                manipular.executeUpdate("DELETE FROM vendedor WHERE documento='"+ids[i]+"'");
-            }
-            respuesta = true;
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "24Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
-        }
-        return respuesta;
     }
     
     public void llenarEstadisticas(Map sucursales){
@@ -601,8 +616,6 @@ public class ConexionBD {
         }
         return respuesta;
     }
-    
-    
     
     private int conseguirIdSucursal(){
         int contador = 1;
