@@ -1,5 +1,6 @@
 package interfaces.vendedor;
 
+import java.awt.Color;
 import utils.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +43,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
         etqDocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqDocumento.setForeground(new java.awt.Color(255, 255, 255));
         etqDocumento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etqDocumento.setText("Cuanta Bancaria");
+        etqDocumento.setText("Cuenta Bancaria");
 
         jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton1.setText("BUSCAR");
@@ -62,10 +63,16 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
         etqCupoPrestamo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqCupoPrestamo.setText("Deuda actual:");
 
+        campoDineroPrestar.setBackground(new java.awt.Color(153, 153, 153));
+        campoDineroPrestar.setEnabled(false);
+
         etqClaveSolicitarCredito.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqClaveSolicitarCredito.setForeground(new java.awt.Color(255, 255, 255));
         etqClaveSolicitarCredito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqClaveSolicitarCredito.setText("Clave:\n");
+
+        campoClavePrestamo.setBackground(new java.awt.Color(153, 153, 153));
+        campoClavePrestamo.setEnabled(false);
 
         jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton2.setText("Solicitar");
@@ -111,12 +118,11 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(57, 57, 57)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(334, 334, 334))
-                                .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(57, 57, 57)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(etqCupoPrestamo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -125,8 +131,8 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                                             .addComponent(etqDineroPrestar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                             .addComponent(etqClaveSolicitarCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(19, 19, 19)))
-                                    .addGap(293, 293, 293)))
+                                            .addGap(19, 19, 19))))
+                                .addGap(293, 293, 293))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -135,8 +141,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                                         .addComponent(jButton1))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(21, 21, 21)
-                                        .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(164, 164, 164)))
+                                        .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(179, 179, 179))))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(131, 131, 131)
@@ -194,42 +199,67 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la cedula de la persona.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        String consultaCliente = "SELECT * FROM cliente WHERE idCuentaBancaria = ?";
-
-        try (PreparedStatement pstmt = database.conexion.prepareStatement(consultaCliente)) {
-            pstmt.setString(1, cuentaBuscar);
-            
-            
-            
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    etqNombreCliente.setText(rs.getString("nombre"));
-                    etqDocumentoCliente.setText(rs.getString("documento"));
-                } else {
-                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al buscar a la persona: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
-        }
         
-        String consultaCuenta = "SELECT deuda FROM cuentabancaria WHERE idCuentaBancaria = ?"; 
+        String datoTemp = database.darDatoCuentaBancaria(cuentaBuscar, "idCuentaBancaria");
         
-        try (PreparedStatement pstmtCuenta = database.conexion.prepareStatement(consultaCuenta)) {
-            pstmtCuenta.setString(1, cuentaBuscar);
-            try (ResultSet rsCuenta = pstmtCuenta.executeQuery()) {
-                if (rsCuenta.next()) {
-                    etqCampoDeuda.setText("$ "+rsCuenta.getString("deuda"));
-                } else {
-                    
-                }
-            }
-        } catch (SQLException ex) {
-            
-            ex.printStackTrace();
+        if(datoTemp.equals("")){
+            etqCampoDeuda.setText("-------------------------------");
+            etqNombreCliente.setText("");
+            etqDocumentoCliente.setText("");
+            campoDineroPrestar.setText("");
+            campoDineroPrestar.setBackground(new Color(153,153,153));
+            campoDineroPrestar.setEnabled(false);
+            campoClavePrestamo.setText("");
+            campoClavePrestamo.setBackground(new Color(153,153,153));
+            campoClavePrestamo.setEnabled(false);
         }
+        else{
+            etqCampoDeuda.setText("-------------------------------");
+            etqNombreCliente.setText("");
+            etqDocumentoCliente.setText("");
+            campoDineroPrestar.setText("");
+            campoDineroPrestar.setBackground(new Color(255, 255, 255));
+            campoDineroPrestar.setEnabled(true);
+            campoClavePrestamo.setText("");
+            campoClavePrestamo.setBackground(new Color(255, 255, 255));
+            campoClavePrestamo.setEnabled(true);
+        }
+
+//        String consultaCliente = "SELECT * FROM cliente WHERE idCuentaBancaria = ?";
+//
+//        try (PreparedStatement pstmt = database.conexion.prepareStatement(consultaCliente)) {
+//            pstmt.setString(1, cuentaBuscar);
+//            
+//            
+//            
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                if (rs.next()) {
+//                    etqNombreCliente.setText(rs.getString("nombre"));
+//                    etqDocumentoCliente.setText(rs.getString("documento"));
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Persona no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Error al buscar a la persona: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            ex.printStackTrace();
+//        }
+//        
+//        String consultaCuenta = "SELECT deuda FROM cuentabancaria WHERE idCuentaBancaria = ?"; 
+//        
+//        try (PreparedStatement pstmtCuenta = database.conexion.prepareStatement(consultaCuenta)) {
+//            pstmtCuenta.setString(1, cuentaBuscar);
+//            try (ResultSet rsCuenta = pstmtCuenta.executeQuery()) {
+//                if (rsCuenta.next()) {
+//                    etqCampoDeuda.setText("$ "+rsCuenta.getString("deuda"));
+//                } else {
+//                    
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            
+//            ex.printStackTrace();
+//        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

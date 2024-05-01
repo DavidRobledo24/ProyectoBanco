@@ -344,7 +344,6 @@ public class ConexionBD {
             if(resultadoCuentaBancaria.getRow() == 1){
                 resultado = resultadoCuentaBancaria.getString(dato);
             }
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "13Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
