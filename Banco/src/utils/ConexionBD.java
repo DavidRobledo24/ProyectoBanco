@@ -88,7 +88,6 @@ public class ConexionBD {
             String peticion = "SELECT * FROM sucursal";
             ResultSet sucursales = manipular.executeQuery(peticion);
             sucursales.next();
-            System.out.println(sucursales.getString("idSucursal"));
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("gerenteDocumento").equals(documentoGerente)) contador++;
@@ -153,10 +152,6 @@ public class ConexionBD {
                 resultados.close();
             }
             
-            for(String x : cuentasBancariasTemp){
-                System.out.println("CUENTA "+x);
-            }
-            
             contadorClientes = 0;
             for(int i = 0; i < cuentasBancariasTemp.length; i++){
                 peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
@@ -204,7 +199,6 @@ public class ConexionBD {
             String peticion = "SELECT * FROM sucursal WHERE idSucursal="+id;
             ResultSet resultadoSucursal = manipular.executeQuery(peticion);
             resultadoSucursal.next();
-            System.out.println(resultadoSucursal.getString("idSucursal"));
             if(resultadoSucursal.getRow() == 1){
                 if(resultadoSucursal.getString("gerenteDocumento").equals(documentoGerente)){
                     respuesta = true;
@@ -382,8 +376,6 @@ public class ConexionBD {
             vendedores.next();
             if(vendedores.getRow() == 1){
                 do{
-                    System.out.println(vendedores.getString("idSucursal"));
-                    System.out.println(id);
                     if(vendedores.getString("idSucursal").equals(id)){
                         JButton botonEditar = new JButton();
                         JButton botonEliminar = new JButton();
