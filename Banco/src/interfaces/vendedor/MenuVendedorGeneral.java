@@ -1,13 +1,16 @@
-
 package interfaces.vendedor;
-
 import interfaces.InicioSesion;
 import static java.awt.Color.white;
 import utils.ConexionBD;
 
+import static java.awt.Color.white;
+
+import interfaces.InicioSesion;
+
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
+
     MenuVendedorGeneral ventanaActual;
     
     public MenuVendedorGeneral(ConexionBD database, MenuVendedorGeneral ventanaActual) {
@@ -209,7 +212,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(this);
+        MenuVendedorLeerClientes nuevo = new MenuVendedorLeerClientes(database,this);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -269,7 +272,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero();
+        MenuVendedorSolicitudCreditos nuevo = new MenuVendedorSolicitudCreditos(database);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
@@ -331,32 +334,6 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     
-    public static void main(String args[]) {
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MenuVendedorGeneral.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrarSesion;

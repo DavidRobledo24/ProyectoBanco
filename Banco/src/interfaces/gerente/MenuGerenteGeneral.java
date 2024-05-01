@@ -193,8 +193,8 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
 
     private void btnRevisarCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarCreditosActionPerformed
         jPanel2.removeAll();
-        MenuGerenteRevisarCreditos nuevo = new MenuGerenteRevisarCreditos(database);
-        nuevo.setSize(840, 226);
+        MenuGerenteRevisarCreditos nuevo = new MenuGerenteRevisarCreditos(database, documentoGerente, this);
+        nuevo.setSize(jPanel2.getSize());
         nuevo.setPreferredSize(jPanel2.getPreferredSize());
         jPanel2.add(nuevo);
         repaint();

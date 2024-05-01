@@ -172,6 +172,7 @@ public class MenuGerenteDetalleSucursalEliminar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        database.eliminarClientesEnMasa(id);
         database.eliminarVendedoresEnMasa(id);
         database.eliminarSucursal(id);
         ventanaAnterior.setEnabled(true);

@@ -3,14 +3,10 @@ package interfaces;
 import interfaces.gerente.MenuGerenteGeneral;
 import interfaces.vendedor.MenuVendedorGeneral;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import utils.ConexionBD;
-import java.sql.SQLException;
-import java.sql.ResultSet;
 
 public class InicioSesion extends javax.swing.JFrame {
 
@@ -21,7 +17,10 @@ public class InicioSesion extends javax.swing.JFrame {
         initComponents();
         radioGerente.setActionCommand("gerente");
         radioVendedor.setActionCommand("vendedor");
-        initAlternComponents();
+        if(database.getConexionExitosa()){
+            initAlternComponents();
+        }
+        else dispose();
     }
     
     public void initAlternComponents(){
