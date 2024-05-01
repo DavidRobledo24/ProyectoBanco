@@ -1,12 +1,23 @@
 package interfaces.vendedor;
 
+import java.awt.Color;
+
 public class MenuVendedorManejoDeDinero extends javax.swing.JPanel {
 
-    public MenuVendedorManejoDeDinero() {
+    MenuVendedorGeneral ventanaAnterior;
+    
+    public MenuVendedorManejoDeDinero(MenuVendedorGeneral ventanaAnterior) {
+        this.ventanaAnterior = ventanaAnterior;
         initComponents();
+        initAlternComponents();
     }
 
-    
+    private void initAlternComponents(){
+        btnHistorialDeMovimientos.setBackground(Color.white);
+        btnIngresarDinero.setBackground(Color.white);
+        btnRetirarDinero.setBackground(Color.white);
+        btnVisualizarBalance.setBackground(Color.white);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -22,15 +33,35 @@ public class MenuVendedorManejoDeDinero extends javax.swing.JPanel {
 
         btnVisualizarBalance.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnVisualizarBalance.setText("Visualizar Balance");
+        btnVisualizarBalance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVisualizarBalanceActionPerformed(evt);
+            }
+        });
 
         btnIngresarDinero.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnIngresarDinero.setText("Ingresar Dinero");
+        btnIngresarDinero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarDineroActionPerformed(evt);
+            }
+        });
 
         btnRetirarDinero.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnRetirarDinero.setText("Retirar Dinero");
+        btnRetirarDinero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetirarDineroActionPerformed(evt);
+            }
+        });
 
         btnHistorialDeMovimientos.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnHistorialDeMovimientos.setText("Historial de movimientos");
+        btnHistorialDeMovimientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialDeMovimientosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -70,6 +101,22 @@ public class MenuVendedorManejoDeDinero extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnVisualizarBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVisualizarBalanceActionPerformed
+        ventanaAnterior.cambiarPanelVisualizarBalance();
+    }//GEN-LAST:event_btnVisualizarBalanceActionPerformed
+
+    private void btnIngresarDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarDineroActionPerformed
+        ventanaAnterior.cambiarPanelIngresarDinero();
+    }//GEN-LAST:event_btnIngresarDineroActionPerformed
+
+    private void btnRetirarDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarDineroActionPerformed
+        ventanaAnterior.cambiarPanelRetirarDinero();
+    }//GEN-LAST:event_btnRetirarDineroActionPerformed
+
+    private void btnHistorialDeMovimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialDeMovimientosActionPerformed
+        ventanaAnterior.cambiarPanelHistorialDeMovimientos();
+    }//GEN-LAST:event_btnHistorialDeMovimientosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

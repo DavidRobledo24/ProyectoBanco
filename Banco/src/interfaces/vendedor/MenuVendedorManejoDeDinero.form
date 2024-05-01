@@ -72,6 +72,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Visualizar Balance"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVisualizarBalanceActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnIngresarDinero">
           <Properties>
@@ -80,6 +83,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Ingresar Dinero"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresarDineroActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnRetirarDinero">
           <Properties>
@@ -88,6 +94,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Retirar Dinero"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRetirarDineroActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnHistorialDeMovimientos">
           <Properties>
@@ -96,6 +105,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Historial de movimientos"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHistorialDeMovimientosActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

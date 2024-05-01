@@ -10,6 +10,7 @@ import interfaces.InicioSesion;
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
+
     String documentoVendedor;
     String id;
     
@@ -268,6 +269,65 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         repaint();
     }
     
+    public void cambiarPanelVisualizarBalance(){
+        contentPrincipal.removeAll();
+        MenuVendedorVisualizarBalance nuevo = new MenuVendedorVisualizarBalance(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelIngresarDinero(){
+        contentPrincipal.removeAll();
+        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelRetirarDinero(){
+        contentPrincipal.removeAll();
+        MenuVendedorRetirarDinero nuevo = new MenuVendedorRetirarDinero(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    public void cambiarPanelHistorialDeMovimientos(){
+        contentPrincipal.removeAll();
+        MenuVendedorHistorialCliente nuevo = new MenuVendedorHistorialCliente(database, this);
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        contentPrincipal.add(nuevo);
+        repaint();
+        revalidate(); 
+    }
+    
+    public void cambiarPanelManejoDeDinero(){
+        //Eliminar contenido actual
+        contentPrincipal.removeAll();
+        
+        //Crear una instancia del nuevo contenedor
+        MenuVendedorManejoDeDinero nuevo = new MenuVendedorManejoDeDinero(this);
+        
+        //Ajustar el tamaño del nuevo contenedor
+        nuevo.setSize(contentPrincipal.getSize());
+        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
+        
+        //Agregar el nuevo contenedor dentro del contenedor principal
+        
+        contentPrincipal.add(nuevo);
+        //Renderizar la ventana
+        
+        revalidate();
+        repaint();
+    }
+    
     private void btnSolicitudCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudCreditosActionPerformed
         //Eliminar contenido actual
         contentPrincipal.removeAll();
@@ -289,23 +349,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSolicitudCreditosActionPerformed
 
     private void btnManejoDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnManejoDineroActionPerformed
-        //Eliminar contenido actual
-        contentPrincipal.removeAll();
-        
-        //Crear una instancia del nuevo contenedor
-        MenuVendedorManejoDeDinero nuevo = new MenuVendedorManejoDeDinero();
-        
-        //Ajustar el tamaño del nuevo contenedor
-        nuevo.setSize(contentPrincipal.getSize());
-        nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
-        
-        //Agregar el nuevo contenedor dentro del contenedor principal
-        
-        contentPrincipal.add(nuevo);
-        //Renderizar la ventana
-        
-        revalidate();
-        repaint();
+        cambiarPanelManejoDeDinero();
     }//GEN-LAST:event_btnManejoDineroActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
