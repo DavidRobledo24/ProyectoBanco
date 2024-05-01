@@ -23,7 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class ConexionBD {
-    Connection conexion;
+    public Connection conexion;
     public Statement manipular;
     public boolean conexionExitosa;
     
