@@ -4,15 +4,22 @@ import utils.ConexionBD;
 
 public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
+    MenuVendedorGeneral ventana;
     ConexionBD database;
-   MenuVendedorGeneral ventana;
-    public MenuVendedorLeerClientes(ConexionBD database,MenuVendedorGeneral ventana) {
-        this.database = database;
+    public MenuVendedorLeerClientes(MenuVendedorGeneral ventana,ConexionBD database) {
+        initComponents();
         this.ventana = ventana;
+        this.database = database;
+
         
         database.imprimirUsuarios(TablaClientes);
-         
-        initComponents();
+        
+        TablaClientes.getColumnModel().getColumn(0).setPreferredWidth(20);
+        TablaClientes.getColumnModel().getColumn(1).setPreferredWidth(120);
+        TablaClientes.getColumnModel().getColumn(2).setPreferredWidth(120);
+        TablaClientes.getColumnModel().getColumn(3).setPreferredWidth(120);
+        TablaClientes.getColumnModel().getColumn(4).setPreferredWidth(120);
+        TablaClientes.getColumnModel().getColumn(5).setPreferredWidth(120);
     }
 
    
@@ -31,11 +38,11 @@ public class MenuVendedorLeerClientes extends javax.swing.JPanel {
 
             },
             new String [] {
-                "N#", "Documento", "Nombre", "Telefono", "Email", "Cupo prestamo"
+                "N#", "Documento", "Nombre", "Telefono", "Email", "idCuentaBancaria"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
