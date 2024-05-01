@@ -10,8 +10,13 @@ import interfaces.InicioSesion;
 public class MenuVendedorGeneral extends javax.swing.JFrame {
 
     ConexionBD database;
-    public MenuVendedorGeneral(ConexionBD database) {
+    String documentoVendedor;
+    String id;
+    
+    public MenuVendedorGeneral(ConexionBD database, String documentoVendedor) {
         this.database = database;
+        this.documentoVendedor = documentoVendedor;
+        id = database.darDatoVendedor(documentoVendedor, "idSucursal");
         initComponents();
         initAlternComponents();
     }
@@ -314,7 +319,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorHistorialSucursal nuevo = new MenuVendedorHistorialSucursal();
+        MenuVendedorHistorialSucursal nuevo = new MenuVendedorHistorialSucursal(database, id);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
