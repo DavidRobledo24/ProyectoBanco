@@ -472,7 +472,33 @@ public class ConexionBD {
         }
         return respuesta;
         
-    }     public void imprimirUsuarios(JTable TablaClientes) {
+    }  
+    public void crearCliente(String documento,String nombre,String telefono,String email,String clave ){
+        boolean respuesta = false;
+        try {
+
+            String consulta = "INSERT INTO cliente (documento,nombre,telefono, email,clave) VALUES ('"+documento+"','"+nombre+"','"+telefono+"','"+email+"','"+clave+"',')";
+            int resp_consulta = manipular.executeUpdate(consulta);
+            
+            if (resp_consulta==1) {
+                respuesta = true;
+            }
+        } catch (SQLException ex) {
+            System.out.println("--> Error Insert: " + ex.getMessage());
+        }
+        if (respuesta){
+            System.out.println("Insertado con exito");
+            
+        }else{
+            System.out.println("No se pudo insertar");
+        }
+    }
+    
+    
+    
+    
+    
+    public void imprimirUsuarios(JTable TablaClientes) {
         
         DefaultTableModel modelo = new DefaultTableModel(); 
         modelo.addColumn("N*");

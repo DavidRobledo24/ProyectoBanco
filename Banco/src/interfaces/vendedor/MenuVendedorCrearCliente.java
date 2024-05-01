@@ -1,15 +1,19 @@
 
 package interfaces.vendedor;
 
+import utils.ConexionBD;
+
 
 public class MenuVendedorCrearCliente extends javax.swing.JPanel {
 
     
     
     MenuVendedorGeneral ventana;
+    ConexionBD database;
     
-    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana) {
+    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana,ConexionBD database) {
         this.ventana = ventana;
+        this.database = database;
         initComponents();
     }
 

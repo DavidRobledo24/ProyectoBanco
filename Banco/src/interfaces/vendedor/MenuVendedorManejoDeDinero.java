@@ -2,7 +2,6 @@ package interfaces.vendedor;
 
 public class MenuVendedorManejoDeDinero extends javax.swing.JPanel {
 
-
     public MenuVendedorManejoDeDinero() {
         initComponents();
     }
