@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
 
     ConexionBD database;
+    String cuentaBuscar;
     
     public MenuVendedorSolicitudCreditos(ConexionBD database) {
         this.database = database;
@@ -193,7 +194,10 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String cuentaBuscar = campoDocumentoCredito.getText();
+        cuentaBuscar = campoDocumentoCredito.getText();
+        String temp1 = database.encontrarDocumentoCliente(cuentaBuscar);
+        String temp2 = database.darDatoCliente(temp1, "nombre");
+        System.out.println(temp2);
     
         if (cuentaBuscar.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la cedula de la persona.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -272,51 +276,60 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la clave de la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        String revisarClave = "SELECT idCuentaBancaria FROM cuentabancaria WHERE clave = ?";
-
-        try (PreparedStatement pstmt = database.conexion.prepareStatement(revisarClave)) {
-            pstmt.setString(1, claveIngresada);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    String idCuentaBancaria = rs.getString("idCuentaBancaria");
-                    String consultaUltimoId = "SELECT idCredito FROM credito ORDER BY idCredito DESC LIMIT 1";
-
-                    try (PreparedStatement pstmtUltimoId = database.conexion.prepareStatement(consultaUltimoId)) {
-                        try (ResultSet rsUltimoId = pstmtUltimoId.executeQuery()) {
-                            int ultimoId = 0;
-                            if (rsUltimoId.next()) {
-                                ultimoId = rsUltimoId.getInt("idCredito");
-                            }
-                            int nuevoId = ultimoId + 1;
-                            String query = "INSERT INTO credito (idCredito, valorPrestamo, idCuentaBancaria) VALUES (?, ?, ?)";
-                            try (PreparedStatement pstmtInsert = database.conexion.prepareStatement(query)) {
-                                pstmtInsert.setInt(1, nuevoId);
-                                pstmtInsert.setString(2, dineroAprestar);
-                                pstmtInsert.setString(3, idCuentaBancaria);
-
-                                int rowsInserted = pstmtInsert.executeUpdate();
-                                if (rowsInserted > 0) {
-                                    JOptionPane.showMessageDialog(null, "Préstamo ingresado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                                    campoClavePrestamo.setText("");
-                                    campoDineroPrestar.setText("");
-                                    campoDocumentoCredito.setText("");
-                                    etqNombreCliente.setText((""));
-                                    etqDocumentoCliente.setText((""));
-                                } else {
-                                    JOptionPane.showMessageDialog(null, "No se pudo ingresar el préstamo.", "Error", JOptionPane.ERROR_MESSAGE);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
+        
+        
+        
+        if(claveIngresada.equals(database.darDatoCuentaBancaria(cuentaBuscar, "clave"))){
+            if(database.agregarCredito(dineroAprestar, cuentaBuscar)){
+                
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al buscar la cuenta: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            ex.printStackTrace();
         }
+        
+
+//        String revisarClave = "SELECT idCuentaBancaria FROM cuentabancaria WHERE clave = ?";
+//
+//        try (PreparedStatement pstmt = database.conexion.prepareStatement(revisarClave)) {
+//            pstmt.setString(1, claveIngresada);
+//            try (ResultSet rs = pstmt.executeQuery()) {
+//                if (rs.next()) {
+//                    String idCuentaBancaria = rs.getString("idCuentaBancaria");
+//                    String consultaUltimoId = "SELECT idCredito FROM credito ORDER BY idCredito DESC LIMIT 1";
+//
+//                    try (PreparedStatement pstmtUltimoId = database.conexion.prepareStatement(consultaUltimoId)) {
+//                        try (ResultSet rsUltimoId = pstmtUltimoId.executeQuery()) {
+//                            int ultimoId = 0;
+//                            if (rsUltimoId.next()) {
+//                                ultimoId = rsUltimoId.getInt("idCredito");
+//                            }
+//                            int nuevoId = ultimoId + 1;
+//                            String query = "INSERT INTO credito (idCredito, valorPrestamo, idCuentaBancaria) VALUES (?, ?, ?)";
+//                            try (PreparedStatement pstmtInsert = database.conexion.prepareStatement(query)) {
+//                                pstmtInsert.setInt(1, nuevoId);
+//                                pstmtInsert.setString(2, dineroAprestar);
+//                                pstmtInsert.setString(3, idCuentaBancaria);
+//
+//                                int rowsInserted = pstmtInsert.executeUpdate();
+//                                if (rowsInserted > 0) {
+//                                    JOptionPane.showMessageDialog(null, "Préstamo ingresado correctamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+//                                    campoClavePrestamo.setText("");
+//                                    campoDineroPrestar.setText("");
+//                                    campoDocumentoCredito.setText("");
+//                                    etqNombreCliente.setText((""));
+//                                    etqDocumentoCliente.setText((""));
+//                                } else {
+//                                    JOptionPane.showMessageDialog(null, "No se pudo ingresar el préstamo.", "Error", JOptionPane.ERROR_MESSAGE);
+//                                }
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    JOptionPane.showMessageDialog(null, "Cuenta no encontrada.", "Error", JOptionPane.ERROR_MESSAGE);
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            JOptionPane.showMessageDialog(null, "Error al buscar la cuenta: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+//            ex.printStackTrace();
+//        }
       
     }//GEN-LAST:event_jButton2ActionPerformed
 

@@ -732,5 +732,40 @@ public class ConexionBD {
                modelo.addRow(objetos);
            }
        }
-   }
+    }
+    
+    
+    public boolean agregarCredito(String valor, String idCuentaBancaria){
+        int id = conseguirIdCredito();
+        boolean creacion = false;
+        try{
+            String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
+            int respuesta = manipular.executeUpdate(peticion);
+            if(respuesta == 1){
+                System.out.println("BIEN");
+                creacion = true;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return creacion;
+    }
+    
+    public int conseguirIdCredito(){
+        int contador = 1;
+        try{
+            String peticion = "SELECT * FROM credito";
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            if(resultados.getRow() == 1){
+                do{
+                    if(!(resultados.getString("idCredito").equals(contador+""))) return contador;
+                    contador++;
+                }while(resultados.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return contador;
+    }
 }

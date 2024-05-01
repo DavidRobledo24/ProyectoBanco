@@ -185,10 +185,15 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(null, "Cuenta bancaria no existe", "Error", JOptionPane.ERROR_MESSAGE);
             labelTitular.setText("------------------------------------");
             campoIngresarDinero.setText("");
-            
+            campoIngresarDinero.setEnabled(false);
+            campoIngresarDinero.setBackground(new Color(153, 153, 153));
+            btnAtras.setEnabled(false);
         }
         else{
-            
+            campoIngresarDinero.setText("");
+            campoIngresarDinero.setEnabled(true);
+            campoIngresarDinero.setBackground(new Color(255, 255, 255));
+            btnAtras.setEnabled(true);
         }
     }//GEN-LAST:event_btnBuscarCuentaActionPerformed
 
