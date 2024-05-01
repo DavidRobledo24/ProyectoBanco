@@ -4,9 +4,11 @@ import utils.ConexionBD;
 public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
     
     ConexionBD database;
+    MenuVendedorGeneral ventanaAnterior;
 
-    public MenuVendedorIngresarDinero(ConexionBD database) {
+    public MenuVendedorIngresarDinero(ConexionBD database, MenuVendedorGeneral ventanaAnterior) {
         this.database = database;
+        this.ventanaAnterior = ventanaAnterior;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -22,7 +24,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         campoIngresarDinero = new javax.swing.JTextField();
         btnIngresarDinero = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAtras = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
@@ -81,11 +83,11 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         btnIngresarDinero.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresarDinero.setText("Ingresar");
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton3.setText("<- Atras");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnAtras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnAtras.setText("<- Atras");
+        btnAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnAtrasActionPerformed(evt);
             }
         });
 
@@ -116,7 +118,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(jButton3))
+                        .addComponent(btnAtras))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(183, 183, 183)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 465, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -136,7 +138,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(btnIngresarDinero, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
 
@@ -156,18 +158,18 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        //dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
+        ventanaAnterior.cambiarPanelManejoDeDinero();
+    }//GEN-LAST:event_btnAtrasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAtras;
     private javax.swing.JButton btnBuscarCuenta;
     private javax.swing.JButton btnIngresarDinero;
     private javax.swing.JTextField campoCuentaBancaria;
     private javax.swing.JTextField campoIngresarDinero;
     private javax.swing.JLabel etqCuentaBancaria;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
