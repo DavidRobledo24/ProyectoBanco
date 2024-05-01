@@ -9,9 +9,10 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
     ConexionBD database;
     MenuVendedorGeneral ventana;
     
-    public MenuVendedorCrearCliente(ConexionBD database, MenuVendedorGeneral ventana) {
-        this.database = database;
+
+    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana,ConexionBD database) {
         this.ventana = ventana;
+        this.database = database;
         initComponents();
     }
 
