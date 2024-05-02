@@ -603,7 +603,24 @@ public class ConexionBD {
         }
     }
     public void eliminarCliente(String documento){
-     
+       
+        if (!documento.isEmpty()) {
+            String consulta = "DELETE FROM cliente WHERE documento='" + documento+ "'";
+
+            try {
+                Statement stmt = conexion.createStatement();
+                int filasEliminadas = stmt.executeUpdate(consulta);
+
+                if (filasEliminadas > 0) {
+                    System.out.println("La persona ha sido eliminada correctamente");
+                } else {
+                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al eliminar persona: " + e.getMessage());    }
+        } else {
+            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
+        }
         
     }
         

@@ -8,6 +8,7 @@ import utils.ConexionBD;
 public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     MenuVendedorGeneral ventana;
+    String documento;
     ConexionBD database;
     public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana,ConexionBD database) {
         this.ventana = ventana;
@@ -235,6 +236,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String documentoABuscar = campoDocumento.getText();
+        documento = campoDocumento.getText();
         
         campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
         campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
@@ -264,8 +266,9 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String clave = campoClave.getText();
+        String cuentaBancaria = campoCuentaBancaria.getText();
         
-        boolean claveCuenta=clave.equals(database.darDatoCuentaBancaria(clave,"clave"));
+        if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria,"clave")))database.eliminarCliente(documento);
         
     }//GEN-LAST:event_btnEliminarActionPerformed
 
