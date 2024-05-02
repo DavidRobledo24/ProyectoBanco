@@ -235,6 +235,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
         campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
         campoCuentaBancaria.setText(database.darDatoCliente(documentoABuscar, "idCuentaBancaria"));
+       
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -244,6 +245,9 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String clave = campoClave.getText();
+        String cuenta = campoCuentaBancaria.getText();
+        
+        database.compararClave(clave,cuenta);
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 
