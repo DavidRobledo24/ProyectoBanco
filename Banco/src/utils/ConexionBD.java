@@ -594,28 +594,67 @@ public class ConexionBD {
         }
         
     }  
-    public void eliminarCliente(String documento){
-       
-        if (!documento.isEmpty()) {
-            String consulta = "DELETE FROM cliente WHERE documento='" + documento+ "'";
-
-            try {
-                Statement stmt = conexion.createStatement();
-                int filasEliminadas = stmt.executeUpdate(consulta);
-
-                if (filasEliminadas > 0) {
-                    System.out.println("La persona ha sido eliminada correctamente");
-                } else {
-                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al eliminar persona: " + e.getMessage());    }
-        } else {
-            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
+    public void darDatosCliente(String dato,String documento){
+            String resultado = "";
+        try{
+            String peticion = "SELECT * FROM cliente WHERE documento="+documento;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                resultado = resultadoCliente.getString(dato);
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
     }
-        
+    
+    public void eliminarCliente(String documento, String clave) {
+    if (!documento.isEmpty()) {
+        try {
+            String consultaCliente = "SELECT idCuentaBancaria FROM cliente WHERE documento='" + documento + "'";
+            Statement stmtCliente = conexion.createStatement();
+            ResultSet resultadoCliente = stmtCliente.executeQuery(consultaCliente);
+
+            if (resultadoCliente.next()) {
+                String idCuentaBancaria = resultadoCliente.getString("idCuentaBancaria");
+
+
+                String modificarRestriccion = "ALTER TABLE credito DROP FOREIGN KEY fk_Credito_CuentaBancaria1";
+                Statement stmtModificar = conexion.createStatement();
+                stmtModificar.executeUpdate(modificarRestriccion);
+                stmtModificar.close();
+
+
+                String consultaEliminarCliente = "DELETE FROM cliente WHERE documento='" + documento + "'";
+                String consultaEliminarCuenta = "DELETE FROM cuentabancaria WHERE idCuentaBancaria='" + idCuentaBancaria + "'";
+
+                Statement stmtEliminar = conexion.createStatement();
+                int filasEliminadasCliente = stmtEliminar.executeUpdate(consultaEliminarCliente);
+                int filasEliminadasCuenta = stmtEliminar.executeUpdate(consultaEliminarCuenta);
+
+                if (filasEliminadasCliente > 0 && filasEliminadasCuenta > 0) {
+                    System.out.println("El cliente y su cuenta bancaria han sido eliminados correctamente");
+                } else {
+                    System.out.println("Error al eliminar el cliente y/o su cuenta bancaria");
+                }
+
+                String restaurarRestriccion = "ALTER TABLE credito ADD CONSTRAINT fk_Credito_CuentaBancaria1 FOREIGN KEY (idCuentaBancaria) REFERENCES cuentabancaria (idCuentaBancaria) ON DELETE CASCADE";
+                stmtModificar = conexion.createStatement();
+                stmtModificar.executeUpdate(restaurarRestriccion);
+                stmtModificar.close();
+
+            } else {
+                System.out.println("No se pudo encontrar una persona con el documento proporcionado");
+            }
+            stmtCliente.close();
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar persona y cuenta bancaria: " + e.getMessage());
+        }
+    } else {
+        System.out.println("Por favor, ingrese el documento de la persona que desea eliminar");
+    }
+}  
     public void eliminarVendedor(String documento){
         try{
             String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";

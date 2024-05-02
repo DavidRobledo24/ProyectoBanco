@@ -178,6 +178,9 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
         String telefono = campoTelefono.getText();  
         String email = campoEmail.getText();
         String clave = campoClave.getText();
+
+        //database.crearCliente(documento, nombre,  telefono, email, clave);
+
         
         Pattern regexNums = Pattern.compile("\\d");
         Pattern regexLetras = Pattern.compile("[A-Za-z]");
