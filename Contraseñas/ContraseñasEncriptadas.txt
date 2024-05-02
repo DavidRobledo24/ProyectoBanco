@@ -1,0 +1,10 @@
+Gerentes:
+David: 8132193
+Andres: 993183
+
+Vendedores:
+Santiago: 3333639
+Esteban: 31894233
+
+Clientes:
+Valeria: 441293
