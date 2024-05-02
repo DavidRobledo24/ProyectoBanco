@@ -257,7 +257,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorEliminarCliente nuevo = new MenuVendedorEliminarCliente(this);
+        MenuVendedorEliminarCliente nuevo = new MenuVendedorEliminarCliente(this,database);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());

@@ -220,7 +220,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
                 campoIngresarDinero.setText("");
                 campoIngresarDinero.setEnabled(false);
                 campoIngresarDinero.setBackground(new Color(153, 153, 153));
-                btnAtras.setEnabled(false);
+                btnIngresarDinero.setEnabled(false);
                 campoCuentaBancaria.setText("");
                 cuentaBancaria = "";
                 JOptionPane.showMessageDialog(null, "Movimiento exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);

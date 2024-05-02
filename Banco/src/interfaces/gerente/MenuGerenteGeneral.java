@@ -175,6 +175,16 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
         revalidate();
     }
     
+    public void cambiarPanelCreditos(){
+        jPanel2.removeAll();
+        MenuGerenteRevisarCreditos nuevo = new MenuGerenteRevisarCreditos(database, documentoGerente, this);
+        nuevo.setSize(jPanel2.getSize());
+        nuevo.setPreferredSize(jPanel2.getPreferredSize());
+        jPanel2.add(nuevo);
+        repaint();
+        revalidate();
+    }
+    
     private void btnEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadisticasActionPerformed
         jPanel2.removeAll();
         MenuGerenteEstadisticas nuevo = new MenuGerenteEstadisticas(database, this);
@@ -192,13 +202,7 @@ public class MenuGerenteGeneral extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnRevisarCreditosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRevisarCreditosActionPerformed
-        jPanel2.removeAll();
-        MenuGerenteRevisarCreditos nuevo = new MenuGerenteRevisarCreditos(database, documentoGerente, this);
-        nuevo.setSize(jPanel2.getSize());
-        nuevo.setPreferredSize(jPanel2.getPreferredSize());
-        jPanel2.add(nuevo);
-        repaint();
-        revalidate();
+        cambiarPanelCreditos();
     }//GEN-LAST:event_btnRevisarCreditosActionPerformed
 
 

@@ -39,7 +39,7 @@ public class MenuGerenteRevisarCreditos extends javax.swing.JPanel {
         
         panelCreditos.setPreferredSize(new Dimension(810, altoVentana));
         if(cantCreditos > 0){
-            BotonMenuGerenteCreditos[] vectorSucursales = database.darCreditos(documentoGerente);
+            BotonMenuGerenteCreditos[] vectorSucursales = database.darCreditos(documentoGerente, ventanaAnterior);
             for(int i = 0; i < cantCreditos; i++){
                 vectorSucursales[i].setSize(810, 226);
                 vectorSucursales[i].setPreferredSize(new Dimension(810, 226));
