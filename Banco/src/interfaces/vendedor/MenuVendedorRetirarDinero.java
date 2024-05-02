@@ -220,6 +220,9 @@ public class MenuVendedorRetirarDinero extends javax.swing.JPanel {
 
     private void btnRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarActionPerformed
         String cantRetirar = fieldCantidadRetirar.getText();
+        int cantRetirarInt = Integer.parseInt(cantRetirar);
+        cantRetirarInt = cantRetirarInt < 0 ? 0 : cantRetirarInt;
+        cantRetirar = cantRetirarInt+"";
         String clave = fieldClave.getText();
         
         Pattern regex = Pattern.compile("\\d+");

@@ -612,7 +612,6 @@ public class ConexionBD {
             String balanceString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
             int balance = Integer.parseInt(balanceString);
             int dineroRetirarInt = Integer.parseInt(dineroRetirar);
-            dineroRetirarInt = dineroRetirarInt < 0 ? 0 : dineroRetirarInt;
             balance-=dineroRetirarInt;
             if(balance >= 0){
                 String peticion = "UPDATE cuentabancaria SET balance='"+balance+"' WHERE idCuentaBancaria="+idCuentaBancaria;
@@ -798,6 +797,7 @@ public class ConexionBD {
     
     public void llenarTablaHistorial(DefaultTableModel modelo, String id, String tabla){
        String historialOriginal = "";
+       modelo.setRowCount(0);
        try{
            String peticion = "SELECT * FROM "+tabla+" WHERE "+(tabla.equals("sucursal") ? "idSucursal" : "idCuentaBancaria")+"="+id;
            ResultSet resultados = manipular.executeQuery(peticion);
@@ -876,7 +876,6 @@ public class ConexionBD {
             int deuda = Integer.parseInt(deudaString);
             int dineroAnteriorInt = Integer.parseInt(dineroAnterior);
             int dineroAIngresar = Integer.parseInt(dinero);
-            dineroAIngresar = dineroAIngresar < 0 ? 0 : dineroAIngresar;
             System.out.println(dineroAIngresar);
             System.out.println(deuda);
             if(deuda > 0){

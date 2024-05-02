@@ -209,6 +209,10 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
 
     private void btnIngresarDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarDineroActionPerformed
         String dinero = campoIngresarDinero.getText();
+        int dineroInt = Integer.parseInt(dinero);
+        dineroInt = dineroInt < 0 ? 0 : dineroInt;
+        dinero = dineroInt+"";
+        
         Pattern regex = Pattern.compile("\\d+");
         
         Matcher matcher = regex.matcher(dinero);
