@@ -22,7 +22,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
     private void initComponents() {
 
         contenedorPrincipal = new javax.swing.JPanel();
-        etqCuentaBancaria = new javax.swing.JLabel();
+        etqCuentaBancari = new javax.swing.JLabel();
         campoCuentaBancaria = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -42,10 +42,10 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
         contenedorPrincipal.setBackground(new java.awt.Color(39, 64, 115));
 
-        etqCuentaBancaria.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        etqCuentaBancaria.setForeground(new java.awt.Color(255, 255, 255));
-        etqCuentaBancaria.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etqCuentaBancaria.setText("Cuenta Bancaria:");
+        etqCuentaBancari.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        etqCuentaBancari.setForeground(new java.awt.Color(255, 255, 255));
+        etqCuentaBancari.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etqCuentaBancari.setText("Cuenta Bancaria:");
 
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnBuscar.setText("BUSCAR");
@@ -128,7 +128,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                         .addGap(240, 240, 240)
-                        .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(etqCuentaBancari, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                         .addGap(132, 132, 132)
                         .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -183,7 +183,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(etqCuentaBancari, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -285,7 +285,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
     private javax.swing.JLabel campoTelefono;
     private javax.swing.JPanel contenedorPrincipal;
     private javax.swing.JLabel etqClave;
-    private javax.swing.JLabel etqCuentaBancaria;
+    private javax.swing.JLabel etqCuentaBancari;
     private javax.swing.JLabel etqDocumento;
     private javax.swing.JLabel etqEmail;
     private javax.swing.JLabel etqNombre;

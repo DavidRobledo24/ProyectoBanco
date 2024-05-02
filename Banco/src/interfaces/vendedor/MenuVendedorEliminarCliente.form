@@ -40,7 +40,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="240" max="-2" attributes="0"/>
-                          <Component id="etqCuentaBancaria" min="-2" pref="340" max="-2" attributes="0"/>
+                          <Component id="etqCuentaBancari" min="-2" pref="340" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
@@ -117,7 +117,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  <Component id="etqCuentaBancaria" min="-2" pref="34" max="-2" attributes="0"/>
+                  <Component id="etqCuentaBancari" min="-2" pref="34" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="campoCuentaBancaria" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
@@ -164,7 +164,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="etqCuentaBancaria">
+        <Component class="javax.swing.JLabel" name="etqCuentaBancari">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Arial" size="18" style="1"/>
