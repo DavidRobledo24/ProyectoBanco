@@ -2,12 +2,15 @@
 package interfaces.vendedor;
 
 import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
 import utils.ConexionBD;
 
 public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
     
     ConexionBD database;
     MenuVendedorGeneral ventanaAnterior;
+    String cuentaBancaria;
     
     public MenuVendedorVisualizarBalance(ConexionBD database, MenuVendedorGeneral ventanaAnterior) {
         this.database = database;
@@ -15,6 +18,8 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
         initComponents();
     }
 
+
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,6 +61,7 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
         campoBalance.setForeground(new java.awt.Color(255, 255, 255));
         campoBalance.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         campoBalance.setText("------------------------------------------");
+        campoBalance.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         etqBalance.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         etqBalance.setForeground(new java.awt.Color(255, 255, 255));
@@ -73,6 +79,11 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
         btnVerBalance.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         btnVerBalance.setText("Ver balance");
         btnVerBalance.setEnabled(false);
+        btnVerBalance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerBalanceActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -103,10 +114,6 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
                         .addComponent(etqClave)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(campoBalance)
-                .addGap(248, 248, 248))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -116,6 +123,10 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
                         .addGap(290, 290, 290)
                         .addComponent(etqDocumento)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(campoBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(238, 238, 238))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,8 +150,8 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(etqBalance)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(campoBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addComponent(campoBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(196, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -149,22 +160,46 @@ public class MenuVendedorVisualizarBalance extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBuscarDocumentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarDocumentoActionPerformed
+        cuentaBancaria = fieldCuentaBancaria.getText();
+        if(cuentaBancaria.equals("")){
+            JOptionPane.showMessageDialog(null, "Cuenta bancaria vacia", "Error", JOptionPane.ERROR_MESSAGE);
+            campoBalance.setText("------------------------------------------");
+            return;
+        }
+        
         String datoTemp = database.darDatoCuentaBancaria(fieldCuentaBancaria.getText(), "idCuentaBancaria");
         if(datoTemp.equals("")){
+            JOptionPane.showMessageDialog(null, "Cuenta bancaria no existe", "Error", JOptionPane.ERROR_MESSAGE);
             fieldClave.setText("");
             fieldClave.setBackground(new Color(153,153,153));
             fieldClave.setEnabled(false);
-            btnVerBalance.setEnabled(true);
-            
+            btnVerBalance.setEnabled(false);
             campoBalance.setText("------------------------------------------");
         }
         else{
             fieldClave.setText("");
             fieldClave.setBackground(new Color(255, 255, 255));
             fieldClave.setEnabled(true);
-            btnVerBalance.setEnabled(false);
+            btnVerBalance.setEnabled(true);
         }
     }//GEN-LAST:event_btnBuscarDocumentoActionPerformed
+
+    private void btnVerBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerBalanceActionPerformed
+        String clave = fieldClave.getText();
+        if(clave.equals("")){
+            JOptionPane.showMessageDialog(null, "Clave vacia", "Error", JOptionPane.ERROR_MESSAGE);
+            campoBalance.setText("------------------------------------------");
+            return;
+        }
+        
+        if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria, "clave"))){
+            campoBalance.setText(database.darDatoCuentaBancaria(cuentaBancaria, "balance"));
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            campoBalance.setText("------------------------------------------");
+        }
+    }//GEN-LAST:event_btnVerBalanceActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

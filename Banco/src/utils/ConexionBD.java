@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Map;
 import javax.swing.ImageIcon;
@@ -279,6 +281,8 @@ public class ConexionBD {
         return "";
     }
     
+ 
+
     public String darDatoVendedor(String documento, String dato){
         try{
             String peticion = "SELECT * FROM vendedor";
@@ -494,6 +498,36 @@ public class ConexionBD {
     }
     
     
+    public void editarCliente(String cedulaAEditar, String nombreNuevo,String telefonoNuevo,String correoNuevo,String claveNueva){
+        String cedula = cedulaAEditar; 
+        String nombres = nombreNuevo; 
+        String telefono = telefonoNuevo;
+        String correo = correoNuevo; 
+        String clave = claveNueva;
+        
+        if (!cedulaAEditar.isEmpty()) {
+            
+
+            try {
+            // Consulta para actualizar los datos de la persona
+            String consulta = "UPDATE clientes SET nombres='"+nombres+"', telefono='"+telefono+"', email='"+correo+"', clave='"+clave+"' WHERE cedula='"+cedula+"' ";
+                Statement stmt = conexion.createStatement();
+                
+
+                int filasActualizadas = stmt.executeUpdate(consulta);
+
+                if (filasActualizadas > 0) {
+                    System.out.println( "Los datos del cliente han sido actualizados correctamente");
+                } else {
+                    System.out.println("No se pudo encontrar el cliente con la cedula proporcionada");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al editar cliente: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Por favor, ingrese la cedula del cliente");
+        }
+    }
     
     
     
@@ -661,6 +695,8 @@ public class ConexionBD {
         }
         return contador;
     }
+
+
     
     public void actualizarHistorial(String id, String tabla, String actualizacion){
         String historialOriginal = "";
@@ -678,6 +714,9 @@ public class ConexionBD {
        }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
        }
+       LocalDate fecha = LocalDate.now();
+       LocalTime hora = LocalTime.now();
+       actualizacion = fecha+" "+hora.getHour()+":"+hora.getMinute()+":"+(hora.getSecond() < 10 ? "0"+hora.getSecond() : hora.getSecond())+"_"+actualizacion;
        if(historialOriginal.equals("")){
            historialOriginal+=actualizacion;
        }
@@ -687,7 +726,11 @@ public class ConexionBD {
                historialOriginal+="|"+actualizacion;
            }
            else{
-               historialPartido[0] = actualizacion;
+               historialPartido[0] = historialPartido[1];
+               historialPartido[1] = historialPartido[2];
+               historialPartido[2] = historialPartido[3];
+               historialPartido[3] = historialPartido[4];
+               historialPartido[4] = actualizacion;
                for(int i = 0; i < historialPartido.length; i++){
                    if(i == 0){
                        historialOriginal = historialPartido[i];
@@ -734,5 +777,97 @@ public class ConexionBD {
                modelo.addRow(objetos);
            }
        }
-   }
+    }
+    
+    public boolean agregarCredito(String valor, String idCuentaBancaria){
+        int id = conseguirIdCredito();
+        boolean creacion = false;
+        boolean revisarCredito = buscarCreditoExistente(idCuentaBancaria);
+        
+        if(revisarCredito == false){
+            try{
+                String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
+                int respuesta = manipular.executeUpdate(peticion);
+                if(respuesta == 1){
+                    creacion = true;
+                    JOptionPane.showMessageDialog(null, "Se agrego el Credito con exito ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            } 
+        }else{
+           JOptionPane.showMessageDialog(null, "Ya existe un credito pendiente en esta cuenta: ", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        return creacion;
+    }
+    
+    public int conseguirIdCredito(){
+        int contador = 1;
+        try{
+            String peticion = "SELECT * FROM credito";
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            if(resultados.getRow() == 1){
+                do{
+                    if(!(resultados.getString("idCredito").equals(contador+""))) return contador;
+                    contador++;
+                }while(resultados.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return contador;
+    }
+    
+    public boolean ingresarDinero(String idCuentaBancaria,String dinero){
+        boolean respuesta = false;
+        try{
+            String dineroAnterior = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            int deuda = Integer.parseInt(deudaString);
+            int dineroAnteriorInt = Integer.parseInt(dineroAnterior);
+            int dineroAIngresar = Integer.parseInt(dinero);
+            System.out.println(dineroAIngresar);
+            if(deuda > 0){
+                deuda-=dineroAIngresar;
+                if(deuda < 0){
+                    dineroAIngresar = deuda * -1;
+                    deuda = 0;
+                }
+                else{
+                    dineroAIngresar = 0;
+                }
+            }
+            System.out.println(dineroAIngresar);
+            int dineroActual = dineroAnteriorInt+dineroAIngresar;
+            
+            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            int resp = manipular.executeUpdate(peticion);
+            if(resp == 1) respuesta = true;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
+    }
+    public boolean buscarCreditoExistente(String idCuentaBancaria){
+        boolean encontrado = false;
+        try{
+            String peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet rs = manipular.executeQuery(peticion);
+            rs.next();
+            if(rs.getRow() == 1){
+                do{
+                    if(rs.getString("idCuentaBancaria").equals(idCuentaBancaria)){
+                        encontrado = true;
+                        break;
+                    }
+                }while(rs.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "17Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return encontrado;
+    }
 }
