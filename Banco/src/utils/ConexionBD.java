@@ -823,11 +823,12 @@ public class ConexionBD {
         boolean respuesta = false;
         try{
             String dineroAnterior = darDatoCuentaBancaria(idCuentaBancaria, "balance");
-            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "deuda");
             int deuda = Integer.parseInt(deudaString);
             int dineroAnteriorInt = Integer.parseInt(dineroAnterior);
             int dineroAIngresar = Integer.parseInt(dinero);
             System.out.println(dineroAIngresar);
+            System.out.println(deuda);
             if(deuda > 0){
                 deuda-=dineroAIngresar;
                 if(deuda < 0){
@@ -841,7 +842,7 @@ public class ConexionBD {
             System.out.println(dineroAIngresar);
             int dineroActual = dineroAnteriorInt+dineroAIngresar;
             
-            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"', deuda='"+deuda+"' WHERE idCuentaBancaria="+idCuentaBancaria;
             int resp = manipular.executeUpdate(peticion);
             if(resp == 1) respuesta = true;
         }catch(SQLException e){
