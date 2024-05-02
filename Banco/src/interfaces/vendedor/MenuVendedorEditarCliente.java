@@ -1,13 +1,15 @@
-
 package interfaces.vendedor;
+import utils.ConexionBD;
 
 
 public class MenuVendedorEditarCliente extends javax.swing.JPanel {
 
-    
+    ConexionBD database; 
     MenuVendedorGeneral ventana;
-    public MenuVendedorEditarCliente(MenuVendedorGeneral ventana) {
+    
+    public MenuVendedorEditarCliente(MenuVendedorGeneral ventana, ConexionBD database) {
         this.ventana = ventana;
+        this.database = database; 
         initComponents();
     }
 
@@ -40,6 +42,11 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
 
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         etqNombre.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqNombre.setForeground(new java.awt.Color(255, 255, 255));
@@ -70,7 +77,12 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
         });
 
         btnEditar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        btnEditar.setText("BUSCAR");
+        btnEditar.setText("EDITAR");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout contenedorPrincipalLayout = new javax.swing.GroupLayout(contenedorPrincipal);
         contenedorPrincipal.setLayout(contenedorPrincipalLayout);
@@ -172,6 +184,27 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.ventana.cambiarPanelClientes();
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String documentoABuscar = campoDocumento.getText();
+        
+        campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        String cedulaAEditar = campoDocumento.getText();
+        String nombreNuevo = campoNombre.getText();
+        String telefonoNuevo = campoTelefono.getText();
+        String correoNuevo = campoEmail.getText();
+        String claveNueva = campoClave.getText();
+        database.editarCliente(cedulaAEditar,nombreNuevo,telefonoNuevo,correoNuevo,claveNueva);
+        
+        campoDocumento.setText("");
+        campoNombre.setText("");
+        campoTelefono.setText("");
+        campoEmail.setText("");
+        campoClave.setText("");
+    }//GEN-LAST:event_btnEditarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -281,6 +281,8 @@ public class ConexionBD {
         return "";
     }
     
+ 
+
     public String darDatoVendedor(String documento, String dato){
         try{
             String peticion = "SELECT * FROM vendedor";
@@ -496,6 +498,36 @@ public class ConexionBD {
     }
     
     
+    public void editarCliente(String cedulaAEditar, String nombreNuevo,String telefonoNuevo,String correoNuevo,String claveNueva){
+        String cedula = cedulaAEditar; 
+        String nombres = nombreNuevo; 
+        String telefono = telefonoNuevo;
+        String correo = correoNuevo; 
+        String clave = claveNueva;
+        
+        if (!cedulaAEditar.isEmpty()) {
+            
+
+            try {
+            // Consulta para actualizar los datos de la persona
+            String consulta = "UPDATE clientes SET nombres='"+nombres+"', telefono='"+telefono+"', email='"+correo+"', clave='"+clave+"' WHERE cedula='"+cedula+"' ";
+                Statement stmt = conexion.createStatement();
+                
+
+                int filasActualizadas = stmt.executeUpdate(consulta);
+
+                if (filasActualizadas > 0) {
+                    System.out.println( "Los datos del cliente han sido actualizados correctamente");
+                } else {
+                    System.out.println("No se pudo encontrar el cliente con la cedula proporcionada");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al editar cliente: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Por favor, ingrese la cedula del cliente");
+        }
+    }
     
     
     
@@ -661,6 +693,8 @@ public class ConexionBD {
         }
         return contador;
     }
+
+
     
     public void actualizarHistorial(String id, String tabla, String actualizacion){
         String historialOriginal = "";
