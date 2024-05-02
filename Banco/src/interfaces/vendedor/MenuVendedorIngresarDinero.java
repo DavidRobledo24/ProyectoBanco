@@ -1,5 +1,7 @@
 package interfaces.vendedor;
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import utils.ConexionBD;
 
@@ -53,14 +55,13 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
-                .addComponent(btnBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30)
+                        .addComponent(btnBuscarCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(193, 193, 193))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(153, 153, 153)
-                .addComponent(etqCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,6 +95,11 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         btnIngresarDinero.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresarDinero.setText("Ingresar");
         btnIngresarDinero.setEnabled(false);
+        btnIngresarDinero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresarDineroActionPerformed(evt);
+            }
+        });
 
         btnAtras.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnAtras.setText("<- Atras");
@@ -187,15 +193,46 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
             campoIngresarDinero.setText("");
             campoIngresarDinero.setEnabled(false);
             campoIngresarDinero.setBackground(new Color(153, 153, 153));
-            btnAtras.setEnabled(false);
+            btnIngresarDinero.setEnabled(false);
         }
         else{
+            String documentoCliente = database.encontrarDocumentoCliente(cuentaBancaria);
+            labelTitular.setText(database.darDatoCliente(documentoCliente, "nombre"));
             campoIngresarDinero.setText("");
             campoIngresarDinero.setEnabled(true);
             campoIngresarDinero.setBackground(new Color(255, 255, 255));
-            btnAtras.setEnabled(true);
+            btnIngresarDinero.setEnabled(true);
         }
     }//GEN-LAST:event_btnBuscarCuentaActionPerformed
+
+    private void btnIngresarDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarDineroActionPerformed
+        String dinero = campoIngresarDinero.getText();
+        Pattern regex = Pattern.compile("\\d+");
+        
+        Matcher matcher = regex.matcher(dinero);
+        
+        boolean matchDinero = matcher.find();
+        
+        if(matchDinero){
+            if(database.ingresarDinero(cuentaBancaria, dinero)){
+                database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Deposito_"+dinero+"_No hay detalles");
+                labelTitular.setText("------------------------------------");
+                campoIngresarDinero.setText("");
+                campoIngresarDinero.setEnabled(false);
+                campoIngresarDinero.setBackground(new Color(153, 153, 153));
+                btnAtras.setEnabled(false);
+                campoCuentaBancaria.setText("");
+                cuentaBancaria = "";
+                JOptionPane.showMessageDialog(null, "Movimiento exitoso", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                System.out.println("ERROR DESCONOCIDO");
+            }
+        }
+        else{
+            
+        }
+    }//GEN-LAST:event_btnIngresarDineroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
