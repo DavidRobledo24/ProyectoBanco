@@ -480,7 +480,7 @@ public class ConexionBD {
         boolean respuesta = false;
         try {
 
-            String consulta = "INSERT INTO cliente (documento,nombre,telefono, email,clave) VALUES ('"+documento+"','"+nombre+"','"+telefono+"','"+email+"','"+clave+"',')";
+            String consulta = "INSERT INTO cliente (documento,nombre,telefono, email,clave) VALUES ('"+documento+"','"+nombre+"','"+telefono+"','"+email+"','"+clave+"')";
             int resp_consulta = manipular.executeUpdate(consulta);
             
             if (resp_consulta==1) {
@@ -490,9 +490,11 @@ public class ConexionBD {
             System.out.println("--> Error Insert: " + ex.getMessage());
         }
         if (respuesta){
+            JOptionPane.showMessageDialog(null, "El cliente se creo con exito: ", "exito", JOptionPane.INFORMATION_MESSAGE);
             System.out.println("Insertado con exito");
             
         }else{
+            JOptionPane.showMessageDialog(null, "No se pudo insertar el cliente: ", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("No se pudo insertar");
         }
     }

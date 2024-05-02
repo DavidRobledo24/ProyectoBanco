@@ -171,10 +171,10 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         String documento = campoDocumento.getText(); 
         String nombre = campoNombre.getText();  
-        String Telefono = campoTelefono.getText();  
+        String telefono = campoTelefono.getText();  
         String email = campoEmail.getText();
         String clave = campoClave.getText();
-        database.crearCliente(documento, nombre,  Telefono, email, clave);
+        database.crearCliente(documento, nombre,  telefono, email, clave);
         
         campoDocumento.setText("");
         campoNombre.setText("");

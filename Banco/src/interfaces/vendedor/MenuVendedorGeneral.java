@@ -189,7 +189,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         cambiarPanelClientes();
     }//GEN-LAST:event_btnClientesActionPerformed
 
-    public void cambiarSolicitudCreditosActionPerformed() {                                                     
+    public void cambiarCrearClienteActionPerformed() {                                                     
         //Eliminar contenido actual
         contentPrincipal.removeAll();
         
