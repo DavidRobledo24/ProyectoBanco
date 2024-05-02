@@ -498,36 +498,21 @@ public class ConexionBD {
     }
     
     
-    public void editarCliente(String cedulaAEditar, String nombreNuevo,String telefonoNuevo,String correoNuevo,String claveNueva){
-        String cedula = cedulaAEditar; 
-        String nombres = nombreNuevo; 
-        String telefono = telefonoNuevo;
-        String correo = correoNuevo; 
-        String clave = claveNueva;
-        
-        if (!cedulaAEditar.isEmpty()) {
-            
+    public boolean editarCliente(String cedulaAEditar, String nombreNuevo, String telefonoNuevo, String correoNuevo, String claveNueva) {
+        boolean editado = false;
 
-            try {
-            // Consulta para actualizar los datos de la persona
-            String consulta = "UPDATE clientes SET nombres='"+nombres+"', telefono='"+telefono+"', email='"+correo+"', clave='"+clave+"' WHERE cedula='"+cedula+"' ";
-                Statement stmt = conexion.createStatement();
-                
-
-                int filasActualizadas = stmt.executeUpdate(consulta);
-
-                if (filasActualizadas > 0) {
-                    System.out.println( "Los datos del cliente han sido actualizados correctamente");
-                } else {
-                    System.out.println("No se pudo encontrar el cliente con la cedula proporcionada");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al editar cliente: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Por favor, ingrese la cedula del cliente");
+        try {
+            String peticion = "UPDATE cliente SET nombre='" + nombreNuevo + "', telefono='" + telefonoNuevo + "', email='" + correoNuevo + "' WHERE documento='" + cedulaAEditar + "'";
+            int actu = manipular.executeUpdate(peticion);
+            editado = actu == 1;
+            JOptionPane.showMessageDialog(null, "Editado con exito: ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en base de datos: " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+
+        return editado;
+}
+
     
     
     
@@ -624,6 +609,45 @@ public class ConexionBD {
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
+    }
+    
+    public void editarBalanceCuentaBancaria(String idCuentaBancaria, String dato){
+        try{
+            String balanceString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            int balance = Integer.parseInt(balanceString);
+            int prestamo = Integer.parseInt(dato);
+            balance+=prestamo;
+            String peticion = "UPDATE cuentabancaria SET balance='"+balance+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            manipular.executeUpdate(peticion);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public boolean retirarDineroCuentaBancaria(String idCuentaBancaria, String dineroRetirar, String clave){
+        boolean respuesta = false;
+        try{
+            if(!(clave.equals(darDatoCuentaBancaria(idCuentaBancaria, "clave")))){
+                JOptionPane.showMessageDialog(null, "Clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            String balanceString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            int balance = Integer.parseInt(balanceString);
+            int dineroRetirarInt = Integer.parseInt(dineroRetirar);
+            balance-=dineroRetirarInt;
+            if(balance >= 0){
+                String peticion = "UPDATE cuentabancaria SET balance='"+balance+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+                int res = manipular.executeUpdate(peticion);
+                if(res == 1) respuesta = true;
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Transferencia invalida", "Error", JOptionPane.ERROR_MESSAGE);
+                respuesta = false;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
     }
     
     public void eliminarSucursal(String id){
@@ -795,6 +819,7 @@ public class ConexionBD {
     
     public void llenarTablaHistorial(DefaultTableModel modelo, String id, String tabla){
        String historialOriginal = "";
+       modelo.setRowCount(0);
        try{
            String peticion = "SELECT * FROM "+tabla+" WHERE "+(tabla.equals("sucursal") ? "idSucursal" : "idCuentaBancaria")+"="+id;
            ResultSet resultados = manipular.executeQuery(peticion);

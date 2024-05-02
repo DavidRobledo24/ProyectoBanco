@@ -284,7 +284,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     
     public void cambiarPanelIngresarDinero(){
         contentPrincipal.removeAll();
-        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero(database, this);
+        MenuVendedorIngresarDinero nuevo = new MenuVendedorIngresarDinero(database, this, id);
         nuevo.setSize(contentPrincipal.getSize());
         nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
         contentPrincipal.add(nuevo);
@@ -294,7 +294,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
     
     public void cambiarPanelRetirarDinero(){
         contentPrincipal.removeAll();
-        MenuVendedorRetirarDinero nuevo = new MenuVendedorRetirarDinero(database, this);
+        MenuVendedorRetirarDinero nuevo = new MenuVendedorRetirarDinero(database, this, id);
         nuevo.setSize(contentPrincipal.getSize());
         nuevo.setPreferredSize(contentPrincipal.getPreferredSize());
         contentPrincipal.add(nuevo);

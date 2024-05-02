@@ -10,10 +10,12 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
     ConexionBD database;
     MenuVendedorGeneral ventanaAnterior;
     String cuentaBancaria;
+    String idSucursal;
 
-    public MenuVendedorIngresarDinero(ConexionBD database, MenuVendedorGeneral ventanaAnterior) {
+    public MenuVendedorIngresarDinero(ConexionBD database, MenuVendedorGeneral ventanaAnterior, String idSucursal) {
         this.database = database;
         this.ventanaAnterior = ventanaAnterior;
+        this.idSucursal = idSucursal;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -207,6 +209,10 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
 
     private void btnIngresarDineroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarDineroActionPerformed
         String dinero = campoIngresarDinero.getText();
+        int dineroInt = Integer.parseInt(dinero);
+        dineroInt = dineroInt < 0 ? 0 : dineroInt;
+        dinero = dineroInt+"";
+        
         Pattern regex = Pattern.compile("\\d+");
         
         Matcher matcher = regex.matcher(dinero);
@@ -216,6 +222,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         if(matchDinero){
             if(database.ingresarDinero(cuentaBancaria, dinero)){
                 database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Deposito_"+dinero+"_No hay detalles");
+                database.actualizarHistorial(idSucursal, "sucursal", "Deposito_"+dinero+"_Cuenta: "+cuentaBancaria);
                 labelTitular.setText("------------------------------------");
                 campoIngresarDinero.setText("");
                 campoIngresarDinero.setEnabled(false);

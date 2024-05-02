@@ -1,5 +1,8 @@
 package interfaces.vendedor;
 
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import utils.ConexionBD;
 
 
@@ -7,11 +10,14 @@ public class MenuVendedorHistorialCliente extends javax.swing.JPanel {
 
     ConexionBD database;
     MenuVendedorGeneral ventanaAnterior;
+    String cuentaBancaria;
+    DefaultTableModel modelo;
     
     public MenuVendedorHistorialCliente(ConexionBD database, MenuVendedorGeneral ventanaAnterior) {
         this.ventanaAnterior = ventanaAnterior;
         this.database = database;
         initComponents();
+        modelo = (DefaultTableModel)tablaHistorial.getModel();
     }
 
 
@@ -59,10 +65,14 @@ public class MenuVendedorHistorialCliente extends javax.swing.JPanel {
         etqClave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqClave.setText("Clave:");
 
+        campoClave.setBackground(new java.awt.Color(153, 153, 153));
+        campoClave.setEnabled(false);
+
         btnIngresar.setBackground(new java.awt.Color(101, 132, 65));
         btnIngresar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnIngresar.setForeground(new java.awt.Color(255, 255, 255));
         btnIngresar.setText("INGRESAR");
+        btnIngresar.setEnabled(false);
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
@@ -79,7 +89,7 @@ public class MenuVendedorHistorialCliente extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Fecha:", "Tipo de transacción:", "Dinero:", "Detalles:"
+                "Fecha", "Tipo de transacción", "Dinero", "Detalles"
             }
         ));
         jScrollPane1.setViewportView(tablaHistorial);
@@ -152,11 +162,35 @@ public class MenuVendedorHistorialCliente extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        cuentaBancaria = campoCuentaBancaria.getText();
+        
+        if(cuentaBancaria.equals("")){
+            JOptionPane.showMessageDialog(null, "Cuenta bancaria vacia", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String datoTemp = database.darDatoCuentaBancaria(cuentaBancaria, "idCuentaBancaria");
+        
+        if(datoTemp.equals("")){
+            JOptionPane.showMessageDialog(null, "Cuenta bancaria no existe", "Error", JOptionPane.ERROR_MESSAGE);
+            campoClave.setText("");
+            campoClave.setBackground(new Color(153, 153, 153));
+            campoClave.setEnabled(false);
+            btnIngresar.setEnabled(false);
+        }
+        else{
+            campoClave.setText("");
+            campoClave.setBackground(new Color(255, 255, 255));
+            campoClave.setEnabled(true);
+            btnIngresar.setEnabled(true);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // TODO add your handling code here:
+        String clave = campoClave.getText();
+        
+        if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria, "clave"))) database.llenarTablaHistorial(modelo, cuentaBancaria, "cuentabancaria");
+        else modelo.setRowCount(0);
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
