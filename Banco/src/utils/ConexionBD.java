@@ -498,36 +498,21 @@ public class ConexionBD {
     }
     
     
-    public void editarCliente(String cedulaAEditar, String nombreNuevo,String telefonoNuevo,String correoNuevo,String claveNueva){
-        String cedula = cedulaAEditar; 
-        String nombres = nombreNuevo; 
-        String telefono = telefonoNuevo;
-        String correo = correoNuevo; 
-        String clave = claveNueva;
-        
-        if (!cedulaAEditar.isEmpty()) {
-            
+    public boolean editarCliente(String cedulaAEditar, String nombreNuevo, String telefonoNuevo, String correoNuevo, String claveNueva) {
+        boolean editado = false;
 
-            try {
-            // Consulta para actualizar los datos de la persona
-            String consulta = "UPDATE clientes SET nombres='"+nombres+"', telefono='"+telefono+"', email='"+correo+"', clave='"+clave+"' WHERE cedula='"+cedula+"' ";
-                Statement stmt = conexion.createStatement();
-                
-
-                int filasActualizadas = stmt.executeUpdate(consulta);
-
-                if (filasActualizadas > 0) {
-                    System.out.println( "Los datos del cliente han sido actualizados correctamente");
-                } else {
-                    System.out.println("No se pudo encontrar el cliente con la cedula proporcionada");
-                }
-            } catch (SQLException e) {
-                System.out.println("Error al editar cliente: " + e.getMessage());
-            }
-        } else {
-            System.out.println("Por favor, ingrese la cedula del cliente");
+        try {
+            String peticion = "UPDATE cliente SET nombre='" + nombreNuevo + "', telefono='" + telefonoNuevo + "', email='" + correoNuevo + "' WHERE documento='" + cedulaAEditar + "'";
+            int actu = manipular.executeUpdate(peticion);
+            editado = actu == 1;
+            JOptionPane.showMessageDialog(null, "Editado con exito: ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error en base de datos: " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }
+
+        return editado;
+}
+
     
     
     
@@ -566,6 +551,8 @@ public class ConexionBD {
             System.out.println("No es posible llenar la tabla: " + ex.getMessage());
         }
     }   
+    
+        
     public void eliminarVendedor(String documento){
         try{
             String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";

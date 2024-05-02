@@ -1,4 +1,5 @@
 package interfaces.vendedor;
+import java.awt.Color;
 import utils.ConexionBD;
 
 
@@ -53,20 +54,36 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
         etqNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqNombre.setText("Nombre:");
 
+        campoNombre.setBackground(new java.awt.Color(153, 153, 153));
+        campoNombre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        campoNombre.setEnabled(false);
+
         etqTelefono.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqTelefono.setForeground(new java.awt.Color(255, 255, 255));
         etqTelefono.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqTelefono.setText("Telefono:");
+
+        campoTelefono.setBackground(new java.awt.Color(153, 153, 153));
+        campoTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        campoTelefono.setEnabled(false);
 
         etqEmail.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqEmail.setForeground(new java.awt.Color(255, 255, 255));
         etqEmail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqEmail.setText("Email:");
 
+        campoEmail.setBackground(new java.awt.Color(153, 153, 153));
+        campoEmail.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        campoEmail.setEnabled(false);
+
         etqClave.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqClave.setForeground(new java.awt.Color(255, 255, 255));
         etqClave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqClave.setText("Clave:");
+
+        campoClave.setBackground(new java.awt.Color(153, 153, 153));
+        campoClave.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        campoClave.setEnabled(false);
 
         btnAtras.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnAtras.setText("ATRAS");
@@ -78,6 +95,7 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
 
         btnEditar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEditar.setText("EDITAR");
+        btnEditar.setEnabled(false);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -188,7 +206,40 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String documentoABuscar = campoDocumento.getText();
         
-        campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
+        String datoTemp = database.darDatoCliente(documentoABuscar, "nombre");
+        
+        if(datoTemp.equals("")){
+            campoNombre.setText("");
+            campoNombre.setBackground(new Color(153,153,153));
+            campoNombre.setEnabled(false);
+            campoTelefono.setText("");
+            campoTelefono.setBackground(new Color(153,153,153));
+            campoTelefono.setEnabled(false);
+            campoEmail.setText("");
+            campoEmail.setBackground(new Color(153,153,153));
+            campoEmail.setEnabled(false);
+            campoClave.setText("");
+            campoClave.setBackground(new Color(153,153,153));
+            campoClave.setEnabled(false);
+            btnEditar.setEnabled(false);
+        }else{
+            campoNombre.setText(datoTemp);
+            campoNombre.setBackground(new Color(255, 255, 255));
+            campoNombre.setEnabled(true);
+            
+            campoTelefono.setText("");
+            campoTelefono.setBackground(new Color(255, 255, 255));
+            campoTelefono.setEnabled(true);
+            
+            campoEmail.setText("");
+            campoEmail.setBackground(new Color(255, 255, 255));
+            campoEmail.setEnabled(true);
+            campoClave.setText("");
+            
+            campoClave.setBackground(new Color(255, 255, 255));
+            campoClave.setEnabled(true);
+            btnEditar.setEnabled(true);
+        } 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -200,10 +251,40 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
         database.editarCliente(cedulaAEditar,nombreNuevo,telefonoNuevo,correoNuevo,claveNueva);
         
         campoDocumento.setText("");
-        campoNombre.setText("");
-        campoTelefono.setText("");
-        campoEmail.setText("");
-        campoClave.setText("");
+        String datoTemp = campoDocumento.getText();
+        if(datoTemp.equals("")){
+            campoNombre.setText("");
+            campoNombre.setBackground(new Color(153,153,153));
+            campoNombre.setEnabled(false);
+            campoTelefono.setText("");
+            campoTelefono.setBackground(new Color(153,153,153));
+            campoTelefono.setEnabled(false);
+            campoEmail.setText("");
+            campoEmail.setBackground(new Color(153,153,153));
+            campoEmail.setEnabled(false);
+            campoClave.setText("");
+            campoClave.setBackground(new Color(153,153,153));
+            campoClave.setEnabled(false);
+            btnEditar.setEnabled(false);
+        }else{
+            campoNombre.setText(datoTemp);
+            campoNombre.setBackground(new Color(255, 255, 255));
+            campoNombre.setEnabled(true);
+            
+            campoTelefono.setText("");
+            campoTelefono.setBackground(new Color(255, 255, 255));
+            campoTelefono.setEnabled(true);
+            
+            campoEmail.setText("");
+            campoEmail.setBackground(new Color(255, 255, 255));
+            campoEmail.setEnabled(true);
+            campoClave.setText("");
+            
+            campoClave.setBackground(new Color(255, 255, 255));
+            campoClave.setEnabled(true);
+            btnEditar.setEnabled(true);
+        }
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
 
