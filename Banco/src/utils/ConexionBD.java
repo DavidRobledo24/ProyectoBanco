@@ -519,7 +519,7 @@ public class ConexionBD {
             resultados.next();
             if(resultados.getRow() == 1){
                 do{
-                    if((resultados.getString("idCuentaBancaria").equals(contador+""))) return contador;
+                    if(!(resultados.getString("idCuentaBancaria").equals(contador+""))) return contador;
                     contador++;
                 }while(resultados.next());
             }
