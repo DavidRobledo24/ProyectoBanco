@@ -355,7 +355,12 @@ public class ConexionBD {
             ResultSet resultadoCuentaBancaria = manipular.executeQuery(peticion);
             resultadoCuentaBancaria.next();
             if(resultadoCuentaBancaria.getRow() == 1){
-                resultado = resultadoCuentaBancaria.getString(dato);
+                if(dato.equals("clave")){
+                    resultado = desencriptarClave(resultadoCuentaBancaria.getString("clave"));
+                }
+                else{
+                    resultado = resultadoCuentaBancaria.getString(dato);
+                }
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "13Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
