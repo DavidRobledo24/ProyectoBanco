@@ -552,8 +552,30 @@ public class ConexionBD {
         } catch (SQLException ex) {
             System.out.println("No es posible llenar la tabla: " + ex.getMessage());
         }
+        
     }   
-    
+    public void compararClave(String clave,String cuenta){
+        String consulta = "SELECT idCuentaBancaria FROM cliente";
+        String c = consulta;
+       
+        if(clave==c){
+            String peticion = "DELETE FROM cliente WHERE idCuentaBancaria='" + cuenta+ "'";
+
+            try {
+                Statement stmt = conexion.createStatement();
+                int filasEliminadas = stmt.executeUpdate(consulta);
+
+                if (filasEliminadas > 0) {
+                    System.out.println("La persona ha sido eliminada correctamente");
+                } else {
+                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
+                }
+            } catch (SQLException e) {
+                System.out.println("Error al eliminar persona: " + e.getMessage());    }
+        } else {
+            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
+        } 
+    }
         
     public void eliminarVendedor(String documento){
         try{
