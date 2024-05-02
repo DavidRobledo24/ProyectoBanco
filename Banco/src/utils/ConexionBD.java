@@ -732,24 +732,29 @@ public class ConexionBD {
                modelo.addRow(objetos);
            }
        }
-
-
     }
-    
     
     public boolean agregarCredito(String valor, String idCuentaBancaria){
         int id = conseguirIdCredito();
         boolean creacion = false;
-        try{
-            String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
-            int respuesta = manipular.executeUpdate(peticion);
-            if(respuesta == 1){
-                System.out.println("BIEN");
-                creacion = true;
-            }
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        boolean revisarCredito = buscarCreditoExistente(idCuentaBancaria);
+        
+        if(revisarCredito == false){
+            try{
+                String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
+                int respuesta = manipular.executeUpdate(peticion);
+                if(respuesta == 1){
+                    creacion = true;
+                    JOptionPane.showMessageDialog(null, "Se agrego el Credito con exito ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                    
+                }
+            }catch(SQLException e){
+                JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+            } 
+        }else{
+           JOptionPane.showMessageDialog(null, "Ya existe un credito pendiente en esta cuenta: ", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
         return creacion;
     }
     
@@ -770,5 +775,24 @@ public class ConexionBD {
         }
         return contador;
     }
-
+    
+    public boolean buscarCreditoExistente(String idCuentaBancaria){
+        boolean encontrado = false;
+        try{
+            String peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+idCuentaBancaria;
+            ResultSet rs = manipular.executeQuery(peticion);
+            rs.next();
+            if(rs.getRow() == 1){
+                do{
+                    if(rs.getString("idCuentaBancaria").equals(idCuentaBancaria)){
+                        encontrado = true;
+                        break;
+                    }
+                }while(rs.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "17Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return encontrado;
+    }
 }
