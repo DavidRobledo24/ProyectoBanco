@@ -8,6 +8,7 @@ import utils.ConexionBD;
 public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     MenuVendedorGeneral ventana;
+    String documento;
     ConexionBD database;
     public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana,ConexionBD database) {
         this.ventana = ventana;
@@ -235,12 +236,13 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String documentoABuscar = campoDocumento.getText();
+        documento = campoDocumento.getText();
         
         campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
         campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
         campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
         campoCuentaBancaria.setText(database.darDatoCliente(documentoABuscar, "idCuentaBancaria"));
-       
+            
         
         String datoTemp = database.darDatoCliente(documentoABuscar, "documento");
         
@@ -264,9 +266,10 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String clave = campoClave.getText();
-        String cuenta = campoCuentaBancaria.getText();
+        String cuentaBancaria = campoCuentaBancaria.getText();
         
-        database.compararClave(clave,cuenta);
+        if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria,"clave")))database.eliminarCliente(documento);
+        
     }//GEN-LAST:event_btnEliminarActionPerformed
 
 

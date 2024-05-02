@@ -585,13 +585,25 @@ public class ConexionBD {
             System.out.println("No es posible llenar la tabla: " + ex.getMessage());
         }
         
-    }   
-    public void compararClave(String clave,String cuenta){
-        String consulta = "SELECT idCuentaBancaria FROM cliente";
-        String c = consulta;
+    }  
+    public void darDatosCliente(String dato,String documento){
+            String resultado = "";
+        try{
+            String peticion = "SELECT * FROM cliente WHERE documento="+documento;
+            ResultSet resultadoCliente = manipular.executeQuery(peticion);
+            resultadoCliente.next();
+            if(resultadoCliente.getRow() == 1){
+                resultado = resultadoCliente.getString(dato);
+            }
+            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    public void eliminarCliente(String documento){
        
-        if(clave==c){
-            String peticion = "DELETE FROM cliente WHERE idCuentaBancaria='" + cuenta+ "'";
+        if (!documento.isEmpty()) {
+            String consulta = "DELETE FROM cliente WHERE documento='" + documento+ "'";
 
             try {
                 Statement stmt = conexion.createStatement();
@@ -606,7 +618,8 @@ public class ConexionBD {
                 System.out.println("Error al eliminar persona: " + e.getMessage());    }
         } else {
             System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
-        } 
+        }
+        
     }
         
     public void eliminarVendedor(String documento){
