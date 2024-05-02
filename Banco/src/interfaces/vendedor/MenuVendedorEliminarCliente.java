@@ -251,11 +251,13 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
             campoClave.setEnabled(false);
             campoClave.setBackground(new Color(153,153,153));
             btnEliminar.setEnabled(false);
+            btnBuscar.setEnabled(false);
         }else{
            campoClave.setText("");
             campoClave.setEnabled(true);
             campoClave.setBackground(new Color(255,255,255));
-            btnEliminar.setEnabled(true); 
+            btnEliminar.setEnabled(true);
+            btnBuscar.setEnabled(true);
         }
         
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -266,9 +268,11 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String clave = campoClave.getText();
-        String cuentaBancaria = campoDocumento.getText();
+        String documento = campoCuentaBancaria.getText();
         
-        if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria,"clave")))database.eliminarCliente(documento);
+        database.eliminarCliente(documento, clave);
+        
+        //if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria,"clave")))database.eliminarCliente(documento);
         
     }//GEN-LAST:event_btnEliminarActionPerformed
 
