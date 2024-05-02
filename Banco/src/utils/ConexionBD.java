@@ -287,6 +287,8 @@ public class ConexionBD {
             if(sucursales.getRow() == 1){
                 do{
                     if(sucursales.getString("idSucursal").equals(id)){
+                        System.out.println(sucursales.getString(dato));
+                        System.out.println(sucursales.getString("balance"));
                         return sucursales.getString(dato);
                     }
                 }while(sucursales.next());
@@ -609,51 +611,73 @@ public class ConexionBD {
         }
     }
     
-    public void eliminarCliente(String documento, String clave) {
-    if (!documento.isEmpty()) {
-        try {
-            String consultaCliente = "SELECT idCuentaBancaria FROM cliente WHERE documento='" + documento + "'";
-            Statement stmtCliente = conexion.createStatement();
-            ResultSet resultadoCliente = stmtCliente.executeQuery(consultaCliente);
-
-            if (resultadoCliente.next()) {
-                String idCuentaBancaria = resultadoCliente.getString("idCuentaBancaria");
-
-
-                String modificarRestriccion = "ALTER TABLE credito DROP FOREIGN KEY fk_Credito_CuentaBancaria1";
-                Statement stmtModificar = conexion.createStatement();
-                stmtModificar.executeUpdate(modificarRestriccion);
-                stmtModificar.close();
-
-
-                String consultaEliminarCliente = "DELETE FROM cliente WHERE documento='" + documento + "'";
-                String consultaEliminarCuenta = "DELETE FROM cuentabancaria WHERE idCuentaBancaria='" + idCuentaBancaria + "'";
-
-                Statement stmtEliminar = conexion.createStatement();
-                int filasEliminadasCliente = stmtEliminar.executeUpdate(consultaEliminarCliente);
-                int filasEliminadasCuenta = stmtEliminar.executeUpdate(consultaEliminarCuenta);
-
-                if (filasEliminadasCliente > 0 && filasEliminadasCuenta > 0) {
-                    System.out.println("El cliente y su cuenta bancaria han sido eliminados correctamente");
-                } else {
-                    System.out.println("Error al eliminar el cliente y/o su cuenta bancaria");
+    public boolean eliminarCliente(String documento, String clave) {
+        boolean respuesta = false;
+        try{
+            String cuentaBancaria = darDatoCliente(documento, "idCuentaBancaria");
+            if(clave.equals(darDatoCuentaBancaria(cuentaBancaria, "clave"))){
+                String peticion = "DELETE FROM cliente WHERE documento='"+documento+"'";
+                int resp = manipular.executeUpdate(peticion);
+                if(resp == 1){
+                    peticion = "DELETE FROM credito WHERE idCuentaBancaria='"+cuentaBancaria+"'";
+                    manipular.executeUpdate(peticion);
+                    peticion = "DELETE FROM cuentabancaria WHERE idCuentaBancaria='"+cuentaBancaria+"'";
+                    int resp2 = manipular.executeUpdate(peticion);
+                    respuesta = resp2 == 1;
                 }
-
-                String restaurarRestriccion = "ALTER TABLE credito ADD CONSTRAINT fk_Credito_CuentaBancaria1 FOREIGN KEY (idCuentaBancaria) REFERENCES cuentabancaria (idCuentaBancaria) ON DELETE CASCADE";
-                stmtModificar = conexion.createStatement();
-                stmtModificar.executeUpdate(restaurarRestriccion);
-                stmtModificar.close();
-
-            } else {
-                System.out.println("No se pudo encontrar una persona con el documento proporcionado");
             }
-            stmtCliente.close();
-        } catch (SQLException e) {
-            System.out.println("Error al eliminar persona y cuenta bancaria: " + e.getMessage());
+            else{
+                JOptionPane.showMessageDialog(null, "Clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-    } else {
-        System.out.println("Por favor, ingrese el documento de la persona que desea eliminar");
-    }
+        return respuesta;
+        
+//        if (!documento.isEmpty()) {
+//            try {
+//                String consultaCliente = "SELECT idCuentaBancaria FROM cliente WHERE documento='" + documento + "'";
+//                Statement stmtCliente = conexion.createStatement();
+//                ResultSet resultadoCliente = stmtCliente.executeQuery(consultaCliente);
+//
+//                if (resultadoCliente.next()) {
+//                    String idCuentaBancaria = resultadoCliente.getString("idCuentaBancaria");
+//
+//
+//                    String modificarRestriccion = "ALTER TABLE credito DROP FOREIGN KEY fk_Credito_CuentaBancaria1";
+//                    Statement stmtModificar = conexion.createStatement();
+//                    stmtModificar.executeUpdate(modificarRestriccion);
+//                    stmtModificar.close();
+//
+//
+//                    String consultaEliminarCliente = "DELETE FROM cliente WHERE documento='" + documento + "'";
+//                    String consultaEliminarCuenta = "DELETE FROM cuentabancaria WHERE idCuentaBancaria='" + idCuentaBancaria + "'";
+//
+//                    Statement stmtEliminar = conexion.createStatement();
+//                    int filasEliminadasCliente = stmtEliminar.executeUpdate(consultaEliminarCliente);
+//                    int filasEliminadasCuenta = stmtEliminar.executeUpdate(consultaEliminarCuenta);
+//
+//                    if (filasEliminadasCliente > 0 && filasEliminadasCuenta > 0) {
+//                        System.out.println("El cliente y su cuenta bancaria han sido eliminados correctamente");
+//                    } else {
+//                        System.out.println("Error al eliminar el cliente y/o su cuenta bancaria");
+//                    }
+//
+//                    String restaurarRestriccion = "ALTER TABLE credito ADD CONSTRAINT fk_Credito_CuentaBancaria1 FOREIGN KEY (idCuentaBancaria) REFERENCES cuentabancaria (idCuentaBancaria) ON DELETE CASCADE";
+//                    stmtModificar = conexion.createStatement();
+//                    stmtModificar.executeUpdate(restaurarRestriccion);
+//                    stmtModificar.close();
+//
+//                } else {
+//                    System.out.println("No se pudo encontrar una persona con el documento proporcionado");
+//                }
+//                stmtCliente.close();
+//            } catch (SQLException e) {
+//                System.out.println("Error al eliminar persona y cuenta bancaria: " + e.getMessage());
+//            }
+//        } else {
+//            System.out.println("Por favor, ingrese el documento de la persona que desea eliminar");
+//        }
 }  
     public void eliminarVendedor(String documento){
         try{
@@ -723,7 +747,7 @@ public class ConexionBD {
             }
             int temp = Integer.parseInt(dineroRetirar);
             temp-=(temp*2);
-            if(!modificarDineroSucursal(clave, temp)){
+            if(!modificarDineroSucursal(idSucursal, temp)){
                 JOptionPane.showMessageDialog(null, "Dinero insuficiente en sucursal", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
@@ -1029,6 +1053,7 @@ public class ConexionBD {
         boolean respuesta = false;
         try{
             String dineroString = darDatoSucursal(id, "balance");
+            System.out.println(dineroString);
             int balance = Integer.parseInt(dineroString);
             balance+=cantidad;
             if(balance >= 0){

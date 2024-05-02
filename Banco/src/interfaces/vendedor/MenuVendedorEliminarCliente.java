@@ -2,6 +2,9 @@
 package interfaces.vendedor;
 
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import utils.ConexionBD;
 
 
@@ -10,9 +13,12 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
     MenuVendedorGeneral ventana;
     String documento;
     ConexionBD database;
-    public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana,ConexionBD database) {
+    String id;
+    
+    public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana,ConexionBD database, String id) {
         this.ventana = ventana;
         this.database = database;
+        this.id = id;
         initComponents();
     }
 
@@ -124,17 +130,6 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         contenedorPrincipal.setLayout(contenedorPrincipalLayout);
         contenedorPrincipalLayout.setHorizontalGroup(
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                        .addGap(240, 240, 240)
-                        .addComponent(etqCuentaBancari, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(139, Short.MAX_VALUE))
             .addComponent(jSeparator1)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,7 +160,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
                             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(btnAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
@@ -178,6 +173,17 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
                         .addGap(131, 131, 131)
                         .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(42, 42, 42))
+            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addComponent(campoCuentaBancaria, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(168, 168, 168)
+                        .addComponent(etqCuentaBancari, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         contenedorPrincipalLayout.setVerticalGroup(
             contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,25 +241,32 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String documentoABuscar = campoCuentaBancaria.getText();
         documento = campoCuentaBancaria.getText();
         
-        campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
-        campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
-        campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
-        campoDocumento.setText(database.darDatoCliente(documentoABuscar, "idCuentaBancaria"));
-            
+        if(documento.equals("")){
+            JOptionPane.showMessageDialog(null, "Campo de documento vacio", "Error", HEIGHT);
+            return;
+        }
         
-        String datoTemp = database.darDatoCliente(documentoABuscar, "documento");
+        String datoTemp = database.darDatoCliente(documento, "documento");
         
         if(datoTemp.equals("")){
+            campoNombre.setText("_______________________________________________________");
+            campoTelefono.setText("_______________________________________________________");
+            campoEmail.setText("_______________________________________________________");
+            campoDocumento.setText("_______________________________________________________");
             campoClave.setText("");
             campoClave.setEnabled(false);
             campoClave.setBackground(new Color(153,153,153));
             btnEliminar.setEnabled(false);
-            btnBuscar.setEnabled(false);
-        }else{
-           campoClave.setText("");
+            JOptionPane.showMessageDialog(null, "Documento no existe", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        else{
+            campoNombre.setText(database.darDatoCliente(documento, "nombre"));
+            campoTelefono.setText(database.darDatoCliente(documento, "telefono"));
+            campoEmail.setText(database.darDatoCliente(documento, "email"));
+            campoDocumento.setText(database.darDatoCliente(documento, "idCuentaBancaria"));
+            campoClave.setText("");
             campoClave.setEnabled(true);
             campoClave.setBackground(new Color(255,255,255));
             btnEliminar.setEnabled(true);
@@ -268,9 +281,34 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         String clave = campoClave.getText();
-        String documento = campoCuentaBancaria.getText();
         
-        database.eliminarCliente(documento, clave);
+        Pattern regex = Pattern.compile("\\d");
+        
+        Matcher matcherClave = regex.matcher(clave);
+        
+        boolean matchClave = matcherClave.find();
+        
+        if(matchClave){
+            String cuentaTemp = database.darDatoCliente(documento, "idCuentaBancaria");
+            if(database.eliminarCliente(documento, clave)){
+                database.actualizarHistorial(id, "sucursal", "Eliminar cliente_0_Cuenta: "+cuentaTemp);
+                campoNombre.setText("_______________________________________________________");
+                campoTelefono.setText("_______________________________________________________");
+                campoEmail.setText("_______________________________________________________");
+                campoDocumento.setText("_______________________________________________________");
+                campoClave.setText("");
+                campoClave.setEnabled(false);
+                campoClave.setBackground(new Color(153,153,153));
+                btnEliminar.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "Cliente eliminado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Solo ingrese numeros en la clave", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        
+        
+//        database.eliminarCliente(documento, clave);
         
         //if(clave.equals(database.darDatoCuentaBancaria(cuentaBancaria,"clave")))database.eliminarCliente(documento);
         
