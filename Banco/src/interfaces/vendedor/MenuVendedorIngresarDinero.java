@@ -10,10 +10,12 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
     ConexionBD database;
     MenuVendedorGeneral ventanaAnterior;
     String cuentaBancaria;
+    String idSucursal;
 
-    public MenuVendedorIngresarDinero(ConexionBD database, MenuVendedorGeneral ventanaAnterior) {
+    public MenuVendedorIngresarDinero(ConexionBD database, MenuVendedorGeneral ventanaAnterior, String idSucursal) {
         this.database = database;
         this.ventanaAnterior = ventanaAnterior;
+        this.idSucursal = idSucursal;
         initComponents();
     }
     @SuppressWarnings("unchecked")
@@ -216,6 +218,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         if(matchDinero){
             if(database.ingresarDinero(cuentaBancaria, dinero)){
                 database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Deposito_"+dinero+"_No hay detalles");
+                database.actualizarHistorial(idSucursal, "sucursal", "Deposito_"+dinero+"_Cuenta: "+cuentaBancaria);
                 labelTitular.setText("------------------------------------");
                 campoIngresarDinero.setText("");
                 campoIngresarDinero.setEnabled(false);

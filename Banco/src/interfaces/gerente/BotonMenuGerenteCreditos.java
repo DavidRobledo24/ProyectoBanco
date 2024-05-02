@@ -190,6 +190,7 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         database.editarDeudaCuentaBancaria(idCuentaBancaria, database.darDatoCredito(idCredito, "valorPrestamo"));
+        database.editarBalanceCuentaBancaria(idCuentaBancaria, database.darDatoCredito(idCredito, "valorPrestamo"));
         database.eliminarCredito(idCredito);
         ventanaAnterior.cambiarPanelCreditos();
     }//GEN-LAST:event_btnAceptarActionPerformed
