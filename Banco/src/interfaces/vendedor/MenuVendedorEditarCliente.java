@@ -1,5 +1,8 @@
 package interfaces.vendedor;
 import java.awt.Color;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import utils.ConexionBD;
 
 
@@ -7,6 +10,7 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
 
     ConexionBD database; 
     MenuVendedorGeneral ventana;
+    String documentoABuscar;
     
     public MenuVendedorEditarCliente(MenuVendedorGeneral ventana, ConexionBD database) {
         this.ventana = ventana;
@@ -110,11 +114,6 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
             .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                 .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(campoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
                         .addGap(248, 248, 248)
                         .addComponent(etqNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(contenedorPrincipalLayout.createSequentialGroup()
@@ -123,17 +122,21 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
                             .addComponent(campoTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoClave, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(campoClave, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(contenedorPrincipalLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
+                                .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(138, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(contenedorPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
-                        .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(245, 245, 245))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
-                        .addComponent(etqTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(248, 248, 248))))
+                .addComponent(etqTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(248, 248, 248))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contenedorPrincipalLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(etqEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -204,7 +207,12 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAtrasActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String documentoABuscar = campoDocumento.getText();
+        documentoABuscar = campoDocumento.getText();
+        
+        if(documentoABuscar.equals("")){
+            JOptionPane.showMessageDialog(null, "Documento vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         String datoTemp = database.darDatoCliente(documentoABuscar, "nombre");
         
@@ -222,20 +230,22 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
             campoClave.setBackground(new Color(153,153,153));
             campoClave.setEnabled(false);
             btnEditar.setEnabled(false);
+            JOptionPane.showMessageDialog(null, "Documento no existe", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             campoNombre.setText(datoTemp);
             campoNombre.setBackground(new Color(255, 255, 255));
             campoNombre.setEnabled(true);
             
-            campoTelefono.setText("");
+            campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
             campoTelefono.setBackground(new Color(255, 255, 255));
             campoTelefono.setEnabled(true);
             
-            campoEmail.setText("");
+            campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
             campoEmail.setBackground(new Color(255, 255, 255));
             campoEmail.setEnabled(true);
-            campoClave.setText("");
             
+            String cuentaBancaria = database.darDatoCliente(documentoABuscar, "idCuentaBancaria");
+            campoClave.setText(database.darDatoCuentaBancaria(cuentaBancaria, "clave"));
             campoClave.setBackground(new Color(255, 255, 255));
             campoClave.setEnabled(true);
             btnEditar.setEnabled(true);
@@ -243,47 +253,95 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        String cedulaAEditar = campoDocumento.getText();
-        String nombreNuevo = campoNombre.getText();
-        String telefonoNuevo = campoTelefono.getText();
-        String correoNuevo = campoEmail.getText();
-        String claveNueva = campoClave.getText();
-        database.editarCliente(cedulaAEditar,nombreNuevo,telefonoNuevo,correoNuevo,claveNueva);
+        String nombre = campoNombre.getText();  
+        String telefono = campoTelefono.getText();  
+        String email = campoEmail.getText();
+        String clave = campoClave.getText();
         
-        campoDocumento.setText("");
-        String datoTemp = campoDocumento.getText();
-        if(datoTemp.equals("")){
-            campoNombre.setText("");
-            campoNombre.setBackground(new Color(153,153,153));
-            campoNombre.setEnabled(false);
-            campoTelefono.setText("");
-            campoTelefono.setBackground(new Color(153,153,153));
-            campoTelefono.setEnabled(false);
-            campoEmail.setText("");
-            campoEmail.setBackground(new Color(153,153,153));
-            campoEmail.setEnabled(false);
-            campoClave.setText("");
-            campoClave.setBackground(new Color(153,153,153));
-            campoClave.setEnabled(false);
-            btnEditar.setEnabled(false);
-        }else{
-            campoNombre.setText(datoTemp);
-            campoNombre.setBackground(new Color(255, 255, 255));
-            campoNombre.setEnabled(true);
-            
-            campoTelefono.setText("");
-            campoTelefono.setBackground(new Color(255, 255, 255));
-            campoTelefono.setEnabled(true);
-            
-            campoEmail.setText("");
-            campoEmail.setBackground(new Color(255, 255, 255));
-            campoEmail.setEnabled(true);
-            campoClave.setText("");
-            
-            campoClave.setBackground(new Color(255, 255, 255));
-            campoClave.setEnabled(true);
-            btnEditar.setEnabled(true);
+        Pattern regexNums = Pattern.compile("\\d");
+        Pattern regexLetras = Pattern.compile("[A-Za-z]");
+        Pattern regexCorreo = Pattern.compile(".+@.+\\..+");
+        
+        Matcher matcherNombre = regexLetras.matcher(nombre);
+        Matcher matcherTelefono = regexNums.matcher(telefono);
+        Matcher matcherEmail = regexCorreo.matcher(email);
+        Matcher matcherClave = regexNums.matcher(clave);
+        
+        boolean matchNombre = matcherNombre.find();
+        boolean matchTelefono = matcherTelefono.find();
+        boolean matchEmail = matcherEmail.find();
+        boolean matchClave = matcherClave.find();
+        
+        if(matchNombre && matchTelefono && matchEmail && matchClave){
+            if(database.editarCliente(documentoABuscar, nombre, telefono, email, clave)){
+                documentoABuscar = "";
+                campoDocumento.setText("");
+                campoNombre.setText("");
+                campoNombre.setBackground(new Color(153,153,153));
+                campoNombre.setEnabled(false);
+                campoTelefono.setText("");
+                campoTelefono.setBackground(new Color(153,153,153));
+                campoTelefono.setEnabled(false);
+                campoEmail.setText("");
+                campoEmail.setBackground(new Color(153,153,153));
+                campoEmail.setEnabled(false);
+                campoClave.setText("");
+                campoClave.setBackground(new Color(153,153,153));
+                campoClave.setEnabled(false);
+                btnEditar.setEnabled(false);
+                JOptionPane.showMessageDialog(null, "Editado con exito: ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
+        else{
+            String errores = "";
+                errores+=(matchNombre ? "" : "*Solo ingrese letras en el nombre");
+                errores+=(errores.equals("") && matchTelefono ? "" : "\n") + (matchTelefono ? "" : "*Solo ingrese numeros en el telefono");
+                errores+=(errores.equals("") && matchEmail ? "" : "\n") + (matchEmail ? "" : "*Ingrese un email valido");
+                errores+=(errores.equals("") && matchClave ? "" : "\n") + (matchClave ? "" : "*Solo ingrese numeros en la clave");
+                JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+//        String cedulaAEditar = campoDocumento.getText();
+//        String nombreNuevo = campoNombre.getText();
+//        String telefonoNuevo = campoTelefono.getText();
+//        String correoNuevo = campoEmail.getText();
+//        String claveNueva = campoClave.getText();
+//        database.editarCliente(cedulaAEditar,nombreNuevo,telefonoNuevo,correoNuevo,claveNueva);
+//        
+//        campoDocumento.setText("");
+//        String datoTemp = campoDocumento.getText();
+//        if(datoTemp.equals("")){
+//            campoNombre.setText("");
+//            campoNombre.setBackground(new Color(153,153,153));
+//            campoNombre.setEnabled(false);
+//            campoTelefono.setText("");
+//            campoTelefono.setBackground(new Color(153,153,153));
+//            campoTelefono.setEnabled(false);
+//            campoEmail.setText("");
+//            campoEmail.setBackground(new Color(153,153,153));
+//            campoEmail.setEnabled(false);
+//            campoClave.setText("");
+//            campoClave.setBackground(new Color(153,153,153));
+//            campoClave.setEnabled(false);
+//            btnEditar.setEnabled(false);
+//        }else{
+//            campoNombre.setText(datoTemp);
+//            campoNombre.setBackground(new Color(255, 255, 255));
+//            campoNombre.setEnabled(true);
+//            
+//            campoTelefono.setText("");
+//            campoTelefono.setBackground(new Color(255, 255, 255));
+//            campoTelefono.setEnabled(true);
+//            
+//            campoEmail.setText("");
+//            campoEmail.setBackground(new Color(255, 255, 255));
+//            campoEmail.setEnabled(true);
+//            campoClave.setText("");
+//            
+//            campoClave.setBackground(new Color(255, 255, 255));
+//            campoClave.setEnabled(true);
+//            btnEditar.setEnabled(true);
+//        }
         
     }//GEN-LAST:event_btnEditarActionPerformed
 

@@ -341,7 +341,6 @@ public class ConexionBD {
             if(resultadoCliente.getRow() == 1){
                 resultado = resultadoCliente.getString(dato);
             }
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -536,13 +535,12 @@ public class ConexionBD {
     
     public boolean editarCliente(String cedulaAEditar, String nombreNuevo, String telefonoNuevo, String correoNuevo, String claveNueva) {
         boolean editado = false;
-
-        try {
+        try{
+            editarClaveCuentaBancaria(darDatoCliente(cedulaAEditar, "idCuentaBancaria"), claveNueva);
             String peticion = "UPDATE cliente SET nombre='" + nombreNuevo + "', telefono='" + telefonoNuevo + "', email='" + correoNuevo + "' WHERE documento='" + cedulaAEditar + "'";
             int actu = manipular.executeUpdate(peticion);
             editado = actu == 1;
-            JOptionPane.showMessageDialog(null, "Editado con exito: ", "Exito", JOptionPane.INFORMATION_MESSAGE);
-        } catch (SQLException e) {
+        }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "Error en base de datos: " + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -667,6 +665,16 @@ public class ConexionBD {
             int prestamo = Integer.parseInt(dato);
             balance+=prestamo;
             String peticion = "UPDATE cuentabancaria SET balance='"+balance+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            manipular.executeUpdate(peticion);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public void editarClaveCuentaBancaria(String idCuentaBancaria, String clave){
+        try{
+            String claveEncriptada = encriptarClave(clave);
+            String peticion = "UPDATE cuentabancaria SET clave='"+claveEncriptada+"' WHERE idCuentaBancaria="+idCuentaBancaria;
             manipular.executeUpdate(peticion);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
