@@ -1,5 +1,8 @@
 package interfaces.vendedor;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import utils.ConexionBD;
 
 
@@ -8,11 +11,12 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
     
     ConexionBD database;
     MenuVendedorGeneral ventana;
-    
+    String id;
 
-    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana,ConexionBD database) {
+    public MenuVendedorCrearCliente(MenuVendedorGeneral ventana,ConexionBD database, String id) {
         this.ventana = ventana;
         this.database = database;
+        this.id = id;
         initComponents();
     }
 
@@ -171,16 +175,45 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         String documento = campoDocumento.getText(); 
         String nombre = campoNombre.getText();  
-        String Telefono = campoTelefono.getText();  
+        String telefono = campoTelefono.getText();  
         String email = campoEmail.getText();
         String clave = campoClave.getText();
-        database.crearCliente(documento, nombre,  Telefono, email, clave);
         
-        campoDocumento.setText("");
-        campoNombre.setText("");
-        campoTelefono.setText("");
-        campoEmail.setText("");
-        campoClave.setText("");
+        Pattern regexNums = Pattern.compile("\\d");
+        Pattern regexLetras = Pattern.compile("[A-Za-z]");
+        Pattern regexCorreo = Pattern.compile(".+@.+\\..+");
+        
+        Matcher matcherDocumento = regexNums.matcher(documento);
+        Matcher matcherNombre = regexLetras.matcher(nombre);
+        Matcher matcherTelefono = regexNums.matcher(telefono);
+        Matcher matcherEmail = regexCorreo.matcher(email);
+        Matcher matcherClave = regexNums.matcher(clave);
+        
+        boolean matchDocumento = matcherDocumento.find();
+        boolean matchNombre = matcherNombre.find();
+        boolean matchTelefono = matcherTelefono.find();
+        boolean matchEmail = matcherEmail.find();
+        boolean matchClave = matcherClave.find();
+        
+        if(matchDocumento && matchNombre && matchTelefono && matchEmail && matchClave){
+            if(database.crearCliente(documento, nombre, telefono, email, clave, id)){
+                campoDocumento.setText("");
+                campoNombre.setText("");
+                campoTelefono.setText("");
+                campoEmail.setText("");
+                campoClave.setText("");
+                JOptionPane.showMessageDialog(null, "Cliente creado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else{
+            String errores = "";
+                errores+=(matchDocumento ? "" : "*Solo ingrese numeros en el documento");
+                errores+=(errores.equals("") && matchNombre ? "" : "\n") + (matchNombre ? "" : "*Solo ingrese letras en el nombre");
+                errores+=(errores.equals("") && matchTelefono ? "" : "\n") + (matchTelefono ? "" : "*Solo ingrese numeros en el telefono");
+                errores+=(errores.equals("") && matchEmail ? "" : "\n") + (matchEmail ? "" : "*Ingrese un email valido");
+                errores+=(errores.equals("") && matchClave ? "" : "\n") + (matchClave ? "" : "*Solo ingrese numeros en la clave");
+                JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnCrearActionPerformed
 
 
