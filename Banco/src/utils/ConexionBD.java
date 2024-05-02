@@ -53,6 +53,17 @@ public class ConexionBD {
         return conexionExitosa;
     }
     
+    private String encriptarClave(String clave){
+        String claveEncriptada = Base64.getEncoder().encodeToString(clave.getBytes());
+        return claveEncriptada;
+    }
+    
+    private String desencriptarClave(String claveEncriptada){
+        byte[] bytesClave = Base64.getDecoder().decode(claveEncriptada);
+        String clave = new String(bytesClave);
+        return clave;
+    }
+    
     public boolean encontrarLogin(String usuario, String documento, String codigoDeAcceso){
         try{
             String peticion = "SELECT * FROM "+usuario;
@@ -61,8 +72,7 @@ public class ConexionBD {
             if(usuarios.getRow() == 1){
                 do{
                     if(usuarios.getString("documento").equals(documento)){
-                        byte[] bytesCodigo = Base64.getDecoder().decode(usuarios.getString("codigoAcceso"));
-                        String codigoDesencriptado = new String(bytesCodigo);
+                        String codigoDesencriptado = desencriptarClave(usuarios.getString("codigoAcceso"));
                         if(codigoDesencriptado.equals(codigoDeAcceso)) return true;
                         else{
                             JOptionPane.showMessageDialog(null, "Codigo de acceso incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
@@ -292,8 +302,7 @@ public class ConexionBD {
                 do{
                     if(vendedores.getString("documento").equals(documento)){
                         if(dato.equals("codigoAcceso")){
-                            byte[] bytesCodigo = Base64.getDecoder().decode(vendedores.getString("codigoAcceso"));
-                            String codigoDesencriptado = new String(bytesCodigo);
+                            String codigoDesencriptado = desencriptarClave(vendedores.getString("codigoAcceso"));
                             return codigoDesencriptado;
                         }
                         else return vendedores.getString(dato);
@@ -346,7 +355,12 @@ public class ConexionBD {
             ResultSet resultadoCuentaBancaria = manipular.executeQuery(peticion);
             resultadoCuentaBancaria.next();
             if(resultadoCuentaBancaria.getRow() == 1){
-                resultado = resultadoCuentaBancaria.getString(dato);
+                if(dato.equals("clave")){
+                    resultado = desencriptarClave(resultadoCuentaBancaria.getString("clave"));
+                }
+                else{
+                    resultado = resultadoCuentaBancaria.getString(dato);
+                }
             }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "13Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -408,8 +422,7 @@ public class ConexionBD {
                             }
                         });
                         
-                        byte[] bytesCodigo = Base64.getDecoder().decode(vendedores.getString("codigoAcceso"));
-                        String codigoDesencriptado = new String(bytesCodigo);
+                        String codigoDesencriptado = desencriptarClave(vendedores.getString("codigoAcceso"));
                         
                         modelo.addRow(new Object[]{contador, vendedores.getString("documento"), vendedores.getString("nombre"), vendedores.getString("telefono"), codigoDesencriptado, botonEditar, botonEliminar});
                         contador++;
@@ -431,7 +444,7 @@ public class ConexionBD {
                 JOptionPane.showMessageDialog(null, "No se aceptan documentos repetidos", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-            String codigoEncriptado = Base64.getEncoder().encodeToString(codigoAcceso.getBytes());
+            String codigoEncriptado = encriptarClave(codigoAcceso);
             String peticion = "INSERT INTO vendedor VALUES('"+documento+"', '"+nombre+"', '"+telefono+"', '"+codigoEncriptado+"', '"+idSucursal+"')";
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
@@ -466,7 +479,7 @@ public class ConexionBD {
     public boolean editarVendedor(String documento, String nombre, String telefono, String codigoAcceso){
         boolean respuesta = false;
         try{
-            String codigoEncriptado = Base64.getEncoder().encodeToString(codigoAcceso.getBytes());
+            String codigoEncriptado = encriptarClave(codigoAcceso);
             String peticion = "UPDATE vendedor SET nombre='"+nombre+"', telefono='"+telefono+"', codigoAcceso='"+codigoEncriptado+"' WHERE documento='"+documento+"'";
             int actu = manipular.executeUpdate(peticion);
             respuesta = actu == 1;
@@ -475,6 +488,7 @@ public class ConexionBD {
         }
         return respuesta;
         
+
     }  
     public void crearCliente(String documento,String nombre,String telefono,String email,String clave ){
         boolean respuesta = false;
@@ -497,8 +511,52 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "No se pudo insertar el cliente: ", "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("No se pudo insertar");
         }
+
     }
     
+    public boolean crearCliente(String documento, String nombre, String telefono, String email, String clave, String id){
+        boolean respuesta = false;
+        int idCuentaBancaria = crearCuentaBancaria(clave);
+        try{
+            String peticion = "INSERT INTO cliente VALUES ('"+documento+"', '"+nombre+"', '"+telefono+"', '"+email+"', '"+id+"', '"+idCuentaBancaria+"')";
+            int resp = manipular.executeUpdate(peticion);
+            if(resp == 1) respuesta = true;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "18Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
+    }
+    
+    public int crearCuentaBancaria(String clave){
+        int idCuentaBancaria = conseguirIdCuentaBancaria();
+        try{
+            String claveEncriptada = encriptarClave(clave);
+            String peticion = "INSERT INTO cuentabancaria VALUES ('"+idCuentaBancaria+"', '0', '"+claveEncriptada+"', '', '0')";
+            int respuesta = manipular.executeUpdate(peticion);
+            if(respuesta == 1) return idCuentaBancaria;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "18Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return 0;
+    }
+    
+    public int conseguirIdCuentaBancaria(){
+        int contador = 1001;
+        try{
+            String peticion = "SELECT * FROM cuentabancaria";
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            if(resultados.getRow() == 1){
+                do{
+                    if(!(resultados.getString("idCuentaBancaria").equals(contador+""))) return contador;
+                    contador++;
+                }while(resultados.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "18Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return contador;
+    }
     
     public boolean editarCliente(String cedulaAEditar, String nombreNuevo, String telefonoNuevo, String correoNuevo, String claveNueva) {
         boolean editado = false;

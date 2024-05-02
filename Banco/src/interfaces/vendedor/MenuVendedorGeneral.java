@@ -189,14 +189,16 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         cambiarPanelClientes();
     }//GEN-LAST:event_btnClientesActionPerformed
 
-    public void cambiarCrearClienteActionPerformed() {                                                     
+
+    public void cambiarPanelCrearCliente(){
+
         //Eliminar contenido actual
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
 
 
-        MenuVendedorCrearCliente nuevo = new MenuVendedorCrearCliente(this,database);
+        MenuVendedorCrearCliente nuevo = new MenuVendedorCrearCliente(this, database, id);
 
         
         //Ajustar el tamaño del nuevo contenedor
@@ -211,6 +213,8 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         revalidate();
         repaint();
     }
+    
+
     
     public void cambiarLeerClientesActionPerformed() {                                                     
         //Eliminar contenido actual
