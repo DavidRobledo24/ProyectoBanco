@@ -51,7 +51,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         etqCuentaBancari.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqCuentaBancari.setForeground(new java.awt.Color(255, 255, 255));
         etqCuentaBancari.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etqCuentaBancari.setText("Cuenta Bancaria:");
+        etqCuentaBancari.setText("Documento:");
 
         btnBuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnBuscar.setText("BUSCAR");
@@ -81,7 +81,7 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         etqDocumento.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqDocumento.setForeground(new java.awt.Color(255, 255, 255));
         etqDocumento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etqDocumento.setText("Documento:");
+        etqDocumento.setText("Cuenta bancaria:");
 
         etqClave.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         etqClave.setForeground(new java.awt.Color(255, 255, 255));

@@ -173,7 +173,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Cuenta Bancaria:"/>
+            <Property name="text" type="java.lang.String" value="Documento:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="campoCuentaBancaria">
@@ -241,7 +241,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Documento:"/>
+            <Property name="text" type="java.lang.String" value="Cuenta bancaria:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="etqClave">
