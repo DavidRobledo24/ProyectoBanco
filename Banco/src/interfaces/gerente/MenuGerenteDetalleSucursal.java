@@ -86,10 +86,13 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
         setBackground(new java.awt.Color(39, 64, 115));
 
         labelNombreSucursal.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        labelNombreSucursal.setForeground(new java.awt.Color(255, 255, 255));
 
         labelDireccionSucursal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        labelDireccionSucursal.setForeground(new java.awt.Color(255, 255, 255));
 
         labelTelefonoSucursal.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        labelTelefonoSucursal.setForeground(new java.awt.Color(255, 255, 255));
 
         botonEliminar.setBackground(new java.awt.Color(116, 16, 35));
         botonEliminar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -145,6 +148,8 @@ public class MenuGerenteDetalleSucursal extends javax.swing.JPanel {
                 botonAtrasActionPerformed(evt);
             }
         });
+
+        labelBalanceSucursal.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
