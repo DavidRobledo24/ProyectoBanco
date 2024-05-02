@@ -195,10 +195,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         cuentaBuscar = campoDocumentoCredito.getText();
-        String temp1 = database.encontrarDocumentoCliente(cuentaBuscar);
-        String temp2 = database.darDatoCliente(temp1, "nombre");
-        System.out.println(temp2);
-    
+        
         if (cuentaBuscar.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Por favor ingrese la cedula de la persona.", "Error", JOptionPane.ERROR_MESSAGE);
             return;

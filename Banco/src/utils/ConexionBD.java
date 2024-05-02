@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Base64;
 import java.util.Map;
 import javax.swing.ImageIcon;
@@ -676,6 +678,9 @@ public class ConexionBD {
        }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
        }
+       LocalDate fecha = LocalDate.now();
+       LocalTime hora = LocalTime.now();
+       actualizacion = fecha+" "+hora.getHour()+":"+hora.getMinute()+":"+(hora.getSecond() < 10 ? "0"+hora.getSecond() : hora.getSecond())+"_"+actualizacion;
        if(historialOriginal.equals("")){
            historialOriginal+=actualizacion;
        }
@@ -685,7 +690,11 @@ public class ConexionBD {
                historialOriginal+="|"+actualizacion;
            }
            else{
-               historialPartido[0] = actualizacion;
+               historialPartido[0] = historialPartido[1];
+               historialPartido[1] = historialPartido[2];
+               historialPartido[2] = historialPartido[3];
+               historialPartido[3] = historialPartido[4];
+               historialPartido[4] = actualizacion;
                for(int i = 0; i < historialPartido.length; i++){
                    if(i == 0){
                        historialOriginal = historialPartido[i];
@@ -767,5 +776,36 @@ public class ConexionBD {
             JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return contador;
+    }
+    
+    public boolean ingresarDinero(String idCuentaBancaria,String dinero){
+        boolean respuesta = false;
+        try{
+            String dineroAnterior = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            int deuda = Integer.parseInt(deudaString);
+            int dineroAnteriorInt = Integer.parseInt(dineroAnterior);
+            int dineroAIngresar = Integer.parseInt(dinero);
+            System.out.println(dineroAIngresar);
+            if(deuda > 0){
+                deuda-=dineroAIngresar;
+                if(deuda < 0){
+                    dineroAIngresar = deuda * -1;
+                    deuda = 0;
+                }
+                else{
+                    dineroAIngresar = 0;
+                }
+            }
+            System.out.println(dineroAIngresar);
+            int dineroActual = dineroAnteriorInt+dineroAIngresar;
+            
+            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            int resp = manipular.executeUpdate(peticion);
+            if(resp == 1) respuesta = true;
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
     }
 }

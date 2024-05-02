@@ -48,15 +48,15 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Component id="campoCuentaBancaria" min="-2" pref="233" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="btnBuscarCuenta" min="-2" pref="99" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etqCuentaBancaria" min="-2" pref="485" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="campoCuentaBancaria" min="-2" pref="233" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                          <Component id="btnBuscarCuenta" min="-2" pref="99" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <EmptySpace min="-2" pref="193" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="153" max="-2" attributes="0"/>
-                  <Component id="etqCuentaBancaria" min="-2" pref="485" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -212,6 +212,9 @@
             <Property name="text" type="java.lang.String" value="Ingresar"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresarDineroActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnAtras">
           <Properties>
