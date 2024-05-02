@@ -240,7 +240,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorEditarCliente nuevo = new MenuVendedorEditarCliente(this, database);
+        MenuVendedorEditarCliente nuevo = new MenuVendedorEditarCliente(this, database, id);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());

@@ -11,10 +11,12 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
     ConexionBD database; 
     MenuVendedorGeneral ventana;
     String documentoABuscar;
+    String id;
     
-    public MenuVendedorEditarCliente(MenuVendedorGeneral ventana, ConexionBD database) {
+    public MenuVendedorEditarCliente(MenuVendedorGeneral ventana, ConexionBD database, String id) {
         this.ventana = ventana;
         this.database = database; 
+        this.id = id;
         initComponents();
     }
 
@@ -274,6 +276,9 @@ public class MenuVendedorEditarCliente extends javax.swing.JPanel {
         
         if(matchNombre && matchTelefono && matchEmail && matchClave){
             if(database.editarCliente(documentoABuscar, nombre, telefono, email, clave)){
+                String cuentaBancaria = database.darDatoCliente(documentoABuscar, "idCuentaBancaria");
+                database.actualizarHistorial(id, "sucursal", "Edicion de cuenta_0_Cuenta: "+cuentaBancaria);
+                database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Edicion de cuenta_0_No hay detalles");
                 documentoABuscar = "";
                 campoDocumento.setText("");
                 campoNombre.setText("");

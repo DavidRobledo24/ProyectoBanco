@@ -220,7 +220,7 @@ public class MenuVendedorIngresarDinero extends javax.swing.JPanel {
         boolean matchDinero = matcher.find();
         
         if(matchDinero){
-            if(database.ingresarDinero(cuentaBancaria, dinero)){
+            if(database.ingresarDinero(cuentaBancaria, dinero, idSucursal)){
                 database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Deposito_"+dinero+"_No hay detalles");
                 database.actualizarHistorial(idSucursal, "sucursal", "Deposito_"+dinero+"_Cuenta: "+cuentaBancaria);
                 labelTitular.setText("------------------------------------");

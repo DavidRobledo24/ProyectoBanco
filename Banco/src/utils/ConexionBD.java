@@ -681,11 +681,17 @@ public class ConexionBD {
         }
     }
     
-    public boolean retirarDineroCuentaBancaria(String idCuentaBancaria, String dineroRetirar, String clave){
+    public boolean retirarDineroCuentaBancaria(String idCuentaBancaria, String dineroRetirar, String clave, String idSucursal){
         boolean respuesta = false;
         try{
             if(!(clave.equals(darDatoCuentaBancaria(idCuentaBancaria, "clave")))){
                 JOptionPane.showMessageDialog(null, "Clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            int temp = Integer.parseInt(dineroRetirar);
+            
+            if(!modificarDineroSucursal(clave, temp)){
+                JOptionPane.showMessageDialog(null, "Dinero insuficiente en sucursal", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
             String balanceString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
@@ -947,7 +953,7 @@ public class ConexionBD {
         return contador;
     }
     
-    public boolean ingresarDinero(String idCuentaBancaria,String dinero){
+    public boolean ingresarDinero(String idCuentaBancaria, String dinero, String idSucursal){
         boolean respuesta = false;
         try{
             String dineroAnterior = darDatoCuentaBancaria(idCuentaBancaria, "balance");
@@ -972,12 +978,34 @@ public class ConexionBD {
             
             String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"', deuda='"+deuda+"' WHERE idCuentaBancaria="+idCuentaBancaria;
             int resp = manipular.executeUpdate(peticion);
-            if(resp == 1) respuesta = true;
+            if(resp == 1){
+                int temp = Integer.parseInt(dinero);
+                modificarDineroSucursal(idSucursal, temp);
+                respuesta = true;
+            }
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
         return respuesta;
     }
+    
+    public boolean modificarDineroSucursal(String id, int cantidad){
+        boolean respuesta = false;
+        try{
+            String dineroString = darDatoSucursal(id, "balance");
+            int balance = Integer.parseInt(dineroString);
+            balance+=cantidad;
+            if(balance >= 0){
+                String peticion = "UPDATE sucursal SET balance='"+balance+"' WHERE idSucursal="+id;
+                int resp = manipular.executeUpdate(peticion);
+                respuesta = resp == 1;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return respuesta;
+    }
+    
     public boolean buscarCreditoExistente(String idCuentaBancaria){
         boolean encontrado = false;
         try{

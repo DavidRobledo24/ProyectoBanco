@@ -234,7 +234,7 @@ public class MenuVendedorRetirarDinero extends javax.swing.JPanel {
         boolean matchClave = matcherClave.find();
         
         if(matchRetirar && matchClave){
-            if(database.retirarDineroCuentaBancaria(cuentaBancaria, cantRetirar, clave)){
+            if(database.retirarDineroCuentaBancaria(cuentaBancaria, cantRetirar, clave, idSucursal)){
                 database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "R_"+cantRetirar+"_No hay detalles");
                 database.actualizarHistorial(idSucursal, "sucursal", "Deposito_"+cantRetirar+"_Cuenta: "+cuentaBancaria);
                 labelDineroDisponible.setText("- - - - - - - - - - - - - - - - - - -");

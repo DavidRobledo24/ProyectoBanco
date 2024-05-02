@@ -197,12 +197,15 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
         
         if(matchDocumento && matchNombre && matchTelefono && matchEmail && matchClave){
             if(database.crearCliente(documento, nombre, telefono, email, clave, id)){
+                String cuentaBancaria = database.darDatoCliente(documento, "idCuentaBancaria");
+                database.actualizarHistorial(id, "sucursal", "Creacion cliente_0_"+nombre+" cread@ con cuenta: "+cuentaBancaria);
+                database.actualizarHistorial(cuentaBancaria, "cuentabancaria", "Creacion de cuenta_0_No hay detalles");
                 campoDocumento.setText("");
                 campoNombre.setText("");
                 campoTelefono.setText("");
                 campoEmail.setText("");
                 campoClave.setText("");
-                JOptionPane.showMessageDialog(null, "Cliente creado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Cliente creado con exito\nNumero de cuenta: "+cuentaBancaria, "Exito", JOptionPane.INFORMATION_MESSAGE);
             }
         }
         else{
