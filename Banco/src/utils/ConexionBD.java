@@ -612,28 +612,57 @@ public class ConexionBD {
         }
         
     }   
-    public void compararClave(String clave,String cuenta){
-        String consulta = "SELECT idCuentaBancaria FROM cliente";
-        String c = consulta;
-       
-        if(clave==c){
-            String peticion = "DELETE FROM cliente WHERE idCuentaBancaria='" + cuenta+ "'";
-
-            try {
-                Statement stmt = conexion.createStatement();
-                int filasEliminadas = stmt.executeUpdate(consulta);
-
-                if (filasEliminadas > 0) {
-                    System.out.println("La persona ha sido eliminada correctamente");
+    public void compararClave(String clave, String cuenta) {
+    try {
+        // Consulta para verificar si la clave coincide con la cuenta proporcionada
+        String consulta = "SELECT COUNT(*) FROM cliente WHERE idCuentaBancaria = '" + cuenta + "' AND clave = '" + clave + "'";
+        Statement statement = conexion.createStatement();
+        ResultSet resultado = statement.executeQuery(consulta);
+        
+        if (resultado.next()) {
+            int cuentaExiste = resultado.getInt(1);
+            if (cuentaExiste > 0) {
+                // Si la cuenta y la clave coinciden, eliminar al cliente
+                String peticion = "DELETE FROM cliente WHERE idCuentaBancaria = '" + cuenta + "'";
+                int respuesta = statement.executeUpdate(peticion);
+                if (respuesta == 1) {
+                    JOptionPane.showMessageDialog(null, "Cliente eliminado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
+                    JOptionPane.showMessageDialog(null, "Error al eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (SQLException e) {
-                System.out.println("Error al eliminar persona: " + e.getMessage());    }
-        } else {
-            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
-        } 
+            } else {
+                JOptionPane.showMessageDialog(null, "La clave proporcionada no coincide con la cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        statement.close();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error en base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
+
+
+        
+//        String consulta = "SELECT idCuentaBancaria FROM cliente";
+//        String c = consulta;
+//       
+//        if(clave==c){
+//            String peticion = "DELETE FROM cliente WHERE idCuentaBancaria='" + cuenta+ "'";
+//
+//            try {
+//                Statement stmt = conexion.createStatement();
+//                int filasEliminadas = stmt.executeUpdate(consulta);
+//
+//                if (filasEliminadas > 0) {
+//                    System.out.println("La persona ha sido eliminada correctamente");
+//                } else {
+//                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
+//                }
+//            } catch (SQLException e) {
+//                System.out.println("Error al eliminar persona: " + e.getMessage());    }
+//        } else {
+//            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
+//        } 
+//    }
         
     public void eliminarVendedor(String documento){
         try{
