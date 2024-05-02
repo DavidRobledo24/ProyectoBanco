@@ -7,16 +7,19 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
     
     ConexionBD database;
     String idCredito;
+    String idCuentaBancaria;
+    MenuGerenteGeneral ventanaAnterior;
  
-    public BotonMenuGerenteCreditos(ConexionBD database, String idCredito) {
+    public BotonMenuGerenteCreditos(ConexionBD database, String idCredito, MenuGerenteGeneral ventanaAnterior) {
         this.database = database;
         this.idCredito = idCredito;
+        this.ventanaAnterior = ventanaAnterior;
         initComponents();
         initAlternComponents();
     }
 
     private void initAlternComponents(){
-        String idCuentaBancaria = database.darDatoCredito(idCredito, "idCuentaBancaria");
+        idCuentaBancaria = database.darDatoCredito(idCredito, "idCuentaBancaria");
         String documentoCliente = database.encontrarDocumentoCliente(idCuentaBancaria);
         etqNombreTitular.setText(database.darDatoCliente(documentoCliente, "nombre"));
         etqEmailTitular.setText(database.darDatoCliente(documentoCliente, "email"));
@@ -40,8 +43,8 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
         etqBalance = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         etqPrestamoSolicitado = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnAceptar = new javax.swing.JButton();
+        btnDenegar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         etqDeuda = new javax.swing.JLabel();
 
@@ -82,15 +85,25 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
         etqPrestamoSolicitado.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         etqPrestamoSolicitado.setForeground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(101, 132, 65));
-        jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Aceptar");
+        btnAceptar.setBackground(new java.awt.Color(101, 132, 65));
+        btnAceptar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setBackground(new java.awt.Color(116, 16, 35));
-        jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Denegar");
+        btnDenegar.setBackground(new java.awt.Color(116, 16, 35));
+        btnDenegar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnDenegar.setForeground(new java.awt.Color(255, 255, 255));
+        btnDenegar.setText("Denegar");
+        btnDenegar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDenegarActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,8 +145,8 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                             .addComponent(etqDeuda, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDenegar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
         layout.setVerticalGroup(
@@ -155,7 +168,7 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                             .addComponent(etqTelefonoTitular, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(21, 21, 21)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -170,21 +183,32 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(etqPrestamoSolicitado, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDenegar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        database.editarDeudaCuentaBancaria(idCuentaBancaria, database.darDatoCredito(idCredito, "valorPrestamo"));
+        database.eliminarCredito(idCredito);
+        ventanaAnterior.cambiarPanelCreditos();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnDenegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDenegarActionPerformed
+        database.eliminarCredito(idCredito);
+        ventanaAnterior.cambiarPanelCreditos();
+    }//GEN-LAST:event_btnDenegarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnDenegar;
     private javax.swing.JLabel etqBalance;
     private javax.swing.JLabel etqDeuda;
     private javax.swing.JLabel etqEmailTitular;
     private javax.swing.JLabel etqNombreTitular;
     private javax.swing.JLabel etqPrestamoSolicitado;
     private javax.swing.JLabel etqTelefonoTitular;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
