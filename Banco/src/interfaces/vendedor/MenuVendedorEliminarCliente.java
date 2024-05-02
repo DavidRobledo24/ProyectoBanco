@@ -1,6 +1,7 @@
 
 package interfaces.vendedor;
 
+import java.awt.Color;
 import utils.ConexionBD;
 
 
@@ -80,10 +81,14 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         etqClave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqClave.setText("Clave:");
 
+        campoClave.setBackground(new java.awt.Color(153, 153, 153));
+        campoClave.setEnabled(false);
+
         btnEliminar.setBackground(new java.awt.Color(116, 16, 35));
         btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.setEnabled(false);
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -235,6 +240,20 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
         campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
         campoCuentaBancaria.setText(database.darDatoCliente(documentoABuscar, "idCuentaBancaria"));
+        
+        String datoTemp = database.darDatoCliente(documentoABuscar, "documento");
+        
+        if(datoTemp.equals("")){
+            campoClave.setText("");
+            campoClave.setEnabled(false);
+            campoClave.setBackground(new Color(153,153,153));
+            btnEliminar.setEnabled(false);
+        }else{
+           campoClave.setText("");
+            campoClave.setEnabled(true);
+            campoClave.setBackground(new Color(255,255,255));
+            btnEliminar.setEnabled(true); 
+        }
         
     }//GEN-LAST:event_btnBuscarActionPerformed
 
