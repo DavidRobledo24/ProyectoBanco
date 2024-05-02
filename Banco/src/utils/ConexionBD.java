@@ -164,6 +164,7 @@ public class ConexionBD {
                 resultados.close();
             }
             
+            
             contadorClientes = 0;
             for(int i = 0; i < cuentasBancariasTemp.length; i++){
                 peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
@@ -174,11 +175,16 @@ public class ConexionBD {
             }
             
             vectorCreditos = new String[contadorClientes];
-            for(int i = 0; i < vectorCreditos.length; i++){
+            int contTemp = 0;
+            for(int i = 0; i < cuentasBancariasTemp.length; i++){
+                System.out.println("cuentatemp"+cuentasBancariasTemp[i]);
                 peticion = "SELECT * FROM credito WHERE idCuentaBancaria="+cuentasBancariasTemp[i];
                 resultados = manipular.executeQuery(peticion);
                 resultados.next();
-                if(resultados.getRow() == 1) vectorCreditos[i] = resultados.getString("idCredito");
+                if(resultados.getRow() == 1){
+                    vectorCreditos[contTemp] = resultados.getString("idCredito");
+                    contTemp++;
+                }
                 resultados.close();
             }
             return vectorCreditos;
@@ -266,6 +272,7 @@ public class ConexionBD {
         String[] vectorIds = contarCreditos(documentoGerente);
         BotonMenuGerenteCreditos[] vectorCreditos = new BotonMenuGerenteCreditos[vectorIds.length];
         for(int i = 0; i < vectorIds.length; i++){
+            System.out.println(vectorIds[i]);
             vectorCreditos[i] = new BotonMenuGerenteCreditos(this, vectorIds[i], ventanaAnterior);
         }
         
@@ -319,13 +326,14 @@ public class ConexionBD {
     public String darDatoCredito(String idCredito, String dato){
         String resultado = "";
         try{
+            System.out.println(idCredito);
             String peticion = "SELECT * FROM credito WHERE idCredito="+idCredito;
             ResultSet resultadoCredito = manipular.executeQuery(peticion);
             resultadoCredito.next();
             if(resultadoCredito.getRow() == 1){
                 resultado = resultadoCredito.getString(dato);
             }
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "1Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "11Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -376,7 +384,7 @@ public class ConexionBD {
             if(resultadoCliente.getRow() == 1){
                 resultado = resultadoCliente.getString("documento");
             }
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "2Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "14Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -586,20 +594,6 @@ public class ConexionBD {
         }
         
     }  
-    public void darDatosCliente(String dato,String documento){
-            String resultado = "";
-        try{
-            String peticion = "SELECT * FROM cliente WHERE documento="+documento;
-            ResultSet resultadoCliente = manipular.executeQuery(peticion);
-            resultadoCliente.next();
-            if(resultadoCliente.getRow() == 1){
-                resultado = resultadoCliente.getString(dato);
-            }
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
-        }catch(SQLException e){
-            JOptionPane.showMessageDialog(null, "12Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
     public void eliminarCliente(String documento){
        
         if (!documento.isEmpty()) {
@@ -627,7 +621,7 @@ public class ConexionBD {
             String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";
             int respuesta = manipular.executeUpdate(peticion);
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Vendedor eliminado con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "3Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "19Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
@@ -689,7 +683,7 @@ public class ConexionBD {
                 return false;
             }
             int temp = Integer.parseInt(dineroRetirar);
-            
+            temp-=(temp*2);
             if(!modificarDineroSucursal(clave, temp)){
                 JOptionPane.showMessageDialog(null, "Dinero insuficiente en sucursal", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -718,7 +712,7 @@ public class ConexionBD {
             String peticion = "DELETE FROM sucursal WHERE idSucursal="+id;
             int respuesta = manipular.executeUpdate(peticion);
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Sucursal eliminada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
-            else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+            else JOptionPane.showMessageDialog(null, "4Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "21Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
@@ -839,7 +833,7 @@ public class ConexionBD {
                historialOriginal = resultados.getString("historial");
            }
            else{
-               System.out.println("Error desconocido");
+               System.out.println("5Error desconocido");
                return;
            }
        }catch(SQLException e){
@@ -891,7 +885,7 @@ public class ConexionBD {
                historialOriginal = resultados.getString("historial");
            }
            else{
-               System.out.println("Error desconocido");
+               System.out.println("6Error desconocido");
                return;
            }
        }catch(SQLException e){
@@ -911,23 +905,26 @@ public class ConexionBD {
        }
     }
     
-    public boolean agregarCredito(String valor, String idCuentaBancaria){
+    public boolean agregarCredito(String valor, String idCuentaBancaria, String clave){
         int id = conseguirIdCredito();
         boolean creacion = false;
         boolean revisarCredito = buscarCreditoExistente(idCuentaBancaria);
         
         if(revisarCredito == false){
             try{
-                String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
+                if(!(clave.equals(darDatoCuentaBancaria(idCuentaBancaria, "clave")))){
+                    JOptionPane.showMessageDialog(null, "Clave incorrecta", "Error", JOptionPane.ERROR_MESSAGE);        
+                    return false;
+                }
+                int valorInt = Integer.parseInt(valor);
+                String peticion = "INSERT INTO credito VALUES('"+id+"', '"+(valorInt < 0 ? "0" : valorInt+"")+"', '"+idCuentaBancaria+"')";
                 int respuesta = manipular.executeUpdate(peticion);
                 if(respuesta == 1){
                     creacion = true;
-                    JOptionPane.showMessageDialog(null, "Se agrego el Credito con exito ", "Exito", JOptionPane.INFORMATION_MESSAGE);
-                    
                 }
             }catch(SQLException e){
                 JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
-            } 
+            }
         }else{
            JOptionPane.showMessageDialog(null, "Ya existe un credito pendiente en esta cuenta: ", "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -1,5 +1,6 @@
 package interfaces.gerente;
 
+import javax.swing.JOptionPane;
 import utils.ConexionBD;
 
 
@@ -189,15 +190,32 @@ public class BotonMenuGerenteCreditos extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        database.editarDeudaCuentaBancaria(idCuentaBancaria, database.darDatoCredito(idCredito, "valorPrestamo"));
-        database.editarBalanceCuentaBancaria(idCuentaBancaria, database.darDatoCredito(idCredito, "valorPrestamo"));
-        database.eliminarCredito(idCredito);
-        ventanaAnterior.cambiarPanelCreditos();
+        String documentoCliente = database.encontrarDocumentoCliente(idCuentaBancaria);
+        String valorPrestamo = database.darDatoCredito(idCredito, "valorPrestamo");
+        int tempInt = Integer.parseInt(valorPrestamo);
+        tempInt-=(tempInt*2);
+        if(database.modificarDineroSucursal(database.darDatoCliente(documentoCliente, "idSucursales"), tempInt)){
+            database.editarDeudaCuentaBancaria(idCuentaBancaria, valorPrestamo);
+            database.editarBalanceCuentaBancaria(idCuentaBancaria, valorPrestamo);
+            database.actualizarHistorial(idCuentaBancaria, "cuentabancaria", "Credito_"+valorPrestamo+"_Aceptado");
+            database.actualizarHistorial(database.darDatoCliente(documentoCliente, "idSucursales"), "sucursal", "Credito_"+valorPrestamo+"_Aceptado en cuenta: "+idCuentaBancaria);
+            database.eliminarCredito(idCredito);
+            ventanaAnterior.cambiarPanelCreditos();
+            JOptionPane.showMessageDialog(null, "Credito aceptado", "Exito", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Dinero insuficiente en la sucursal", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnDenegarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDenegarActionPerformed
+        String documentoCliente = database.encontrarDocumentoCliente(idCuentaBancaria);
+        String valorPrestamo = database.darDatoCredito(idCredito, "valorPrestamo");
+        database.actualizarHistorial(idCuentaBancaria, "cuentabancaria", "Credito_"+valorPrestamo+"_Rechazado");
+        database.actualizarHistorial(database.darDatoCliente(documentoCliente, "idSucursales"), "sucursal", "Credito_"+valorPrestamo+"_Rechazado en cuenta: "+idCuentaBancaria);
         database.eliminarCredito(idCredito);
         ventanaAnterior.cambiarPanelCreditos();
+        JOptionPane.showMessageDialog(null, "Credito rechazado", "Exito", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnDenegarActionPerformed
 
 

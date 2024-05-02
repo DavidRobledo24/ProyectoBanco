@@ -5,6 +5,8 @@ import utils.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 
@@ -12,9 +14,11 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
 
     ConexionBD database;
     String cuentaBuscar;
+    String id;
     
-    public MenuVendedorSolicitudCreditos(ConexionBD database) {
+    public MenuVendedorSolicitudCreditos(ConexionBD database, String id) {
         this.database = database;
+        this.id = id;
         initComponents();
     }
     
@@ -26,13 +30,13 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         etqDocumento = new javax.swing.JLabel();
         campoDocumentoCredito = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
         etqDineroPrestar = new javax.swing.JLabel();
         etqCupoPrestamo = new javax.swing.JLabel();
         campoDineroPrestar = new javax.swing.JTextField();
         etqClaveSolicitarCredito = new javax.swing.JLabel();
         campoClavePrestamo = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnSolicitar = new javax.swing.JButton();
         etqCliente = new javax.swing.JLabel();
         etqNombreCliente = new javax.swing.JLabel();
         etqDocuemtno = new javax.swing.JLabel();
@@ -46,11 +50,11 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
         etqDocumento.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etqDocumento.setText("Cuenta Bancaria");
 
-        jButton1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton1.setText("BUSCAR");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnBuscar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnBuscarActionPerformed(evt);
             }
         });
 
@@ -75,12 +79,12 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
         campoClavePrestamo.setBackground(new java.awt.Color(153, 153, 153));
         campoClavePrestamo.setEnabled(false);
 
-        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jButton2.setText("Solicitar");
-        jButton2.setEnabled(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSolicitar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        btnSolicitar.setText("Solicitar");
+        btnSolicitar.setEnabled(false);
+        btnSolicitar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSolicitarActionPerformed(evt);
             }
         });
 
@@ -124,7 +128,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(57, 57, 57)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(etqCupoPrestamo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -140,7 +144,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(campoDocumentoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(35, 35, 35)
-                                        .addComponent(jButton1))
+                                        .addComponent(btnBuscar))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(21, 21, 21)
                                         .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -166,7 +170,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                 .addComponent(etqDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(campoDocumentoCredito, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,12 +193,12 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(campoClavePrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSolicitar, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         cuentaBuscar = campoDocumentoCredito.getText();
         String temp1 = database.encontrarDocumentoCliente(cuentaBuscar);
         String temp2 = database.darDatoCliente(temp1, "nombre");
@@ -217,7 +221,7 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
             campoClavePrestamo.setText("");
             campoClavePrestamo.setBackground(new Color(153,153,153));
             campoClavePrestamo.setEnabled(false);
-            jButton2.setEnabled(false);
+            btnSolicitar.setEnabled(false);
         }
         else{
             etqCampoDeuda.setText("-------------------------------");
@@ -232,54 +236,88 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
             etqNombreCliente.setText(temp2);
             etqDocumentoCliente.setText(temp1);
             etqCampoDeuda.setText(temp3);
-            jButton2.setEnabled(true);
+            btnSolicitar.setEnabled(true);
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnSolicitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarActionPerformed
         String claveIngresada = campoClavePrestamo.getText();
         String dineroAprestar = campoDineroPrestar.getText();
-        String cuentaBuscar = campoDocumentoCredito.getText();
-
-        if (claveIngresada.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese la clave de la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
         
-        boolean credito = database.agregarCredito(dineroAprestar, cuentaBuscar);
+        Pattern regex = Pattern.compile("\\d");
         
-        campoDocumentoCredito.setText("");
-        String datoTemp = campoDocumentoCredito.getText();
-     
-        if(datoTemp.equals("")){
-            etqCampoDeuda.setText("-------------------------------");
-            etqNombreCliente.setText("");
-            etqDocumentoCliente.setText("");
-            campoDineroPrestar.setText("");
-            campoDineroPrestar.setBackground(new Color(153,153,153));
-            campoDineroPrestar.setEnabled(false);
-            campoClavePrestamo.setText("");
-            campoClavePrestamo.setBackground(new Color(153,153,153));
-            campoClavePrestamo.setEnabled(false);
-            jButton2.setEnabled(false);
+        Matcher matcherClave = regex.matcher(claveIngresada);
+        Matcher matcherDinero = regex.matcher(dineroAprestar);
+        
+        boolean matchClave = matcherClave.find();
+        boolean matchDinero = matcherDinero.find();
+        
+        if(matchClave && matchDinero){
+            if(database.agregarCredito(dineroAprestar, cuentaBuscar, claveIngresada)){
+                database.actualizarHistorial(cuentaBuscar, "cuentabancaria", "Credito_"+dineroAprestar+"_Solicitado");
+                database.actualizarHistorial(id, "sucursal", "Credito_"+dineroAprestar+"_Solicitado por cuenta: "+cuentaBuscar);
+                etqCampoDeuda.setText("-------------------------------");
+                etqNombreCliente.setText("");
+                etqDocumentoCliente.setText("");
+                campoDineroPrestar.setText("");
+                campoDineroPrestar.setBackground(new Color(153,153,153));
+                campoDineroPrestar.setEnabled(false);
+                campoClavePrestamo.setText("");
+                campoClavePrestamo.setBackground(new Color(153,153,153));
+                campoClavePrestamo.setEnabled(false);
+                btnSolicitar.setEnabled(false);
+                cuentaBuscar = "";
+                JOptionPane.showMessageDialog(null, "Se agrego el Credito con exito ", "Exito", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         else{
-            etqCampoDeuda.setText("-------------------------------");
-            etqNombreCliente.setText("");
-            etqDocumentoCliente.setText("");
-            campoDineroPrestar.setText("");
-            campoDineroPrestar.setBackground(new Color(255, 255, 255));
-            campoDineroPrestar.setEnabled(true);
-            campoClavePrestamo.setText("");
-            campoClavePrestamo.setBackground(new Color(255, 255, 255));
-            campoClavePrestamo.setEnabled(true);
-            jButton2.setEnabled(true);
+            String errores = "";
+            errores+=(matchDinero ? "" : "*Solo ingrese numeros en la cantidad de dinero");
+            errores+=(errores.equals("") && matchClave ? "" : "\n") + (matchClave ? "" : "*Solo ingrese numeros en la clave");
+            JOptionPane.showMessageDialog(null, errores, "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+
+//        if (claveIngresada.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Por favor ingrese la clave de la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//        
+//        boolean credito = database.agregarCredito(dineroAprestar, cuentaBuscar);
+//        
+//        campoDocumentoCredito.setText("");
+//        String datoTemp = campoDocumentoCredito.getText();
+//     
+//        if(datoTemp.equals("")){
+//            etqCampoDeuda.setText("-------------------------------");
+//            etqNombreCliente.setText("");
+//            etqDocumentoCliente.setText("");
+//            campoDineroPrestar.setText("");
+//            campoDineroPrestar.setBackground(new Color(153,153,153));
+//            campoDineroPrestar.setEnabled(false);
+//            campoClavePrestamo.setText("");
+//            campoClavePrestamo.setBackground(new Color(153,153,153));
+//            campoClavePrestamo.setEnabled(false);
+//            jButton2.setEnabled(false);
+//        }
+//        else{
+//            etqCampoDeuda.setText("-------------------------------");
+//            etqNombreCliente.setText("");
+//            etqDocumentoCliente.setText("");
+//            campoDineroPrestar.setText("");
+//            campoDineroPrestar.setBackground(new Color(255, 255, 255));
+//            campoDineroPrestar.setEnabled(true);
+//            campoClavePrestamo.setText("");
+//            campoClavePrestamo.setBackground(new Color(255, 255, 255));
+//            campoClavePrestamo.setEnabled(true);
+//            jButton2.setEnabled(true);
+//        }
+    }//GEN-LAST:event_btnSolicitarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnSolicitar;
     private javax.swing.JTextField campoClavePrestamo;
     private javax.swing.JTextField campoDineroPrestar;
     private javax.swing.JTextField campoDocumentoCredito;
@@ -292,8 +330,6 @@ public class MenuVendedorSolicitudCreditos extends javax.swing.JPanel {
     private javax.swing.JLabel etqDocumento;
     private javax.swing.JLabel etqDocumentoCliente;
     private javax.swing.JLabel etqNombreCliente;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JSeparator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

@@ -339,7 +339,7 @@ public class MenuVendedorGeneral extends javax.swing.JFrame {
         contentPrincipal.removeAll();
         
         //Crear una instancia del nuevo contenedor
-        MenuVendedorSolicitudCreditos nuevo = new MenuVendedorSolicitudCreditos(database);
+        MenuVendedorSolicitudCreditos nuevo = new MenuVendedorSolicitudCreditos(database, id);
         
         //Ajustar el tamaño del nuevo contenedor
         nuevo.setSize(contentPrincipal.getSize());
