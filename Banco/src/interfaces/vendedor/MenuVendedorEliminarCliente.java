@@ -1,12 +1,16 @@
 
 package interfaces.vendedor;
 
+import utils.ConexionBD;
+
 
 public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
 
     MenuVendedorGeneral ventana;
-    public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana) {
+    ConexionBD database;
+    public MenuVendedorEliminarCliente(MenuVendedorGeneral ventana,ConexionBD database) {
         this.ventana = ventana;
+        this.database = database;
         initComponents();
     }
 
@@ -80,6 +84,11 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
         btnEliminar.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("ELIMINAR");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         campoNombre.setForeground(new java.awt.Color(255, 255, 255));
         campoNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -220,12 +229,22 @@ public class MenuVendedorEliminarCliente extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        String documentoABuscar = campoDocumento.getText();
+        
+        campoNombre.setText(database.darDatoCliente(documentoABuscar, "nombre"));
+        campoTelefono.setText(database.darDatoCliente(documentoABuscar, "telefono"));
+        campoEmail.setText(database.darDatoCliente(documentoABuscar, "email"));
+        campoCuentaBancaria.setText(database.darDatoCliente(documentoABuscar, "idCuentaBancaria"));
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtrasActionPerformed
         this.ventana.cambiarPanelClientes();
     }//GEN-LAST:event_btnAtrasActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        String clave = campoClave.getText();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

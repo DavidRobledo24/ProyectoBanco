@@ -532,6 +532,8 @@ public class ConexionBD {
             System.out.println("No es posible llenar la tabla: " + ex.getMessage());
         }
     }   
+    
+        
     public void eliminarVendedor(String documento){
         try{
             String peticion = "DELETE FROM vendedor WHERE documento='"+documento+"'";
