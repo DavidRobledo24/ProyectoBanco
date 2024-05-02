@@ -252,11 +252,11 @@ public class ConexionBD {
         return vectorSucursales;
     }
     
-    public BotonMenuGerenteCreditos[] darCreditos(String documentoGerente){
+    public BotonMenuGerenteCreditos[] darCreditos(String documentoGerente, MenuGerenteGeneral ventanaAnterior){
         String[] vectorIds = contarCreditos(documentoGerente);
         BotonMenuGerenteCreditos[] vectorCreditos = new BotonMenuGerenteCreditos[vectorIds.length];
         for(int i = 0; i < vectorIds.length; i++){
-            vectorCreditos[i] = new BotonMenuGerenteCreditos(this, vectorIds[i]);
+            vectorCreditos[i] = new BotonMenuGerenteCreditos(this, vectorIds[i], ventanaAnterior);
         }
         
         return vectorCreditos;
@@ -591,12 +591,34 @@ public class ConexionBD {
         return respuesta;
     }
     
+    public void editarDeudaCuentaBancaria(String idCuentaBancaria, String dato){
+        try{
+            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "deuda");
+            int deuda = Integer.parseInt(deudaString);
+            int prestamo = Integer.parseInt(dato);
+            deuda+=prestamo;
+            String peticion  = "UPDATE cuentabancaria SET deuda='"+deuda+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            manipular.executeUpdate(peticion);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "20Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
     public void eliminarSucursal(String id){
         try{
             String peticion = "DELETE FROM sucursal WHERE idSucursal="+id;
             int respuesta = manipular.executeUpdate(peticion);
             if(respuesta == 1) JOptionPane.showMessageDialog(null, "Sucursal eliminada con exito", "Exito", JOptionPane.INFORMATION_MESSAGE);
             else JOptionPane.showMessageDialog(null, "Error desconocido", "Error", JOptionPane.ERROR_MESSAGE);
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "21Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+    }
+    
+    public void eliminarCredito(String idCredito){
+        try{
+            String peticion = "DELETE FROM credito WHERE idCredito="+idCredito;
+            manipular.executeUpdate(peticion);
         }catch(SQLException e){
             JOptionPane.showMessageDialog(null, "21Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
         }
@@ -825,11 +847,12 @@ public class ConexionBD {
         boolean respuesta = false;
         try{
             String dineroAnterior = darDatoCuentaBancaria(idCuentaBancaria, "balance");
-            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "balance");
+            String deudaString = darDatoCuentaBancaria(idCuentaBancaria, "deuda");
             int deuda = Integer.parseInt(deudaString);
             int dineroAnteriorInt = Integer.parseInt(dineroAnterior);
             int dineroAIngresar = Integer.parseInt(dinero);
             System.out.println(dineroAIngresar);
+            System.out.println(deuda);
             if(deuda > 0){
                 deuda-=dineroAIngresar;
                 if(deuda < 0){
@@ -843,7 +866,7 @@ public class ConexionBD {
             System.out.println(dineroAIngresar);
             int dineroActual = dineroAnteriorInt+dineroAIngresar;
             
-            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"' WHERE idCuentaBancaria="+idCuentaBancaria;
+            String peticion = "UPDATE cuentabancaria SET balance='"+dineroActual+"', deuda='"+deuda+"' WHERE idCuentaBancaria="+idCuentaBancaria;
             int resp = manipular.executeUpdate(peticion);
             if(resp == 1) respuesta = true;
         }catch(SQLException e){
