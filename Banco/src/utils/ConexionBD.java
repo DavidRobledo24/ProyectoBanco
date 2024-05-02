@@ -279,31 +279,7 @@ public class ConexionBD {
         return "";
     }
     
-    
-    public void crearCliente(String documentoN,String nombreN,String telefonoN,String emailN, String claveN){
  
-        String documento = documentoN;
-        String nombre = nombreN;
-        String telefono = telefonoN;
-        String email = emailN;
-        String clave = claveN;
-        
-        try{
-            String consulta = "INSERT INTO cliente (documento,nombre,telefono,email,clave) VALUES ('"+documento+"','"+nombre+"','"+telefono+"','"+email+"', '"+clave+"')";
-            int resp_consulta = manipular.executeUpdate(consulta); 
- 
-            if (resp_consulta == 1) { 
-                System.out.println("Insertado con exito");
-                //JOptionPane.showMessageDialog(this, "Insertado con exito");
-            } else {
-                System.out.println("No se pudo insertar");
-                //JOptionPane.showMessageDialog(this, "No se pudo insertar");
-            }
-        }catch(SQLException ex){
-            System.out.println("Error al insertar"+ex.getMessage());
-            //JOptionPane.showMessageDialog(this, "Error al insertar: " + ex.getMessage());
-        }
-    }
 
     public String darDatoVendedor(String documento, String dato){
         try{
@@ -760,5 +736,40 @@ public class ConexionBD {
                modelo.addRow(objetos);
            }
        }
-   }
+    }
+    
+    
+    public boolean agregarCredito(String valor, String idCuentaBancaria){
+        int id = conseguirIdCredito();
+        boolean creacion = false;
+        try{
+            String peticion = "INSERT INTO credito VALUES('"+id+"', '"+valor+"', '"+idCuentaBancaria+"')";
+            int respuesta = manipular.executeUpdate(peticion);
+            if(respuesta == 1){
+                System.out.println("BIEN");
+                creacion = true;
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return creacion;
+    }
+    
+    public int conseguirIdCredito(){
+        int contador = 1;
+        try{
+            String peticion = "SELECT * FROM credito";
+            ResultSet resultados = manipular.executeQuery(peticion);
+            resultados.next();
+            if(resultados.getRow() == 1){
+                do{
+                    if(!(resultados.getString("idCredito").equals(contador+""))) return contador;
+                    contador++;
+                }while(resultados.next());
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "27Error en base de datos: "+e, "Error", JOptionPane.ERROR_MESSAGE);        
+        }
+        return contador;
+    }
 }
