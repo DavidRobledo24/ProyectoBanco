@@ -487,30 +487,6 @@ public class ConexionBD {
         }
         return respuesta;
         
-
-    }  
-    public void crearCliente(String documento,String nombre,String telefono,String email,String clave ){
-        boolean respuesta = false;
-        try {
-
-            String consulta = "INSERT INTO cliente (documento,nombre,telefono, email,clave) VALUES ('"+documento+"','"+nombre+"','"+telefono+"','"+email+"','"+clave+"')";
-            int resp_consulta = manipular.executeUpdate(consulta);
-            
-            if (resp_consulta==1) {
-                respuesta = true;
-            }
-        } catch (SQLException ex) {
-            System.out.println("--> Error Insert: " + ex.getMessage());
-        }
-        if (respuesta){
-            JOptionPane.showMessageDialog(null, "El cliente se creo con exito: ", "exito", JOptionPane.INFORMATION_MESSAGE);
-            System.out.println("Insertado con exito");
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "No se pudo insertar el cliente: ", "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("No se pudo insertar");
-        }
-
     }
     
     public boolean crearCliente(String documento, String nombre, String telefono, String email, String clave, String id){
@@ -609,24 +585,6 @@ public class ConexionBD {
             System.out.println("No es posible llenar la tabla: " + ex.getMessage());
         }
         
-<<<<<<< HEAD
-    }   
-    public void compararClave(String clave, String cuenta) {
-    try {
-        // Consulta para verificar si la clave coincide con la cuenta proporcionada
-        String consulta = "SELECT COUNT(*) FROM cliente WHERE idCuentaBancaria = '" + cuenta + "' AND clave = '" + clave + "'";
-        Statement statement = conexion.createStatement();
-        ResultSet resultado = statement.executeQuery(consulta);
-        
-        if (resultado.next()) {
-            int cuentaExiste = resultado.getInt(1);
-            if (cuentaExiste > 0) {
-                // Si la cuenta y la clave coinciden, eliminar al cliente
-                String peticion = "DELETE FROM cliente WHERE idCuentaBancaria = '" + cuenta + "'";
-                int respuesta = statement.executeUpdate(peticion);
-                if (respuesta == 1) {
-                    JOptionPane.showMessageDialog(null, "Cliente eliminado con éxito", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-=======
     }  
     public void darDatosCliente(String dato,String documento){
             String resultado = "";
@@ -653,52 +611,16 @@ public class ConexionBD {
 
                 if (filasEliminadas > 0) {
                     System.out.println("La persona ha sido eliminada correctamente");
->>>>>>> 290ffc0f8eb6a67ba71427d9b0142a64f254bf0b
                 } else {
-                    JOptionPane.showMessageDialog(null, "Error al eliminar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
                 }
-<<<<<<< HEAD
-            } else {
-                JOptionPane.showMessageDialog(null, "La clave proporcionada no coincide con la cuenta", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        statement.close();
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Error en base de datos: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-=======
             } catch (SQLException e) {
                 System.out.println("Error al eliminar persona: " + e.getMessage());    }
         } else {
             System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
         }
         
->>>>>>> 290ffc0f8eb6a67ba71427d9b0142a64f254bf0b
     }
-}
-
-
-        
-//        String consulta = "SELECT idCuentaBancaria FROM cliente";
-//        String c = consulta;
-//       
-//        if(clave==c){
-//            String peticion = "DELETE FROM cliente WHERE idCuentaBancaria='" + cuenta+ "'";
-//
-//            try {
-//                Statement stmt = conexion.createStatement();
-//                int filasEliminadas = stmt.executeUpdate(consulta);
-//
-//                if (filasEliminadas > 0) {
-//                    System.out.println("La persona ha sido eliminada correctamente");
-//                } else {
-//                    System.out.println("No se pudo encontrar una persona con la cedula proporcionada");
-//                }
-//            } catch (SQLException e) {
-//                System.out.println("Error al eliminar persona: " + e.getMessage());    }
-//        } else {
-//            System.out.println("Por favor, ingrese la cedula de la persona que desea eliminar");
-//        } 
-//    }
         
     public void eliminarVendedor(String documento){
         try{
