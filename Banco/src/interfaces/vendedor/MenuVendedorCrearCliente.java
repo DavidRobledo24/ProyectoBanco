@@ -179,7 +179,7 @@ public class MenuVendedorCrearCliente extends javax.swing.JPanel {
         String email = campoEmail.getText();
         String clave = campoClave.getText();
 
-        database.crearCliente(documento, nombre,  telefono, email, clave);
+        //database.crearCliente(documento, nombre,  telefono, email, clave);
 
         
         Pattern regexNums = Pattern.compile("\\d");
